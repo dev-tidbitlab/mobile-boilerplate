@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import {
     View,
     StyleSheet,
-    StatusBar
+    StatusBar,
+    Image
 } from "react-native";
 import { withNavigation } from 'react-navigation'
 import { connect } from 'react-redux';
@@ -28,6 +29,7 @@ class AppSplash extends Component {
             <View style={styles.linearGradient}>
                 <StatusBar translucent backgroundColor="transparent" />
                 <View style={{ backgroundColor: '#F00', flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                    {/* <Image width="200" height="300" source={require('../../Images/IFA.ai')} /> */}
                 </View>
                 {this.SplashTimer()}
             </View>
