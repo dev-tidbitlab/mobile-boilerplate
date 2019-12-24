@@ -1,16 +1,16 @@
 import React, { Component } from "react";
 import {
   View,
-  Platform,
   StyleSheet,
   TouchableOpacity,
   Image
 } from "react-native";
-import { Container, Card, CardItem, Header, Thumbnail, Left, Body, Right, Button, Title } from 'native-base';
-import FIcon from 'react-native-vector-icons/MaterialCommunityIcons'
-import Icon from 'react-native-vector-icons/Ionicons'
-import { withNavigation,withNavigationFocus } from 'react-navigation'
-import UserList from './userList'
+import { Container, Header, Left, Body, Right, Button, Title } from 'native-base';
+import { withNavigationFocus } from 'react-navigation'
+import { Avatar } from 'react-native-paper';
+import { connect } from 'react-redux';
+
+import UserDashboard from './dashboard/dashboard'
 class HomeScreen extends Component {
   GoToUserProfile() {
     this.props.navigation.openDrawer();
@@ -21,14 +21,14 @@ class HomeScreen extends Component {
   }
   componentDidUpdate(prevProps) {
     if (prevProps.isFocused !== this.props.isFocused) {
-      console.log(prevProps,this.props,prevProps.isFocused, this.props.isFocused)
+      console.log(prevProps, this.props, prevProps.isFocused, this.props.isFocused)
     }
   }
   Logout() {
     let app = this
   }
-  GoToUserInfo(v){
-    console.log(v,'v')
+  GoToUserInfo(v) {
+    console.log(v, 'v')
     this.props.navigation.navigate('UserInfoScreen')
 
   }
@@ -38,7 +38,7 @@ class HomeScreen extends Component {
         <Header style={{ backgroundColor: '#22c1c3' }}>
           <Left>
             <TouchableOpacity onPress={() => this.OpenDrawer()} style={{ width: 32, height: 32 }}>
-              <Image style={{ height: 32, width: 32 }} source={require('../../Images/Side_menu_icon2x.png')} />
+              <Avatar.Image onPress={() => this.OpenDrawer()} size={32} source={{ uri: this.props.UserInfo.success ? this.props.UserInfo.userPic : null }} />
             </TouchableOpacity>
           </Left>
           <Body>
@@ -46,12 +46,18 @@ class HomeScreen extends Component {
           <Right>
           </Right>
         </Header>
-        <UserList props={this} GoToUserInfo={(v)=>this.GoToUserInfo(v)}></UserList>
+        <UserDashboard props={this} GoToUserInfo={(v) => this.GoToUserInfo(v)}></UserDashboard>
       </Container>
     );
   }
 }
-export default withNavigationFocus(HomeScreen);
+const mapStateToProps = (state) => {
+  console.log(state, 'state sidebar')
+  return {
+    UserInfo: state.authReducer.UserInfo,
+  };
+};
+export default withNavigationFocus(connect(mapStateToProps)(HomeScreen))
 
 const styles = StyleSheet.create({
   container: {

@@ -1,4 +1,4 @@
-package com.tidbit.boilerplate;
+package com.international.fertility.academy.lms;
 
 import android.app.Application;
 import io.invertase.firebase.RNFirebasePackage;

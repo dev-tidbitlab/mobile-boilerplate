@@ -2,56 +2,112 @@ import React, { Component } from "react";
 import {
     View,
     StyleSheet,
-    Image,
+    ScrollView,
     Text,
-    StatusBar,
-    Dimensions
+    Platform,
+    Dimensions,
+    TouchableOpacity
 } from "react-native";
 import { withNavigation } from 'react-navigation'
-const { width, height } = Dimensions.get('window')
-class AppSplash extends Component {
+import Ionicons from "react-native-vector-icons/Ionicons";
+import { TextInput } from 'react-native-paper';
+
+class NewUserSignUpScreen extends Component {
     constructor() {
         super();
         this.state = {
-            onTab: 1,
-
+            name: '',
+            email: '',
+            mobile: ''
         }
     }
-    SplashTimer() {
-        let app = this
-        setTimeout(function () {
-            app.props.navigation.replace('AppLoginScreen')
-        }, 5000);
+    GoBackToHome() {
+        this.props.navigation.goBack()
+    }
+    SignInScreen() {
+        this.props.navigation.goBack()
     }
     render() {
         return (
-            <View style={styles.linearGradient}>
-                <StatusBar translucent backgroundColor="transparent" />
-                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                    <Image source={require('../../Images/sp1.jpg')} style={{resizeMode:'stretch', width:width, height: height }}></Image>
-                </View>
-                {/* <View style={{ position: 'absolute', bottom: 0 }}>
-                    <View style={{ width: width, height: 110, flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                        <Text style={{ fontSize: 18, color: '#FFF', fontWeight: '500', marginBottom: -10 }}>Powered By</Text>
-                        <Image source={require('../../assets/SanomaticsLogo_4.png')} style={{ width: 200, height: 100 }}></Image>
+            <ScrollView contentContainerStyle={{ flex: 1, height: '100%' }}>
+                <View>
+                    <View style={{ position: 'absolute', top: 10 }}>
+                        <Ionicons
+                            onPress={() => this.GoBackToHome()}
+                            name={Platform.OS === 'android' ? "md-arrow-back" : "ios-arrow-round-back"}
+                            color='#22c1c3'
+                            size={32}
+                            style={{ backgroundColor: 'transparent', padding: 10, left: 10, top: 10 }}
+                        />
                     </View>
-                </View> */}
-                {this.SplashTimer()}
-            </View>
+                    <View style={{ alignItems: 'center', width: '100%', height: '100%', justifyContent:'center' }}>
+                        <View style={styles.MainView3}>
+                            <TextInput
+                                style={styles.TextInputAll}
+                                onChangeText={(v) => this.setState({ name: v })}
+                                label="Name"
+                                value={this.state.name}
+                                theme={{ colors: { background: 'white', placeholder: '#888', text: '#000', primary: '#22c1c3', underlineColor: 'transparent' } }}
+                            />
+                            <TextInput
+                                style={styles.TextInputAll}
+                                onChangeText={(v) => this.setState({ email: v })}
+                                label="Email"
+                                value={this.state.email}
+                                theme={{ colors: { background: 'white', placeholder: '#888', text: '#000', primary: '#22c1c3', underlineColor: 'transparent' } }}
+                            />
+                            <TextInput
+                                style={styles.TextInputAll}
+                                onChangeText={(v) => this.setState({ mobile: v })}
+                                label="Mobile No."
+                                value={this.state.mobile}
+                                theme={{ colors: { background: 'white', placeholder: '#888', text: '#000', primary: '#22c1c3', underlineColor: 'transparent' } }}
+                            />
+                            <View style={styles.LoginBtnView}>
+                                <TouchableOpacity onPress={() => this.SubmitMethod()} style={styles.TouchableOpacityBtn}>
+                                    <Text style={styles.LoginBtn}>Sign up</Text>
+                                </TouchableOpacity>
+                            </View>
+                            <View style={{ width: '100%', marginTop: 20, alignItems: 'center', justifyContent: 'center' }}>
+                                <TouchableOpacity onPress={() => this.SignInScreen()} style={{ padding: 10 }}>
+                                    <Text>Have account? Sign in</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </View>
+                </View>
+            </ScrollView>
         );
     }
 }
-export default withNavigation(AppSplash);
+export default withNavigation(NewUserSignUpScreen);
 const styles = StyleSheet.create({
-    linearGradient: {
-        flex: 1
+    MainView3: {
+        backgroundColor: '#fff',
+        width: '80%',
+        margin: 20
     },
-    buttonText: {
-        fontSize: 18,
-        fontFamily: 'Gill Sans',
-        textAlign: 'center',
-        margin: 10,
-        color: '#ffffff',
+    TextInputAll: {
+        borderColor: '#d6d7da',
+        marginTop: 5,
         backgroundColor: 'transparent',
+        padding: 0,
+        margin: 0,
+        paddingHorizontal: 0
     },
+    LoginBtnView: {
+        marginTop: 30
+    },
+    TouchableOpacityBtn: {
+        borderRadius: 5,
+        backgroundColor: '#22c1c3',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    LoginBtn: {
+        fontSize: 16,
+        color: '#fff',
+        paddingTop: 10,
+        paddingBottom: 10,
+    }
 });

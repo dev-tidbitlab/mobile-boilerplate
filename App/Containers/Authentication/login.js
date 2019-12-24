@@ -173,13 +173,16 @@ class LoginScreen extends Component {
     ForgotPasswordMethod() {
         this.props.navigation.navigate('ForgotPassword')
     }
+    SignUpScreen() {
+        this.props.navigation.navigate('AppRegisterScreen')
+    }
 
     render() {
         return (
             <ScrollView contentContainerStyle={{ flex: 1, height: '100%' }}>
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    <View style={{  justifyContent: 'center', alignItems: 'center', alignContent:'center', }}>
-                        <Image source={require('../../Images/Logo2.png')} style={{ height: 150, justifyContent: 'center', alignItems: 'center', alignContent:'center', width: 150, resizeMode: 'contain',}} ></Image>
+                    <View style={{ justifyContent: 'center', alignItems: 'center', alignContent: 'center', }}>
+                        <Image source={require('../../Images/Logo2.png')} style={{ height: 100, justifyContent: 'center', alignItems: 'center', alignContent: 'center', width: 100, resizeMode: 'contain', }} ></Image>
                     </View>
                     <View style={styles.MainView3}>
                         <TextInput
@@ -206,11 +209,16 @@ class LoginScreen extends Component {
                             </TouchableOpacity>
                         </View>
                     </View>
+                    <View style={{ position: 'absolute', width: '100%', alignItems: 'center', justifyContent: 'center', bottom: 10 }}>
+                        <TouchableOpacity onPress={() => this.SignUpScreen()} style={{ padding: 10 }}>
+                            <Text>Don't have account? Sign up now</Text>
+                        </TouchableOpacity>
+                    </View>
                     <Progress DialogLoader={this.props.loading} title={'Authenticating'} />
                     {this.props.ErrorToaster.toast ? <ErrorToaster message={this.props.ErrorToaster.message} /> : null}
                 </View>
             </ScrollView>
-      
+
         );
     }
 }
@@ -230,7 +238,7 @@ export default withNavigation(connect(mapStateToProps, mapDispatchToProps)(Login
 
 const styles = StyleSheet.create({
     loginText: {
-        fontSize: 20, fontWeight: '700', 
+        fontSize: 20, fontWeight: '700',
         color: '#22c1c3'
     },
     ScrollView1: {
@@ -244,34 +252,30 @@ const styles = StyleSheet.create({
         height: 233
     },
     MainView3: {
-        // backgroundColor: '#fff',
-        width: '90%',
+        width: '80%',
         margin: 20
     },
     TextInputAll: {
-        borderRadius: 4,
-        borderWidth: 0.5,
         borderColor: '#d6d7da',
-        marginTop: 15,
+        marginTop: 5,
         backgroundColor: 'transparent',
-        borderWidth: 0,
         padding: 0,
         margin: 0,
         paddingHorizontal: 0
     },
     LoginBtnView: {
-        marginTop: 15,
+        marginTop: 30,
     },
     TouchableOpacityBtn: {
     },
     LoginBtn: {
         fontSize: 16,
         color: '#fff',
+        borderRadius: 5,
         backgroundColor: '#22c1c3',
-        paddingTop: 15,
-        paddingBottom: 15,
+        paddingTop: 10,
+        paddingBottom: 10,
         textAlign: 'center',
-        marginTop: 30,
     },
     LoginBtnPSWD: {
         fontSize: 16,

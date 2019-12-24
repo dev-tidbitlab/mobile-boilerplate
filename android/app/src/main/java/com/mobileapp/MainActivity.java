@@ -1,4 +1,4 @@
-package com.tidbit.boilerplate;
+package com.international.fertility.academy.lms;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;

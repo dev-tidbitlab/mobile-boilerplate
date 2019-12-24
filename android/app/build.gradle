@@ -134,7 +134,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.tidbit.boilerplate"
+        applicationId "com.international.fertility.academy.lms"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 21

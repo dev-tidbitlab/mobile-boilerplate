@@ -144,12 +144,12 @@ export default function UserList(props) {
   console.log(props,'props');
   return (
     <View>
-      <View>
+      {/* <View>
             <Searchbar 
              placeholder="Search" 
             //  onChangeText={query => { this.setState({ firstQuery: query }); }}
             ></Searchbar>
-         </View>
+         </View> */}
       <ScrollView 
       >
         <FlatList

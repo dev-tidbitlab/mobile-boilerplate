@@ -8,6 +8,32 @@ import { connect } from 'react-redux';
 import FIcon from 'react-native-vector-icons/Feather'
 let colors = { PRIMARY: '#22c1c3' }
 var OnClickCheck = 0
+let SideBarRoutes = [
+    {
+        icon: "home",
+        iconType: "Feather",
+        name: "Dashboard",
+        RouteName: 'StudentDashboard'
+    },
+    {
+        icon: "alert-circle",
+        iconType: "Feather",
+        name: "My Courses",
+        RouteName: 'StudentCourses'
+    },
+    {
+        icon: "settings",
+        iconType: "Feather",
+        name: "My Orders",
+        RouteName: 'StudentOrders'
+    },
+    {
+        icon: "message-square",
+        iconType: "Feather",
+        name: "My Profile",
+        RouteName: 'StudentProfile'
+    }
+]
 class SideMenu extends Component {
     constructor() {
         super();
@@ -28,8 +54,8 @@ class SideMenu extends Component {
             BorderColorsArray[id] = colors.PRIMARY
             OnClickCheck = id
         }
+        console.log(route, id, ColorArray, BorderColorsArray)
         this.setState({ ColorArray: ColorArray, BorderColorsArray: BorderColorsArray })
-
         console.log(route, id)
         if (route == "Password") {
             this.props.navigation.navigate('ResetPassword')
@@ -45,7 +71,7 @@ class SideMenu extends Component {
         return <View style={styles.line} />
     }
     GoToProfile() {
-        console.log('pro')
+        // console.log('pro')
         this.props.navigation.navigate('UserProfile')
     }
     LogoutUser() {
@@ -54,37 +80,44 @@ class SideMenu extends Component {
     RenderSideBar() {
         let ColorArray = this.state.ColorArray
         let BorderColorsArray = this.state.BorderColorsArray
-        if (this.props.UserInfo) {
-            if (this.props.UserInfo.role) {
-                if (this.props.UserInfo.role.mobileContainers) {
-                    this.props.UserInfo.role.mobileContainers.map((item, i) => {
-                        if (i > 0) {
-                            ColorArray[i] = '#757575'
-                            BorderColorsArray[i] = '#FFF'
-                        }
-                    })
-                }
-            }
+        // if (this.props.UserInfo) {
+        //     if (this.props.UserInfo.role) {
+        //         if (this.props.UserInfo.role.mobileContainers) {
+        //             this.props.UserInfo.role.mobileContainers.map((item, i) => {
+        //                 if (i > 0) {
+        //                     ColorArray[i] = '#757575'
+        //                     BorderColorsArray[i] = '#FFF'
+        //                 }
+        //             })
+        //         }
+        //     }
+        // }
+        let sideRoutes = null
+        // console.log('ffwf=====>>>', this.props.UserInfo)
+        // if (this.props.UserInfo) {
+        //     console.log('11')
+        //     if (this.props.UserInfo.role) {
+        //         console.log('22')
+        //         if (this.props.UserInfo.role.mobileContainers) {
+        //             console.log('33')
+        //             sideRoutes = this.props.UserInfo.role.mobileContainers.map((item, i) => {
+        //                 return (<TouchableOpacity key={i} onPress={() => this.NavigateDrawer(item.name, i)} style={{ flexDirection: 'row', alignItems: 'center', paddingTop: 10, paddingBottom: 10, paddingLeft: 20, borderLeftColor: BorderColorsArray[i], borderLeftWidth: 4 }}>
+        //                     <FIcon name={item.icon} size={24} color={ColorArray[i]} />
+        //                     <Text style={{ paddingLeft: 20, fontSize: 18, fontWeight: '400', color: ColorArray[i] }}>{item.name}</Text>
+        //                 </TouchableOpacity>)
+        //             })
+        //         }
+        //     }
+        // }
+        if (SideBarRoutes.length > 0) {
+            sideRoutes = SideBarRoutes.map((item, i) => {
+                return (<TouchableOpacity key={i} onPress={() => this.NavigateDrawer(item.RouteName, i)} style={{ flexDirection: 'row', alignItems: 'center', paddingTop: 10, paddingBottom: 10, paddingLeft: 20, borderLeftColor: BorderColorsArray[i], borderLeftWidth: 4 }}>
+                    <FIcon name={item.icon} size={24} color={ColorArray[i]} />
+                    <Text style={{ paddingLeft: 20, fontSize: 18, fontWeight: '400', color: ColorArray[i] }}>{item.name}</Text>
+                </TouchableOpacity>)
+            })
         }
-        let vcsvvs = null
-        console.log('ffwf=====>>>', this.props.UserInfo)
-        if (this.props.UserInfo) {
-            console.log('11')
-            if (this.props.UserInfo.role) {
-                console.log('22')
-                if (this.props.UserInfo.role.mobileContainers) {
-                    console.log('33')
-                    vcsvvs = this.props.UserInfo.role.mobileContainers.map((item, i) => {
-                        return (<TouchableOpacity key={i} onPress={() => this.NavigateDrawer(item.name, i)} style={{ flexDirection: 'row', alignItems: 'center', paddingTop: 10, paddingBottom: 10, paddingLeft: 20, borderLeftColor: BorderColorsArray[i], borderLeftWidth: 4 }}>
-                            <FIcon name={item.icon} size={24} color={ColorArray[i]} />
-                            <Text style={{ paddingLeft: 20, fontSize: 18, fontWeight: '400', color: ColorArray[i] }}>{item.name}</Text>
-                        </TouchableOpacity>)
-                    })
-                }
-            }
-        }
-        console.log('ffwf====fffff=>>>', vcsvvs)
-        return vcsvvs;
+        return sideRoutes;
     }
     render() {
         let ColorArray = this.state.ColorArray
@@ -93,7 +126,7 @@ class SideMenu extends Component {
             <ScrollView>
                 <View style={{ flex: 1 }}>
                     <TouchableOpacity onPress={() => this.GoToProfile()} style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', margin: 20 }}>
-                        <Avatar.Image size={80} source={{uri: this.props.UserInfo.success ? this.props.UserInfo.userPic : null}} />
+                        <Avatar.Image size={80} source={{ uri: this.props.UserInfo.success ? this.props.UserInfo.userPic : null }} />
                         <Text style={{ marginTop: 10, fontSize: 18, fontWeight: '700' }}>{this.props.UserInfo.success ? this.props.UserInfo.name : null}</Text>
                         <Text style={{ fontSize: 14, fontWeight: '400' }}>{this.props.UserInfo.success ? this.props.UserInfo.email : null}</Text>
                     </TouchableOpacity>

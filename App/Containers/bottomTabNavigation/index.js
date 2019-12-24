@@ -89,10 +89,26 @@ const CreateBottomTabNavigator = createBottomTabNavigator({
         }
     }
 })
+const AuthStack = createStackNavigator(
+    {
+        HomeScreen: { screen: HomeScreen },
+        // AppLoginScreen: { screen: AppLoginScreen },
+        // ForgotPassword: { screen: ForgotPassword },
+        // AppRegisterScreen: { screen: AppRegisterScreen },
+        // AppAuthManiScreen: { screen: AppAuthManiScreen }
 
+    },
+    {
+        initialRouteName: 'HomeScreen',
+        headerMode: 'none',
+        navigationOptions: {
+            headerVisible: false,
+        },
+        transitionConfig: TransitionConfiguration,
+    })
 export default createStackNavigator(
     {
-        DashboardTabNavigator: CreateBottomTabNavigator,
+        DashboardTabNavigator: AuthStack,
     },
     {
         headerMode: 'none',

@@ -35,12 +35,12 @@ android_library(
 
 android_build_config(
     name = "build_config",
-    package = "com.tidbit.boilerplate",
+    package = "com.international.fertility.academy.lms",
 )
 
 android_resource(
     name = "res",
-    package = "com.tidbit.boilerplate",
+    package = "com.international.fertility.academy.lms",
     res = "src/main/res",
 )
 

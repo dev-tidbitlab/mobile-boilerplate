@@ -6,7 +6,6 @@ import { Animated, Easing, Platform } from 'react-native';
 
 import AppSplashScreen from './splash'
 import AppLoginScreen from './login'
-import AppOTPVarificationScreen from './otp-varification'
 import AppRegisterScreen from './register'
 import AppAuthManiScreen from './index'
 import ForgotPassword from './forgotPassword'
