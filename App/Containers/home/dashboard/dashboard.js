@@ -28,8 +28,6 @@ class Dashboard extends Component {
         });
     }
     getOrientation() {
-        console.log(Dimensions.get('window').width)
-        // ScreenWidth = Dimensions.get('window').width
         this.setState({ ScreenWidth: Dimensions.get('window').width })
     }
     render() {

@@ -28,8 +28,8 @@ class AppSplash extends Component {
         return (
             <View style={styles.linearGradient}>
                 <StatusBar translucent backgroundColor="transparent" />
-                <View style={{ backgroundColor: '#F00', flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                    {/* <Image width="200" height="300" source={require('../../Images/IFA.ai')} /> */}
+                <View style={{ backgroundColor: '#f1f2f7', flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                    <Image width="200" height="300" source={require('../../Images/logo.png')} />
                 </View>
                 {this.SplashTimer()}
             </View>

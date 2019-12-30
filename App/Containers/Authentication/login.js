@@ -179,7 +179,7 @@ class LoginScreen extends Component {
 
     render() {
         return (
-            <ScrollView contentContainerStyle={{ flex: 1, height: '100%' }}>
+            <ScrollView contentContainerStyle={{ flex: 1, height: '100%', backgroundColor:'#f1f2f7' }}>
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <View style={{ justifyContent: 'center', alignItems: 'center', alignContent: 'center', }}>
                         <Image source={require('../../Images/Logo2.png')} style={{ height: 100, justifyContent: 'center', alignItems: 'center', alignContent: 'center', width: 100, resizeMode: 'contain', }} ></Image>
@@ -209,11 +209,11 @@ class LoginScreen extends Component {
                             </TouchableOpacity>
                         </View>
                     </View>
-                    <View style={{ position: 'absolute', width: '100%', alignItems: 'center', justifyContent: 'center', bottom: 10 }}>
+                    {/* <View style={{ position: 'absolute', width: '100%', alignItems: 'center', justifyContent: 'center', bottom: 10 }}>
                         <TouchableOpacity onPress={() => this.SignUpScreen()} style={{ padding: 10 }}>
                             <Text>Don't have account? Sign up now</Text>
                         </TouchableOpacity>
-                    </View>
+                    </View> */}
                     <Progress DialogLoader={this.props.loading} title={'Authenticating'} />
                     {this.props.ErrorToaster.toast ? <ErrorToaster message={this.props.ErrorToaster.message} /> : null}
                 </View>
@@ -221,7 +221,7 @@ class LoginScreen extends Component {
 
         );
     }
-}
+}   
 const mapStateToProps = (state) => {
     console.log(state, 'state')
     return {

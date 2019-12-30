@@ -63,21 +63,6 @@ class ViewCourseDetails extends Component {
                                 </TouchableOpacity>
                             </View>
                         </View>
-                        <View style={{ flexDirection: 'row', height: ScreenWidth / 2, marginTop: 10, backgroundColor: '#EEE', borderRadius: 5, overflow: 'hidden' }}>
-                            <View style={{ marginRight: 5 }}>
-                                <Image style={{ width: (ScreenWidth / 2) - 30, height: ScreenWidth / 2 }} source={{ uri: 'https://image.tmdb.org/t/p/w342/zfE0R94v1E8cuKAerbskfD3VfUt.jpg' }} />
-                            </View>
-                            <View style={{ marginRight: 5 }}>
-                                <Text>Course name</Text>
-                                <ProgressBar style={{ backgroundColor: '#FFF' }} progress={0.5} color={'blue'} />
-                                <Text>Assigned Date: 12-09-2019</Text>
-                                <Text>Completion Date: 12-09-2019</Text>
-                                <Text>Expiration Date: 12-09-2019</Text>
-                                <TouchableOpacity style={{ position: 'absolute', bottom: 5, padding: 10, backgroundColor: '#22c1c3', alignItems: 'center', justifyContent: 'center', borderRadius: 5 }}>
-                                    <Text>Start Course</Text>
-                                </TouchableOpacity>
-                            </View>
-                        </View>
                     </View>
                 </ScrollView>
             </Container>
