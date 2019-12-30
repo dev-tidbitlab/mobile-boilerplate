@@ -196,9 +196,10 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-video')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules
-
+    implementation "androidx.appcompat:appcompat:1.0.0"
     implementation "com.google.android.gms:play-services-base:17.1.0" 
     implementation "com.google.firebase:firebase-core:17.0.1" 
     implementation "com.google.firebase:firebase-messaging:19.0.1"

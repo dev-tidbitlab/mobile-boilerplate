@@ -5,6 +5,7 @@ import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
 import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
 import android.content.Context;
+import com.brentvatne.react.ReactVideoPackage;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
 import com.swmansion.reanimated.ReanimatedPackage;
@@ -33,6 +34,7 @@ public class MainApplication extends Application implements ReactApplication {
       // example:
       packages.add(new RNFirebaseMessagingPackage());
       packages.add(new RNFirebaseNotificationsPackage());
+      packages.add(new ReactVideoPackage());
       return packages;
     }
 
