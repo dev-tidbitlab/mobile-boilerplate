@@ -87,10 +87,10 @@ class ViewCourseDetails extends Component {
                         source={{ uri: 'https://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4' }}
                         style={styles.mediaPlayer}
                         volume={10}
-                        controls={true}
+                        // controls={true}
                         // fullscreen={true}
                     />
-                    {/* <MediaControls
+                    <MediaControls
                         duration={this.state.duration}
                         isLoading={this.state.isLoading}
                         mainColor="#333"
@@ -102,7 +102,7 @@ class ViewCourseDetails extends Component {
                         playerState={this.state.playerState}
                         progress={this.state.currentTime}
                         // toolbar={this.renderToolbar()}
-                    /> */}
+                    />
                 </View>
             // </View>
         );
