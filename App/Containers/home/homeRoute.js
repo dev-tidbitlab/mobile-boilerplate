@@ -5,6 +5,7 @@ import {
 import { Animated, Easing, Platform } from 'react-native';
 
 import CourseScreen from '../myCourses/courseRoutes'
+import StudentProfile from '../profile/index'
 import UserListScreen from './index'
 import ResetPassword from '../sideDrawer/resetPassword'
 let SlideFromRight = (index, position, width) => {
@@ -41,7 +42,8 @@ const HomeStack = createStackNavigator(
     {
         StudentCourses: { screen: CourseScreen },
         UserListScreen: { screen: UserListScreen },
-        ResetPassword: { screen: ResetPassword }
+        ResetPassword: { screen: ResetPassword },
+        StudentProfile: { screen: StudentProfile }
     },
     {
         initialRouteName: 'UserListScreen',

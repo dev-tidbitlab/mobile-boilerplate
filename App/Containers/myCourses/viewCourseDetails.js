@@ -74,7 +74,7 @@ class ViewCourseDetails extends Component {
     render() {
         return (
             <View style={styles.container}>
-                {/* <View style={{ width: null, height: 100 }}> */}
+                <View style={{ width: '100%', height: 200, justifyContent: 'center', alignItems: 'center', position:'absolute', top: 0 }}>
                     <Video
                         onEnd={this.onEnd}
                         onLoad={this.onLoad}
@@ -87,10 +87,10 @@ class ViewCourseDetails extends Component {
                         source={{ uri: 'https://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4' }}
                         style={styles.mediaPlayer}
                         volume={10}
-                        controls={true}
-                        // fullscreen={true}
+                    // controls={true}
+                    // fullscreen={true}
                     />
-                    {/* <MediaControls
+                    <MediaControls
                         duration={this.state.duration}
                         isLoading={this.state.isLoading}
                         mainColor="#333"
@@ -102,9 +102,10 @@ class ViewCourseDetails extends Component {
                         playerState={this.state.playerState}
                         progress={this.state.currentTime}
                         // toolbar={this.renderToolbar()}
-                    /> */}
+                    />
                 </View>
-            // </View>
+                
+            </View>
         );
     }
 }
@@ -119,11 +120,15 @@ const styles = StyleSheet.create({
         borderRadius: 5,
     },
     mediaPlayer: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        bottom: 0,
-        right: 0,
+        // position: 'absolute',
+        // top: 0,
+        // left: 0,
+        // bottom: 0,
+        // right: 0,
+        margin:0,
+        padding: 0,
+        width: '100%',
+        height: '100%',
         backgroundColor: 'black',
         // width: Dimensions.get('window').height,
         // height: Dimensions.get('window').width

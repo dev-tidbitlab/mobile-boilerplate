@@ -4,7 +4,7 @@ import {
 } from 'react-navigation-stack'
 import { Animated, Easing, Platform } from 'react-native';
 
-import ViewUserProfile from './userProfile'
+import StudentProfile from './userProfile'
 import EditUserProfile from './EditUserProfile'
 let SlideFromRight = (index, position, width) => {
   const translateX = position.interpolate({
@@ -38,30 +38,30 @@ const TransitionConfiguration = () => {
 }
 const ProfileStack = createStackNavigator(
   {
-    ViewUserProfile: { screen: ViewUserProfile },
+    StudentProfile: { screen: StudentProfile },
     EditUserProfile: { screen: EditUserProfile },
   },
   {
-    initialRouteName: 'ViewUserProfile',
+    initialRouteName: 'StudentProfile',
     headerMode: 'none',
     navigationOptions: {
       headerVisible: false,
     },
     transitionConfig: TransitionConfiguration,
   })
-ProfileStack.navigationOptions = ({ navigation }) => {
-  let tabBarVisible = true;
-  if (navigation.state.routes.length > 1) {
-    navigation.state.routes.map(route => {
-      if (route.routeName === "EditUserProfile") {
-        tabBarVisible = false;
-      } else {
-        tabBarVisible = true;
-      }
-    });
-  }
-  return {
-    tabBarVisible
-  };
-};
+// ProfileStack.navigationOptions = ({ navigation }) => {
+//   let tabBarVisible = true;
+//   if (navigation.state.routes.length > 1) {
+//     navigation.state.routes.map(route => {
+//       if (route.routeName === "EditUserProfile") {
+//         tabBarVisible = false;
+//       } else {
+//         tabBarVisible = true;
+//       }
+//     });
+//   }
+//   return {
+//     tabBarVisible
+//   };
+// };
 export default ProfileStack;

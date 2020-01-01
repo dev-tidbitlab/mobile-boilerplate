@@ -64,7 +64,7 @@ class UserProfile extends Component {
         let EditProfile = this.state.EditProfile
         return (
             <Container>
-                <Header style={{ elevation: 0, backgroundColor: 'transparent' }}>
+                <Header style={{ backgroundColor: '#22c1c3' }}>
                     <Left style={{ flex: 1 }}>
                         {/* <Button transparent onPress={() => this.GoBack()} >
                             <Icon name='md-arrow-back' size={24} color='#F00' />
@@ -75,7 +75,7 @@ class UserProfile extends Component {
                     </Body>
                     <Right style={{ flex: 1 }}>
                         <Button transparent onPress={() => this.ToggleEditProfile()} >
-                            <FontAwesome name='edit' size={24} color='#F00' />
+                            {/* <FontAwesome name='edit' size={24} color='#F00' /> */}
                         </Button>
                     </Right>
                 </Header>
@@ -91,7 +91,8 @@ class UserProfile extends Component {
                         </Button>
                         <View style={{ marginTop: 50 }}>
                             <TouchableOpacity onPress={() => this.LoadImage()} style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                                <Avatar.Image size={110} source={{ uri: this.props.UserInfo.success ? this.props.UserInfo.userPic : null }} />
+                                {/* <Avatar.Image size={110} source={{ uri: this.props.UserInfo.success ? this.props.UserInfo.userPic : null }} /> */}
+                                <Avatar.Image size={110} source={require('../../Images/a3.png')} />
                             </TouchableOpacity>
                         </View>
                         <View style={{ paddingLeft: 20, paddingRight: 20, justifyContent: 'flex-start', alignItems: 'flex-start', marginTop: 50 }}>
