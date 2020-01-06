@@ -5,6 +5,7 @@ import {
 import { Animated, Easing, Platform } from 'react-native';
 import MyCourses from './courses'
 import ViewCourseDetails from './viewCourseDetails'
+import MCQTest from './mcq'
 let SlideFromRight = (index, position, width) => {
     const translateX = position.interpolate({
         inputRange: [index - 1, index],
@@ -37,7 +38,8 @@ const TransitionConfiguration = () => {
 const CourseStack = createStackNavigator(
     {
         StudentCourses: { screen: MyCourses },
-        ViewCourseDetails: { screen: ViewCourseDetails }
+        ViewCourseDetails: { screen: ViewCourseDetails },
+        StudentMCQTest: { screen: MCQTest }
     },
     {
         initialRouteName: 'StudentCourses',

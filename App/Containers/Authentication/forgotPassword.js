@@ -18,7 +18,7 @@ import firebase from 'react-native-firebase';
 import { Progress } from '../ProgressDialog/index'
 import Ionicons from "react-native-vector-icons/Ionicons";
 import ErrorToaster from '../../Components/alerts/error'
-import {ForgotPasswordAction} from '../../Reducers/actions'
+import { ForgotPasswordAction } from '../../Reducers/actions'
 class ForgotPasswordScreen extends Component {
     state = {
         Password: '',
@@ -27,13 +27,13 @@ class ForgotPasswordScreen extends Component {
     GoBackToHome() {
         this.props.navigation.goBack()
     }
-    SubmitMethod(){
-        this.props.ForgotPasswordAction({email:'dwdwd'})
+    SubmitMethod() {
+        // this.props.ForgotPasswordAction({email:'dwdwd'})
     }
     render() {
         return (
             <ScrollView contentContainerStyle={{ flex: 1, height: '100%' }}>
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'flex-start' }}>
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <Ionicons
                         onPress={() => this.GoBackToHome()}
                         name={Platform.OS === 'android' ? "md-arrow-back" : "ios-arrow-round-back"}
@@ -41,7 +41,7 @@ class ForgotPasswordScreen extends Component {
                         size={32}
                         style={{ backgroundColor: 'transparent', position: 'absolute', padding: 10, left: 10, top: 10 }}
                     />
-                    <Text style={styles.loginText}>Forgot Password</Text>
+                    {/* <Text style={styles.loginText}>Forgot Password</Text> */}
                     <View style={styles.MainView3}>
                         <TextInput
                             style={styles.TextInputAll}
@@ -51,15 +51,15 @@ class ForgotPasswordScreen extends Component {
                             theme={{ colors: { background: 'white', placeholder: '#888', text: '#000', primary: '#22c1c3', underlineColor: 'transparent' } }}
                         />
                         <View style={styles.LoginBtnView}>
-                            <TouchableOpacity onPress={() => this.SubmitMethod()} style={styles.TouchableOpacityBtn}>
+                            <TouchableOpacity style={styles.TouchableOpacityBtn}>
                                 <Text style={styles.LoginBtn}>Submit</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
-                    
+
                     <Progress DialogLoader={this.props.loading} title={'Please wait...'} />
                     {this.props.ErrorToaster.toast ? <ErrorToaster message={this.props.ErrorToaster.message} /> : null}
-                    
+
                 </View>
             </ScrollView>
         );
@@ -95,8 +95,7 @@ const styles = StyleSheet.create({
         height: 233
     },
     MainView3: {
-        backgroundColor: '#fff',
-        width: '90%',
+        width: '80%',
         margin: 20
     },
     TextInputAll: {
@@ -111,20 +110,19 @@ const styles = StyleSheet.create({
         paddingHorizontal: 0
     },
     LoginBtnView: {
-        marginTop: 15
+        marginTop: 30
     },
     TouchableOpacityBtn: {
-        borderRadius: 0,
-        backgroundColor: '#22c1c3',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 30,
+       
     },
     LoginBtn: {
         fontSize: 16,
         color: '#fff',
-        paddingTop: 15,
-        paddingBottom: 15,
+        borderRadius: 5,
+        backgroundColor: '#22c1c3',
+        paddingTop: 10,
+        paddingBottom: 10,
+        textAlign: 'center',
     },
     LoginBtnPSWD: {
         fontSize: 16,

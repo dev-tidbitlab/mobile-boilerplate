@@ -24,33 +24,34 @@ class UserProfile extends Component {
         EditProfile: false
     }
     GoBack() {
-        this.props.navigation.goBack();
+        this.props.navigation.navigate('UserListScreen');
     }
     LoadImage() {
-        if (!this.state.EditProfile) {
-            return;
-        }
-        const options = {
-            noData: true,
-        }
-        ImagePicker.launchImageLibrary(options, response => {
-            console.log(options, response, 'ffd')
-            if (response.didCancel == undefined) {
-                var media = {
-                    uri: response.uri,
-                    type: response.type,
-                    name: response.fileName,
-                };
-                var formData1 = new FormData();
-                formData1.append('file', {
-                    uri: response.uri,
-                    name: response.fileName,
-                    type: response.type
-                })
-                this.props.UploadUserPicAction(formData1)
-                console.log('hh==>>', formData1)
-            }
-        })
+        return 0;
+        // if (!this.state.EditProfile) {
+        //     return;
+        // }
+        // const options = {
+        //     noData: true,
+        // }
+        // ImagePicker.launchImageLibrary(options, response => {
+        //     console.log(options, response, 'ffd')
+        //     if (response.didCancel == undefined) {
+        //         var media = {
+        //             uri: response.uri,
+        //             type: response.type,
+        //             name: response.fileName,
+        //         };
+        //         var formData1 = new FormData();
+        //         formData1.append('file', {
+        //             uri: response.uri,
+        //             name: response.fileName,
+        //             type: response.type
+        //         })
+        //         this.props.UploadUserPicAction(formData1)
+        //         console.log('hh==>>', formData1)
+        //     }
+        // })
     }
 
     ToggleEditProfile() {
@@ -64,45 +65,46 @@ class UserProfile extends Component {
         let EditProfile = this.state.EditProfile
         return (
             <Container>
-                <Header style={{ elevation: 0, backgroundColor: 'transparent' }}>
+                <Header style={{ backgroundColor: '#22c1c3' }}>
                     <Left style={{ flex: 1 }}>
-                        {/* <Button transparent onPress={() => this.GoBack()} >
-                            <Icon name='md-arrow-back' size={24} color='#F00' />
-                        </Button> */}
+                        <Button transparent onPress={() => this.GoBack()} >
+                            <Icon name='md-arrow-back' size={24} color='#FFF' />
+                        </Button>
                     </Left>
                     <Body style={{ flex: 2, alignItems: 'center' }}>
-                        <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#F00' }}>Profile</Text>
+                        <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#FFF' }}>Profile</Text>
                     </Body>
                     <Right style={{ flex: 1 }}>
                         <Button transparent onPress={() => this.ToggleEditProfile()} >
-                            <FontAwesome name='edit' size={24} color='#F00' />
+                            <FontAwesome name='edit' size={24} color='#FFF' />
                         </Button>
                     </Right>
                 </Header>
+                <StatusBar backgroundColor="#22c1c3" barStyle="light-content" />
                 <ScrollView
                     showsHorizontalScrollIndicator={false}
                     showsVerticalScrollIndicator={false}
                     horizontal={false}
                 >
-                    <StatusBar backgroundColor='#F00' barStyle="light-content" />
                     <View style={styles.container}>
                         <Button style={{ position: 'absolute', left: 20, top: 15 }} transparent onPress={() => this.GoBack()} >
                             <Icon name={Platform.OS == 'android' ? 'md-arrow-back' : 'ios-arrow-back'} size={24} color="#fff" />
                         </Button>
                         <View style={{ marginTop: 50 }}>
                             <TouchableOpacity onPress={() => this.LoadImage()} style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                                <Avatar.Image size={110} source={{ uri: this.props.UserInfo.success ? this.props.UserInfo.userPic : null }} />
+                                {/* <Avatar.Image size={110} source={{ uri: this.props.UserInfo.success ? this.props.UserInfo.userPic : null }} /> */}
+                                <Avatar.Image size={110} source={require('../../Images/33.png')} />
                             </TouchableOpacity>
                         </View>
                         <View style={{ paddingLeft: 20, paddingRight: 20, justifyContent: 'flex-start', alignItems: 'flex-start', marginTop: 50 }}>
                             <View style={{ marginBottom: 20 }}>
                                 <Text style={{ fontSize: 10, color: '#888', }} >Name</Text>
-                                <Text style={{ fontSize: 16, lineHeight: 16, fontWeight: 'bold', lineHeight: 16, marginTop: 0, }}>{this.props.UserInfo.success ? this.props.UserInfo.name : null}</Text>
+                                <Text style={{ fontSize: 16, lineHeight: 16, fontWeight: 'bold', lineHeight: 16, marginTop: 0, }}>Test Student</Text>
                             </View>
 
                             <View style={{ marginBottom: 20 }}>
                                 <Text style={{ fontSize: 10, color: '#888', }}>Email</Text>
-                                <Text style={{ fontSize: 16, lineHeight: 16, fontWeight: '500', color: '#000', }}>{this.props.UserInfo.success ? this.props.UserInfo.email : null}</Text>
+                                <Text style={{ fontSize: 16, lineHeight: 16, fontWeight: '500', color: '#000', }}>teststudent@gmail.com</Text>
                             </View>
 
                             <View style={{ marginBottom: 20 }}>

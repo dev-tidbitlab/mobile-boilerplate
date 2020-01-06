@@ -55,6 +55,7 @@ class EditUserProfile extends Component {
         this.props.SaveUserInfoAction({ data: JSON.stringify(ob), props: this.props })
     }
     LoadImage() {
+        return 0;
         const options = {
             noData: true,
         }
@@ -84,18 +85,18 @@ class EditUserProfile extends Component {
         let UserInfo = this.state.UserInfo
         return (
             <Container>
-                <Header style={{ elevation: 0, backgroundColor: 'transparent' }}>
+                <Header style={{ elevation: 0, backgroundColor: '#22c1c3' }}>
                     <Left style={{ flex: 1 }}>
                         <Button transparent onPress={() => this.GoBack()} >
-                            <Icon name='md-arrow-back' size={24} color='#F00' />
+                            <Icon name='md-arrow-back' size={24} color='#FFF' />
                         </Button>
                     </Left>
                     <Body style={{ flex: 2, alignItems: 'center' }}>
-                        <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#F00' }}>Edit Profile</Text>
+                        <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#FFF' }}>Edit Profile</Text>
                     </Body>
                     <Right style={{ flex: 1 }}>
-                        <Button transparent onPress={() => this.SaveUserDetails()} >
-                            <Text>Save</Text>
+                        <Button transparent >
+                            <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#FFF' }}>Save</Text>
                         </Button>
                     </Right>
                 </Header>
@@ -104,7 +105,7 @@ class EditUserProfile extends Component {
                     showsVerticalScrollIndicator={false}
                     horizontal={false}
                 >
-                    <StatusBar backgroundColor='#F00' barStyle="light-content" />
+                    <StatusBar backgroundColor="#22c1c3" barStyle="light-content" />
                     <View style={styles.container}>
                         <View>
                             <View style={{ marginTop: 50 }}>

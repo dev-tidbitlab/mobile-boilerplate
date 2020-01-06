@@ -3,18 +3,13 @@ import {
     createStackNavigator,
 } from 'react-navigation-stack'
 import { Animated, Easing, Platform } from 'react-native';
-
-import CourseScreen from '../myCourses/courseRoutes'
-import StudentProfile from '../profile/index'
-import UserListScreen from './index'
-import ResetPassword from '../sideDrawer/resetPassword'
-import StudentOrders from '../myOrders/orderRoutes'
+import MyOrders from './orders'
+// import ViewCourseDetails from './viewCourseDetails'
 let SlideFromRight = (index, position, width) => {
     const translateX = position.interpolate({
         inputRange: [index - 1, index],
         outputRange: [width, 0],
     })
-
     return { transform: [{ translateX }] }
 };
 
@@ -39,35 +34,17 @@ const TransitionConfiguration = () => {
         },
     }
 }
-const HomeStack = createStackNavigator(
+const CourseStack = createStackNavigator(
     {
-        StudentCourses: { screen: CourseScreen },
-        UserListScreen: { screen: UserListScreen },
-        ResetPassword: { screen: ResetPassword },
-        StudentProfile: { screen: StudentProfile },
-        StudentOrders: { screen: StudentOrders }
+        StudentOrders: { screen: MyOrders },
+        // ViewCourseDetails: { screen: ViewCourseDetails }
     },
     {
-        initialRouteName: 'UserListScreen',
+        initialRouteName: 'StudentOrders',
         headerMode: 'none',
         navigationOptions: {
             headerVisible: false,
         },
         transitionConfig: TransitionConfiguration,
     })
-HomeStack.navigationOptions = ({ navigation }) => {
-    let tabBarVisible = true;
-    if (navigation.state.routes.length > 1) {
-        navigation.state.routes.map(route => {
-            if (route.routeName === "UserInfoScreen" || route.routeName == 'ResetPassword') {
-                tabBarVisible = false;
-            } else {
-                tabBarVisible = true;
-            }
-        });
-    }
-    return {
-        tabBarVisible
-    };
-};
-export default HomeStack;
+export default CourseStack;

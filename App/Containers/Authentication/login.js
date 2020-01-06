@@ -159,12 +159,13 @@ class LoginScreen extends Component {
         this.createNotificationListeners();
     }
     MakeLogin() {
-        const { Email, Password } = this.state
-        let bodyData = {
-            email: Email,
-            password: Password
-        }
-        this.props.loginAction({ data: JSON.stringify(bodyData), props: this.props })
+        // const { Email, Password } = this.state
+        // let bodyData = {
+        //     email: Email,
+        //     password: Password
+        // }
+        // this.props.loginAction({ data: JSON.stringify(bodyData), props: this.props })
+        this.props.navigation.navigate('HomeScreen')
     }
     componentWillUnmount() {
         this.notificationListener;
@@ -179,10 +180,11 @@ class LoginScreen extends Component {
 
     render() {
         return (
-            <ScrollView contentContainerStyle={{ flex: 1, height: '100%', backgroundColor:'#f1f2f7' }}>
+            <ScrollView contentContainerStyle={{ flex: 1, height: '100%', backgroundColor: '#f1f2f7' }}>
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <View style={{ justifyContent: 'center', alignItems: 'center', alignContent: 'center', }}>
-                        <Image source={require('../../Images/Logo2.png')} style={{ height: 100, justifyContent: 'center', alignItems: 'center', alignContent: 'center', width: 100, resizeMode: 'contain', }} ></Image>
+                        {/* <Image source={require('../../Images/Logo2.png')} style={{ height: 100, justifyContent: 'center', alignItems: 'center', alignContent: 'center', width: 100, resizeMode: 'contain', }} ></Image> */}
+                        <Image style={{ height: 150, width: 150, justifyContent: 'center', alignItems: 'center', alignContent: 'center', resizeMode: 'contain', }} source={require('../../Images/logo.png')} />
                     </View>
                     <View style={styles.MainView3}>
                         <TextInput
@@ -221,7 +223,7 @@ class LoginScreen extends Component {
 
         );
     }
-}   
+}
 const mapStateToProps = (state) => {
     console.log(state, 'state')
     return {

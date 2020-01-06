@@ -13,22 +13,22 @@ let SideBarRoutes = [
         icon: "home",
         iconType: "Feather",
         name: "Dashboard",
-        RouteName: 'StudentDashboard'
+        RouteName: 'UserListScreen'
     },
     {
-        icon: "alert-circle",
+        icon: "book",
         iconType: "Feather",
         name: "My Courses",
         RouteName: 'StudentCourses'
     },
     {
-        icon: "settings",
+        icon: "shopping-cart",
         iconType: "Feather",
         name: "My Orders",
         RouteName: 'StudentOrders'
     },
     {
-        icon: "message-square",
+        icon: "user",
         iconType: "Feather",
         name: "My Profile",
         RouteName: 'StudentProfile'
@@ -72,7 +72,8 @@ class SideMenu extends Component {
     }
     GoToProfile() {
         // console.log('pro')
-        this.props.navigation.navigate('UserProfile')
+        this.props.navigation.closeDrawer();
+        this.props.navigation.navigate('StudentProfile')
     }
     LogoutUser() {
         this.props.logoutUser({ API: 'logout', props: this.props })
@@ -111,9 +112,9 @@ class SideMenu extends Component {
         // }
         if (SideBarRoutes.length > 0) {
             sideRoutes = SideBarRoutes.map((item, i) => {
-                return (<TouchableOpacity key={i} onPress={() => this.NavigateDrawer(item.RouteName, i)} style={{ flexDirection: 'row', alignItems: 'center', paddingTop: 10, paddingBottom: 10, paddingLeft: 20, borderLeftColor: BorderColorsArray[i], borderLeftWidth: 4 }}>
-                    <FIcon name={item.icon} size={24} color={ColorArray[i]} />
-                    <Text style={{ paddingLeft: 20, fontSize: 18, fontWeight: '400', color: ColorArray[i] }}>{item.name}</Text>
+                return (<TouchableOpacity key={i} onPress={() => this.NavigateDrawer(item.RouteName, i)} style={{ flexDirection: 'row', alignItems: 'center', paddingTop: 10, paddingBottom: 10, paddingLeft: 20}}>
+                    <FIcon name={item.icon} size={24} color={'#757575'} />
+                    <Text style={{ paddingLeft: 20, fontSize: 18, fontWeight: '400', color: '#757575' }}>{item.name}</Text>
                 </TouchableOpacity>)
             })
         }
@@ -127,8 +128,9 @@ class SideMenu extends Component {
                 <View style={{ flex: 1 }}>
                     <TouchableOpacity onPress={() => this.GoToProfile()} style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', margin: 20 }}>
                         {/* <Avatar.Image size={80} source={{ uri: this.props.UserInfo.success ? this.props.UserInfo.userPic : null }} /> */}
-                        <Text style={{ marginTop: 10, fontSize: 18, fontWeight: '700' }}>{this.props.UserInfo.success ? this.props.UserInfo.name : null}</Text>
-                        <Text style={{ fontSize: 14, fontWeight: '400' }}>{this.props.UserInfo.success ? this.props.UserInfo.email : null}</Text>
+                        <Avatar.Image size={80} source={require('../../Images/33.png')} />
+                        <Text style={{ marginTop: 10, fontSize: 18, fontWeight: '700' }}>Test Student</Text>
+                        <Text style={{ fontSize: 14, fontWeight: '400' }}>teststudent@gmail.com</Text>
                     </TouchableOpacity>
                     {this.FlatListItemSeparator()}
                     <View style={{ marginTop: 15, width: 300 }}>
