@@ -6,7 +6,8 @@ const INITIAL_STATE = {
     ErrorToaster: {
         message: '',
         toast: false
-    }
+    },
+    StudentCourseList: []
 };
 
 const AuthReducer = (state = INITIAL_STATE, action) => {
@@ -51,6 +52,11 @@ const AuthReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 ErrorToaster: action.payload
+            };
+        case 'STUDENT_COURSES_LIST_DATA':
+            return {
+                ...state,
+                StudentCourseList: action.payload
             };
         default:
             return state;

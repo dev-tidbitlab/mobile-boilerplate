@@ -19,8 +19,8 @@ class ViewCourseDetails extends Component {
             playerState: PLAYER_STATES.PLAYING,
             screenType: 'contain',
             CourseArray: [{}, {}, {}, {}, {}, {}, {}, {}, {}],
-            ScreenHeight: 200
-
+            ScreenHeight: 200,
+            course_id: ''
         };
     }
     _orientationDidChange = (orientation) => {
@@ -34,6 +34,12 @@ class ViewCourseDetails extends Component {
         }
     }
     componentDidMount() {
+        console.log(this.props)
+        const { navigation } = this.props;
+        const course_id = navigation.getParam('course_id', '');
+        this.setState({ course_id: course_id })
+        console.log('course_id', course_id)
+
         Dimensions.addEventListener('change', () => {
             // this.getOrientation();
         });

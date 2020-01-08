@@ -146,7 +146,7 @@ class SideMenu extends Component {
     }
 }
 const mapStateToProps = (state) => {
-    console.log(state, 'state sidebar')
+    console.log(state, 'state sidebar11')
     return {
         UserInfo: state.authReducer.UserInfo,
     };

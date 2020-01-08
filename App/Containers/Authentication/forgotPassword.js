@@ -21,16 +21,28 @@ import ErrorToaster from '../../Components/alerts/error'
 import { ForgotPasswordAction } from '../../Reducers/actions'
 class ForgotPasswordScreen extends Component {
     state = {
-        Password: '',
         Email: '',
+        EmailValidation: false
     }
     GoBackToHome() {
         this.props.navigation.goBack()
     }
     SubmitMethod() {
-        // this.props.ForgotPasswordAction({email:'dwdwd'})
+        const { Email } = this.state
+        let EmailValidation = this.state.EmailValidation
+        let status = false
+        if (!Email) {
+            status = true
+            EmailValidation = true
+        }
+        this.setState({ EmailValidation: EmailValidation })
+        if (status) {
+            return 0;
+        }
+        this.props.ForgotPasswordAction({ email: Email })
     }
     render() {
+        let EmailValidation = this.state.EmailValidation
         return (
             <ScrollView contentContainerStyle={{ flex: 1, height: '100%' }}>
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -44,6 +56,7 @@ class ForgotPasswordScreen extends Component {
                     {/* <Text style={styles.loginText}>Forgot Password</Text> */}
                     <View style={styles.MainView3}>
                         <TextInput
+                            error={EmailValidation}
                             style={styles.TextInputAll}
                             onChangeText={(v) => this.setState({ Email: v })}
                             label="Email"
@@ -51,7 +64,7 @@ class ForgotPasswordScreen extends Component {
                             theme={{ colors: { background: 'white', placeholder: '#888', text: '#000', primary: '#22c1c3', underlineColor: 'transparent' } }}
                         />
                         <View style={styles.LoginBtnView}>
-                            <TouchableOpacity style={styles.TouchableOpacityBtn}>
+                            <TouchableOpacity onPress={() => this.SubmitMethod()} style={styles.TouchableOpacityBtn}>
                                 <Text style={styles.LoginBtn}>Submit</Text>
                             </TouchableOpacity>
                         </View>
@@ -113,7 +126,7 @@ const styles = StyleSheet.create({
         marginTop: 30
     },
     TouchableOpacityBtn: {
-       
+
     },
     LoginBtn: {
         fontSize: 16,

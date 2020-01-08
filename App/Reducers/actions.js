@@ -37,3 +37,10 @@ export const SaveUserInfoAction = (payload) => ({
     type: 'USER_SAVE_INFO_ACTION',
     payload: payload
 });
+
+/// ***** Student dashboard Actions
+
+export const StudentCoursesList = (payload) => ({
+    type: 'STUDENT_COURSES_LIST',
+    payload: payload
+});

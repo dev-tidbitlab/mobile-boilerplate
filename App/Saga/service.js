@@ -1,5 +1,6 @@
 import { APIURL } from '../../env'
 export const GET = (url) => {
+    console.log('APIURL + url==>>', APIURL + url)
     return fetch(APIURL + url, {
         method: 'GET',
         headers: {
@@ -9,6 +10,21 @@ export const GET = (url) => {
         credentials: 'include'
     }).then((response) => response.json())
         .then((responseData) => {
+            return responseData
+        })
+};
+export const GETAPI = (url) => {
+    console.log('APIURL + url==>>API', APIURL + url)
+    return fetch(APIURL + url, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        credentials: 'include'
+    }).then((response) => response.json())
+        .then((responseData) => {
+            console.log('responseData===>>>', responseData)
             return responseData
         })
 };

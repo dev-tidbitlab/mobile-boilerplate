@@ -10,8 +10,6 @@ import {
 import { Container, Header, Left, Body, Right, Button, Title } from 'native-base';
 import { withNavigationFocus } from 'react-navigation'
 import { Avatar } from 'react-native-paper';
-import { connect } from 'react-redux';
-
 import UserDashboard from './dashboard/dashboard'
 class HomeScreen extends Component {
   GoToUserProfile() {
@@ -57,18 +55,5 @@ class HomeScreen extends Component {
     );
   }
 }
-const mapStateToProps = (state) => {
-  console.log(state, 'state sidebar')
-  return {
-    UserInfo: state.authReducer.UserInfo,
-  };
-};
-export default withNavigationFocus(connect(mapStateToProps)(HomeScreen))
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
-});
+export default withNavigationFocus(HomeScreen)

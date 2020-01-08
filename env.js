@@ -1,1 +1,1 @@
-export const APIURL = 'https://boilerplate-staging.tidbitlab.com/api/';
+export const APIURL = 'https://lms-video-staging.tidbitlab.com/api/';

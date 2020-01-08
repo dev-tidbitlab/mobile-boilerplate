@@ -23,21 +23,11 @@ import { Formik } from 'formik';
 import * as yup from 'yup';
 
 
-const validationSchema = yup.object().shape({
-    Email: yup
-        .string()
-        .required()
-        .label('Email'),
-    Password: yup
-        .string()
-        .min(6)
-        .required()
-});
-
 class LoginScreen extends Component {
     state = {
         Password: '',
         Email: '',
+        ValidationArray: { email: false, password: false }
     }
     GoToUserProfile() {
         this.props.navigation.openDrawer();
@@ -159,13 +149,27 @@ class LoginScreen extends Component {
         this.createNotificationListeners();
     }
     MakeLogin() {
-        // const { Email, Password } = this.state
-        // let bodyData = {
-        //     email: Email,
-        //     password: Password
-        // }
-        // this.props.loginAction({ data: JSON.stringify(bodyData), props: this.props })
-        this.props.navigation.navigate('HomeScreen')
+        const { Email, Password } = this.state
+        let ValidationArray = this.state.ValidationArray
+        let status = false
+        if (!Email) {
+            status = true
+            ValidationArray.email = true
+        }
+        if (!Password) {
+            status = true
+            ValidationArray.password = true
+        }
+        let bodyData = {
+            email: Email,
+            password: Password
+        }
+        this.setState({ ValidationArray: ValidationArray })
+        if (status) {
+            return 0;
+        }
+        this.props.loginAction({ data: JSON.stringify(bodyData), props: this.props })
+        // this.props.navigation.navigate('HomeScreen')
     }
     componentWillUnmount() {
         this.notificationListener;
@@ -177,29 +181,43 @@ class LoginScreen extends Component {
     SignUpScreen() {
         this.props.navigation.navigate('AppRegisterScreen')
     }
+    onChangeEmail(v) {
+        let ValidationArray = this.state.ValidationArray
+        ValidationArray.email = false
+        this.setState({ Email: v, ValidationArray: ValidationArray })
+    }
+    onChangePassword(v) {
+        let ValidationArray = this.state.ValidationArray
+        ValidationArray.password = false
+        this.setState({ Password: v, ValidationArray: ValidationArray })
+    }
 
     render() {
+        let ValidationArray = this.state.ValidationArray
         return (
             <ScrollView contentContainerStyle={{ flex: 1, height: '100%', backgroundColor: '#f1f2f7' }}>
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <View style={{ justifyContent: 'center', alignItems: 'center', alignContent: 'center', }}>
-                        {/* <Image source={require('../../Images/Logo2.png')} style={{ height: 100, justifyContent: 'center', alignItems: 'center', alignContent: 'center', width: 100, resizeMode: 'contain', }} ></Image> */}
                         <Image style={{ height: 150, width: 150, justifyContent: 'center', alignItems: 'center', alignContent: 'center', resizeMode: 'contain', }} source={require('../../Images/logo.png')} />
                     </View>
                     <View style={styles.MainView3}>
                         <TextInput
+                            error={ValidationArray.email}
                             style={styles.TextInputAll}
-                            onChangeText={(v) => this.setState({ Email: v })}
+                            onChangeText={(v) => this.onChangeEmail(v)}
                             label="Email"
                             value={this.state.Email}
+                            onSubmitEditing={()=>this.MakeLogin()}  
                             theme={{ colors: { background: 'white', placeholder: '#888', text: '#000', primary: '#22c1c3', underlineColor: 'transparent' } }}
                         />
                         <TextInput
+                            error={ValidationArray.password}
                             style={styles.TextInputAll}
                             label="Password"
-                            onChangeText={(v) => this.setState({ Password: v })}
+                            onChangeText={(v) => this.onChangePassword(v)}
                             secureTextEntry={true}
                             value={this.state.Password}
+                            onSubmitEditing={()=>this.MakeLogin()}
                             theme={{ colors: { background: 'white', placeholder: '#888', text: '#000', primary: '#22c1c3', underlineColor: 'transparent' } }}
                         />
                         <View style={styles.LoginBtnView}>

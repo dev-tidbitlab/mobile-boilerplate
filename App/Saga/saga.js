@@ -1,8 +1,8 @@
 import { put, takeLatest, call, all } from 'redux-saga/effects';
-import { GET, POST, FormPostAPI } from './service'
+import { GET, POST, FormPostAPI, GETAPI } from './service'
 import { logout, goHomeScreen } from './auth'
 function* CheckUserLoggedIn(props) {
-    console.log('params==>>>', props)
+    console.log('params==>>>0000', props)
     try {
         const json = yield GET('isLoggedIn')
         console.log('josin===>>>>>', json)
@@ -176,6 +176,29 @@ function* UpdateUserInfo(props) {
         console.log('rrr', error)
     }
 }
+function* StudentCoursesListAPICall(props) {
+    console.log('StudentCoursesListAPICall', props)
+
+    yield put({ type: "LOADER_START", payload: true });
+    console.log('1')
+    try {
+        const json = yield GETAPI('studentdashboard/student/listCourse')
+        console.log('12', json)
+        yield put({ type: "LOADER_STOP", payload: false });
+        console.log('user/reguser/listCourse', json)
+        yield put({ type: "STUDENT_COURSES_LIST_DATA", payload: json.data });
+    }
+    catch (error) {
+        console.log('rrr', error.response, error)
+        yield put({ type: "LOADER_STOP", payload: false });
+    }
+    // if (json.success == true) {
+    //     yield put({ type: "STUDENT_COURSES_LIST_DATA", payload: json });
+    // } else {
+    //     logout(props.payload.props)
+    // }
+
+}
 function* SaveUserDetails(props) {
     yield put({ type: "SAVE_USER_INFO", payload: props.payload });
 }
@@ -207,6 +230,10 @@ function* UserPicAction() {
 function* UserSaveInfoAction() {
     yield takeLatest('USER_SAVE_INFO_ACTION', UpdateUserInfo)
 }
+function* StudentCoursesList() {
+    yield takeLatest('STUDENT_COURSES_LIST', StudentCoursesListAPICall)
+}
+
 export default function* rootSaga() {
     yield all([
         userInfo(),
@@ -217,6 +244,7 @@ export default function* rootSaga() {
         SaveUserInfo(),
         ForgotPassword(),
         UserPicAction(),
-        UserSaveInfoAction()
+        UserSaveInfoAction(),
+        StudentCoursesList()
     ]);
 }
