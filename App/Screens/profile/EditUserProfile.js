@@ -55,12 +55,13 @@ class EditUserProfile extends Component {
         this.props.SaveUserInfoAction({ data: JSON.stringify(ob), props: this.props })
     }
     LoadImage() {
-        return 0;
+        // return 0;
         const options = {
             noData: true,
         }
+        console.log('11111==>>')
         ImagePicker.launchImageLibrary(options, response => {
-            console.log(options, response, 'ffd')
+            console.log(options, response, 'ffd==>>>>')
             if (response.didCancel == undefined) {
                 var formData = new FormData();
                 formData.append('file', {
@@ -68,7 +69,7 @@ class EditUserProfile extends Component {
                     name: response.fileName,
                     type: response.type
                 })
-                this.props.UploadUserPicAction(formData)
+                // this.props.UploadUserPicAction(formData)
                 console.log('hh==>>', formData)
             }
         })
@@ -95,9 +96,9 @@ class EditUserProfile extends Component {
                         <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#FFF' }}>Edit Profile</Text>
                     </Body>
                     <Right style={{ flex: 1 }}>
-                        <Button transparent >
+                        {/* <Button transparent >
                             <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#FFF' }}>Save</Text>
-                        </Button>
+                        </Button> */}
                     </Right>
                 </Header>
                 <ScrollView
@@ -114,7 +115,7 @@ class EditUserProfile extends Component {
                                     <FontAwesome style={{ padding: 5, backgroundColor: 'transparent', position: 'absolute', top: (110 / 2) - 20, left: (width / 2) + (110 / 2) - 15 }} name="pencil" size={24} color="#F00" />
                                 </TouchableOpacity>
                             </View>
-                            <View style={{ paddingLeft: 20, marginRight: 20, marginBottom: 40, }}>
+                            <View style={{ paddingLeft: 30, marginRight: 30, marginBottom: 40, }}>
                                 <View style={{ height: 30, marginBottom: 30 }}>
                                     <TextInput
                                         style={styles.TextInputAll}
@@ -181,6 +182,9 @@ class EditUserProfile extends Component {
                                     value={UserInfo.country}
                                     theme={{ colors: { background: 'white', placeholder: '#888', text: '#000', primary: '#22c1c3', underlineColor: 'transparent' } }}
                                 />
+                                <TouchableOpacity style={{ marginTop: 25, bottom: 5, padding: 6, backgroundColor: '#22c1c3', alignItems: 'center', justifyContent: 'center', borderRadius: 5 }}>
+                                    <Text style={{ fontSize: 16, fontWeight:'600',  padding: 10, color: '#FFF' }}>Save</Text>
+                                </TouchableOpacity>
                             </View>
                         </View>
                         <Progress DialogLoader={this.props.loading} title={'Please wait...'} />

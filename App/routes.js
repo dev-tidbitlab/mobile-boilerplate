@@ -9,15 +9,9 @@ import {
 } from 'react-navigation-stack'
 import { createDrawerNavigator } from 'react-navigation-drawer';
 import { Animated, Easing, Platform } from 'react-native';
-import { createBottomTabNavigator } from 'react-navigation-tabs';
-
-import AppUserProfile from '../App/Containers/profile/index'
-import SideDrawer from '../App/Containers/sideDrawer'
-import HomeBottomTabBar from '../App/Containers/bottomTabNavigation/index'
-import IsLoggedIn from '../App/Containers/Authentication/index'
-import AppSplashScreen from '../App/Containers/Authentication/authRoutes'
-import { connect } from 'react-redux';
-import { Loading } from './Reducers/actions'
+import SideDrawer from '../App/Screens/sideDrawer'
+import HomeBottomTabBar from '../App/Screens/bottomTabNavigation/index'
+import AppSplashScreen from '../App/Screens/Authentication/authRoutes'
 const width = Dimensions.get('window').width
 let SlideFromRight = (index, position, width) => {
     const translateX = position.interpolate({
@@ -51,7 +45,6 @@ const TransitionConfiguration = () => {
 }
 function TrackRoutesChange(previousRouteName, currentRouteName, action) {
     console.log(this, 'ErrorToaster', previousRouteName, currentRouteName, action)
-    // this.props.Loading(true)
 }
 function getActiveRouteName(navigationState) {
     if (!navigationState) {
@@ -100,15 +93,5 @@ const AppRouterContainer = () => (
         }}
     />
 );
-const mapStateToProps = (state) => {
-    console.log(state, 'state>>AppRouterContainer>>')
-    return {
-        ErrorToaster: state.authReducer.ErrorToaster,
-    };
-};
-const mapDispatchToProps = (dispatch) => {
-    return {
-        Loading: (payload) => dispatch(Loading(payload)),
-    };
-};
-export default connect(mapStateToProps, mapDispatchToProps)(AppRouterContainer)
+
+export default AppRouterContainer

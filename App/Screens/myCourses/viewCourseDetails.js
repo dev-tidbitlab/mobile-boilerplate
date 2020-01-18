@@ -5,9 +5,12 @@ import MediaControls, { PLAYER_STATES } from 'react-native-media-controls';
 import Icon from 'react-native-vector-icons/Ionicons'
 import { Container, Thumbnail, Header, Picker, Left, Body, Right, Button, Title } from 'native-base';
 import Orientation from 'react-native-orientation';
+import { withNavigation } from 'react-navigation';
+import { connect } from 'react-redux';
+import { StudentCoursesDetails } from '../../Reducers/actions'
+import VideoPlayer from './videoPlayer'
 var RotateStatus = 0
 class ViewCourseDetails extends Component {
-    videoPlayer;
     constructor(props) {
         super(props);
         this.state = {
@@ -20,7 +23,8 @@ class ViewCourseDetails extends Component {
             screenType: 'contain',
             CourseArray: [{}, {}, {}, {}, {}, {}, {}, {}, {}],
             ScreenHeight: 200,
-            course_id: ''
+            course_id: '',
+            CurrentVideo: {}
         };
     }
     _orientationDidChange = (orientation) => {
@@ -33,12 +37,16 @@ class ViewCourseDetails extends Component {
             // do something with portrait layout
         }
     }
+    getCourseDetailsVideo(course_id) {
+        this.props.StudentCoursesDetails({ props: this.props, data: course_id })
+    }
     componentDidMount() {
         console.log(this.props)
         const { navigation } = this.props;
         const course_id = navigation.getParam('course_id', '');
         this.setState({ course_id: course_id })
         console.log('course_id', course_id)
+        this.getCourseDetailsVideo(course_id)
 
         Dimensions.addEventListener('change', () => {
             // this.getOrientation();
@@ -135,47 +143,38 @@ class ViewCourseDetails extends Component {
     StartMCQ() {
         this.props.navigation.navigate('StudentMCQTest')
     }
+    FilterCourseVideo(Videos, id) {
+        console.log(Videos, id)
+        if (id == 0) {
+            if (Videos) {
+                if (Videos.length > 0) {
+                    return Videos[0].videoUrl;
+                } else {
+                    return null;
+                }
+            } else {
+                return null;
+            }
+        } else {
+            return Videos.videoUrl
+        }
+    }
     render() {
+        console.log('StudentCourseDetails==>>', this.props.StudentCourseDetails)
         let ScreenHeight = this.state.ScreenHeight
         return (
             <View style={styles.container}>
                 <StatusBar backgroundColor="#22c1c3" barStyle="light-content" />
-                <View style={{ width: '100%', height: ScreenHeight, justifyContent: 'center', alignItems: 'center', top: 0 }}>
-                    <Video
-                        onEnd={this.onEnd}
-                        onLoad={this.onLoad}
-                        onLoadStart={this.onLoadStart}
-                        onProgress={this.onProgress}
-                        paused={this.state.paused}
-                        ref={videoPlayer => (this.videoPlayer = videoPlayer)}
-                        resizeMode={this.state.screenType}
-                        onFullScreen={this.state.isFullScreen}
-                        source={{ uri: 'https://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4' }}
-                        style={styles.mediaPlayer}
-                        volume={10}
-                    />
-                    <MediaControls
-                        duration={this.state.duration}
-                        isLoading={this.state.isLoading}
-                        mainColor="#333"
-                        onFullScreen={this.onFullScreen}
-                        onPaused={this.onPaused}
-                        onReplay={this.onReplay}
-                        onSeek={this.onSeek}
-                        onSeeking={this.onSeeking}
-                        playerState={this.state.playerState}
-                        progress={this.state.currentTime}
-                        toolbar={this.renderToolbar()}
-                    />
-                </View>
+                <VideoPlayer currentVideo={this.FilterCourseVideo(this.props.StudentCourseDetails, 0)} />
                 <View style={{ margin: 10 }}>
                     <View style={{ marginLeft: 10 }}>
-                        <Text style={{ fontSize: 14, color: '#000', paddingBottom: 5, paddingTop: 5, fontWeight: '800' }}>This is my Course name for the computer science project.This is my Course name for the computer science project.</Text>
+                        <Text style={{ fontSize: 14, color: '#000', paddingBottom: 5, paddingTop: 5, fontWeight: '800' }}>{this.state.CurrentVideo.videoName}</Text>
+                        <Text style={{ fontSize: 12, color: '#AAA', paddingBottom: 5, fontWeight: '500' }}>{this.state.CurrentVideo.description}</Text>
                     </View>
                 </View>
                 <View style={{ margin: 10 }}>
                     <View style={{ marginLeft: 10, flexDirection: 'row' }}>
-                        <Text style={{ fontSize: 18, color: '#000', fontWeight: '900' }}>Courses Videos</Text>
+                        <Text style={{ fontSize: 18, color: '#000', fontWeight: '600' }}>Courses Videos</Text>
                         <TouchableOpacity onPress={() => this.StartMCQ()} style={{ position: 'absolute', right: 10, padding: 6, backgroundColor: '#22c1c3', alignItems: 'center', justifyContent: 'center', borderRadius: 5 }}>
                             <Text style={{ fontSize: 12, color: '#FFF' }}>Start MCQ</Text>
                         </TouchableOpacity>
@@ -188,26 +187,40 @@ class ViewCourseDetails extends Component {
                     horizontal={false}
                 >
                     <View style={{ margin: 10 }}>
-                        <View>
-                            {this.state.CourseArray.map((v, i) => {
+                        {this.props.StudentCourseDetails.length > 0 ? <View>
+                            {this.props.StudentCourseDetails.map((v, i) => {
                                 return (
-                                    <TouchableOpacity key={i} style={{ flexDirection: 'row', borderRadius: 5, marginRight: 10, marginLeft: 10, marginTop: 15, flex: 1, backgroundColor: '#FFF' }}>
+                                    <TouchableOpacity onPress={() => this.FilterCourseVideo(v, 1)} key={i} style={{ flexDirection: 'row', borderRadius: 5, marginRight: 10, marginLeft: 10, marginTop: 15, flex: 1, backgroundColor: '#FFF' }}>
                                         <View style={{ marginLeft: 5, marginTop: 5, marginBottom: 5 }}>
                                             <Image style={{ width: 60, height: 60, borderRadius: 5 }} source={{ uri: 'https://image.tmdb.org/t/p/w342/zfE0R94v1E8cuKAerbskfD3VfUt.jpg' }} />
                                         </View>
                                         <View style={{ flex: 1, marginRight: 10, marginLeft: 10 }}>
-                                            <Text style={{ fontSize: 14, color: '#000', paddingBottom: 5, paddingTop: 5, fontWeight: '800' }}>This is my Course name for the computer science project.</Text>
+                                            <Text style={{ fontSize: 14, color: '#000', paddingBottom: 5, paddingTop: 5, fontWeight: '800' }}>{v.videoName}</Text>
+                                            <Text style={{ fontSize: 12, color: '#AAA', fontWeight: '500', paddingBottom: 5 }}>{v.description}</Text>
                                         </View>
                                     </TouchableOpacity>
                                 )
                             })}
-                        </View>
+                        </View> : null}
                     </View>
                 </ScrollView>
             </View>
         );
     }
 }
+const mapStateToProps = (state) => {
+    console.log(state, 'state dash', state.authReducer.StudentCourseList)
+    return {
+        loading: state.authReducer.loading,
+        StudentCourseDetails: state.authReducer.StudentCourseDetails
+    };
+};
+const mapDispatchToProps = (dispatch) => {
+    return {
+        StudentCoursesDetails: (payload) => dispatch(StudentCoursesDetails(payload)),
+    };
+};
+export default withNavigation(connect(mapStateToProps, mapDispatchToProps)(ViewCourseDetails));
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -233,4 +246,3 @@ const styles = StyleSheet.create({
         // height: Dimensions.get('window').width
     },
 });
-export default ViewCourseDetails;

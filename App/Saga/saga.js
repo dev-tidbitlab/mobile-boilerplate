@@ -6,11 +6,15 @@ function* CheckUserLoggedIn(props) {
     try {
         const json = yield GET('isLoggedIn')
         console.log('josin===>>>>>', json)
-        if (json.status == 1001) {
-            logout(props.payload)
-        } else {
+        if (json.success) {
             yield put({ type: "SAVE_USER_INFO", payload: json });
             goHomeScreen(props.payload)
+        } else {
+            if (json.status == 1002) {
+                logout(props.payload)
+            } else{
+                logout(props.payload)
+            }
         }
     }
     catch (error) {
@@ -38,14 +42,7 @@ function* MakeUserLogin(props) {
         yield put({ type: "LOADER_START", payload: true });
         const json = yield POST('login', props.payload.data)
         console.log('login -user', json)
-        if (json.status == 1005 || json.err) {
-            yield put({
-                type: "ERROR_TOAST_SHOW", payload: {
-                    message: 'your credentials are wrong!',
-                    toast: true
-                }
-            });
-        } else {
+        if (json.success) {
             yield put({
                 type: "ERROR_TOAST_HIDE", payload: {
                     message: '',
@@ -54,6 +51,14 @@ function* MakeUserLogin(props) {
             });
             yield put({ type: "SAVE_USER_INFO", payload: json, });
             yield goHomeScreen(props.payload.props)
+            yield put({ type: "LOADER_STOP", payload: false });
+        } else {
+            yield put({
+                type: "ERROR_TOAST_SHOW", payload: {
+                    message: json.message,
+                    toast: true
+                }
+            });
             yield put({ type: "LOADER_STOP", payload: false });
         }
     }
@@ -192,13 +197,42 @@ function* StudentCoursesListAPICall(props) {
         console.log('rrr', error.response, error)
         yield put({ type: "LOADER_STOP", payload: false });
     }
-    // if (json.success == true) {
-    //     yield put({ type: "STUDENT_COURSES_LIST_DATA", payload: json });
-    // } else {
-    //     logout(props.payload.props)
-    // }
-
 }
+function* StudentCoursesDetailsAPICall(props) {
+    console.log('StudentCoursesDetailsAPICall====>>>>>', props)
+
+    yield put({ type: "LOADER_START", payload: true });
+    console.log('1')
+    try {
+        const json = yield GETAPI('studentdashboard/student/listVideo/' + props.payload.data)
+        console.log('12', json)
+        yield put({ type: "LOADER_STOP", payload: false });
+        console.log('user/reguser/listCourse', json)
+        yield put({ type: "STUDENT_COURSES_DETAILS_DATA", payload: json.data });
+    }
+    catch (error) {
+        console.log('rrr', error.response, error)
+        yield put({ type: "LOADER_STOP", payload: false });
+    }
+}
+function* StudentOrdersListAPICall(props) {
+    console.log('StudentOrdersListAPICall', props)
+
+    yield put({ type: "LOADER_START", payload: true });
+    console.log('1')
+    try {
+        const json = yield GETAPI('studentdashboard/student/listOrder')
+        console.log('12', json)
+        yield put({ type: "LOADER_STOP", payload: false });
+        console.log('user/reguser/STUDENT_ORDERS_LIST_DATA', json)
+        yield put({ type: "STUDENT_ORDERS_LIST_DATA", payload: json.data });
+    }
+    catch (error) {
+        console.log('rrr', error.response, error)
+        yield put({ type: "LOADER_STOP", payload: false });
+    }
+}
+
 function* SaveUserDetails(props) {
     yield put({ type: "SAVE_USER_INFO", payload: props.payload });
 }
@@ -233,6 +267,12 @@ function* UserSaveInfoAction() {
 function* StudentCoursesList() {
     yield takeLatest('STUDENT_COURSES_LIST', StudentCoursesListAPICall)
 }
+function* StudentCoursesDetails() {
+    yield takeLatest('STUDENT_COURSES_DETAILS', StudentCoursesDetailsAPICall)
+}
+function* StudentOrdersList() {
+    yield takeLatest('STUDENT_ORDERS_LIST', StudentOrdersListAPICall)
+}
 
 export default function* rootSaga() {
     yield all([
@@ -245,6 +285,8 @@ export default function* rootSaga() {
         ForgotPassword(),
         UserPicAction(),
         UserSaveInfoAction(),
-        StudentCoursesList()
+        StudentCoursesList(),
+        StudentCoursesDetails(),
+        StudentOrdersList()
     ]);
 }

@@ -8,7 +8,8 @@ import {
     Text,
     ScrollView,
     StatusBar,
-    Dimensions
+    Dimensions,
+    ActivityIndicator
 } from "react-native";
 import { Avatar, ProgressBar } from 'react-native-paper';
 import { Container, Card, CardItem, Header, Thumbnail, Left, Body, Right, Button, Title } from 'native-base';
@@ -37,6 +38,9 @@ class Dashboard extends Component {
         this.props.navigation.navigate('ViewCourseDetails',
             { course_id: v.course._id });
     }
+    ViewMyCourses(){
+        this.props.navigation.navigate('StudentCourses')
+    }
     render() {
         let ScreenWidth = this.state.ScreenWidth
         console.log('fefwfwf', this.props.StudentCourseList)
@@ -49,31 +53,34 @@ class Dashboard extends Component {
             >
                 <View style={{ margin: 10 }}>
                     <View style={{ marginLeft: 10 }}>
-                        <Text style={{ fontSize: 18, color: '#000', fontWeight: '900' }}>My Courses</Text>
+                        <Text style={{ fontSize: 18, color: '#000', fontWeight: '600' }}>My Courses</Text>
                     </View>
                     <View style={{ flexDirection: 'row', height: ScreenWidth / 2 }}>
-                        <View style={{ flex: 1, backgroundColor: '#FFF', marginLeft: 10, marginTop: 10, marginBottom: 10, marginRight: 1, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
+                        <TouchableOpacity onPress={()=>this.ViewMyCourses()} style={{ flex: 1, backgroundColor: '#FFF', marginLeft: 10, marginTop: 10, marginBottom: 10, marginRight: 1, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
                             <Text>Total Courses</Text>
                             <Text>{this.props.StudentCourseList.length}</Text>
-                        </View>
+                        </TouchableOpacity>
                         <View style={{ flex: 1, backgroundColor: '#FFF', marginTop: 10, marginRight: 10, marginBottom: 10, marginLeft: 10, justifyContent: 'center', alignItems: 'center', borderRadius: 5 }}>
                             <Text>Certifications</Text>
                             <Text>100</Text>
                         </View>
                     </View>
                     <View style={{ marginLeft: 10 }}>
-                        <Text style={{ fontSize: 18, color: '#000', fontWeight: '900' }}>My recently course</Text>
+                        <Text style={{ fontSize: 18, color: '#000', fontWeight: '600' }}>My recently courses</Text>
                     </View>
+                    {this.props.loading?<View style={{marginTop: 20}}>
+                        <ActivityIndicator size="small" color="#22c1c3"/>
+                    </View>:null}
                     {this.props.StudentCourseList.length > 0 ? <View>
                         {this.props.StudentCourseList.map((v, i) => {
                             return (
                                 <TouchableOpacity onPress={() => this.ViewCourseDetails(v)} key={i} style={{ flexDirection: 'row', borderRadius: 5, marginRight: 10, marginLeft: 10, marginTop: 15, flex: 1, backgroundColor: '#FFF' }}>
                                     <View style={{ marginLeft: 5, marginTop: 5, marginBottom: 5 }}>
-                                        <Image style={{ width: 100, height: 100, borderRadius: 5 }} source={{ uri: 'https://image.tmdb.org/t/p/w342/zfE0R94v1E8cuKAerbskfD3VfUt.jpg' }} />
+                                        <Image style={{ width: 100, height: 100, borderRadius: 5, resizeMode:'cover' }} source={{ uri: v.course.courseImage }} />
                                     </View>
-                                    <View style={{ flex: 1, marginRight: 10, marginLeft: 10 }}>
-                                        <Text style={{ fontSize: 14, color: '#000', paddingBottom: 5, paddingTop: 5, fontWeight: '800' }}>{v.course.courseName}</Text>
-                                        <Text style={{ fontSize: 12, color: '#000', fontWeight: '500', paddingBottom: 5 }}>{v.course.description}</Text>
+                                    <View style={{ flex: 1, marginRight: 10, marginLeft: 10, paddingBottom: 5 }}>
+                                        <Text style={{ fontSize: 14, color: '#000', paddingBottom: 5, paddingTop: 5, fontWeight: '500' }}>{v.course.courseName}</Text>
+                                        <Text style={{ fontSize: 12, color: '#000', paddingBottom: 5 }}>{v.course.description}</Text>
                                         <ProgressBar style={{ backgroundColor: '#CCC', marginBottom: 5 }} progress={0.5} color={'#0AC4BA'} />
                                         <Text style={{ fontSize: 12, color: '#AAA' }}>50% complete</Text>
                                     </View>

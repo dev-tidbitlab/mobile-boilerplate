@@ -7,7 +7,9 @@ const INITIAL_STATE = {
         message: '',
         toast: false
     },
-    StudentCourseList: []
+    StudentCourseList: [],
+    StudentCourseDetails: {},
+    StudentOrdersList: []
 };
 
 const AuthReducer = (state = INITIAL_STATE, action) => {
@@ -28,11 +30,6 @@ const AuthReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 UserInfo: action.payload
             };
-        // case 'LOGOUT_USER':
-        //     return {
-        //         ...state,
-        //         UserInfo: {}
-        //     };
         case 'LOADER_START':
             return {
                 ...state,
@@ -57,6 +54,16 @@ const AuthReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 StudentCourseList: action.payload
+            };
+        case 'STUDENT_COURSES_DETAILS_DATA':
+            return {
+                ...state,
+                StudentCourseDetails: action.payload
+            };
+        case 'STUDENT_ORDERS_LIST_DATA':
+            return {
+                ...state,
+                StudentOrdersList: action.payload
             };
         default:
             return state;

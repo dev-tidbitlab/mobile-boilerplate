@@ -134,7 +134,6 @@
 				F982F64D36FDB47C3495A91A /* Pods-mobileappTests.debug.xcconfig */,
 				5F08403B0F40C51D0BCE2AC4 /* Pods-mobileappTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -188,7 +187,6 @@
 			children = (
 			);
 			name = Resources;
-			path = "";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -300,6 +298,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);

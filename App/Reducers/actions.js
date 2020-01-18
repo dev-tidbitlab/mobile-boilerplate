@@ -44,3 +44,11 @@ export const StudentCoursesList = (payload) => ({
     type: 'STUDENT_COURSES_LIST',
     payload: payload
 });
+export const StudentCoursesDetails = (payload) => ({
+    type: 'STUDENT_COURSES_DETAILS',
+    payload: payload
+});
+export const StudentOrdersList = (payload) => ({
+    type: 'STUDENT_ORDERS_LIST',
+    payload: payload
+});

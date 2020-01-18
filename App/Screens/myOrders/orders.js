@@ -8,14 +8,17 @@ import {
     Text,
     ScrollView,
     StatusBar,
-    Dimensions
+    Dimensions,
+    ActivityIndicator
 } from "react-native";
 import { Avatar, ProgressBar, Colors } from 'react-native-paper';
 import { Container, Card, CardItem, Header, Thumbnail, Left, Body, Right, Button, Title } from 'native-base';
-import { withNavigation, withNavigationFocus } from 'react-navigation';
+import { withNavigation } from 'react-navigation';
 import Ionicons from "react-native-vector-icons/Ionicons";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import FontAwesome from "react-native-vector-icons/FontAwesome"
+import { StudentOrdersList } from '../../Reducers/actions'
+import { connect } from 'react-redux';
 const ScreenWidth = Dimensions.get('window').width
 class MyOrders extends Component {
     state = {
@@ -32,6 +35,7 @@ class MyOrders extends Component {
         Dimensions.addEventListener('change', () => {
             this.getOrientation();
         });
+        this.props.StudentOrderList(this.props)
     }
     getOrientation() {
         this.setState({ ScreenWidth: Dimensions.get('window').width })
@@ -61,10 +65,13 @@ class MyOrders extends Component {
                 >
                     <View style={{ margin: 10 }}>
                         <View style={{ marginLeft: 10 }}>
-                            <Text style={{ fontSize: 18, color: '#000', fontWeight: '900' }}>My Orders List</Text>
+                            <Text style={{ fontSize: 18, color: '#000', fontWeight: '600' }}>My Orders List</Text>
                         </View>
-                        <View>
-                            {this.state.CourseArray.map((v, i) => {
+                        {this.props.loading ? <View style={{ marginTop: 20 }}>
+                            <ActivityIndicator size="small" color="#22c1c3" />
+                        </View> : null}
+                        {this.props.StudentOrdersList.length > 0 ? <View>
+                            {this.props.StudentOrdersList.map((v, i) => {
                                 return (
                                     <TouchableOpacity key={i} style={{ flexDirection: 'row', borderRadius: 5, marginRight: 10, marginLeft: 10, marginTop: 15, flex: 1, backgroundColor: '#FFF' }}>
                                         <View>
@@ -87,14 +94,26 @@ class MyOrders extends Component {
                                     </TouchableOpacity>
                                 )
                             })}
-                        </View>
+                        </View> : null}
                     </View>
                 </ScrollView>
             </Container>
         );
     }
 }
-export default withNavigationFocus(MyOrders);
+const mapStateToProps = (state) => {
+    console.log(state, 'state StudentOrdersList')
+    return {
+        loading: state.authReducer.loading,
+        StudentOrdersList: state.authReducer.StudentOrdersList
+    };
+};
+const mapDispatchToProps = (dispatch) => {
+    return {
+        StudentOrderList: (payload) => dispatch(StudentOrdersList(payload)),
+    };
+};
+export default withNavigation(connect(mapStateToProps, mapDispatchToProps)(MyOrders));
 
 const styles = StyleSheet.create({
     container: {
