@@ -18,13 +18,14 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 const ScreenWidth = Dimensions.get('window').width
 import { GET } from '../../service/index'
 import { CheckBox } from 'react-native-elements';
-
+import ReviewRatingModalComponent from '../reviewRating/rating'
 class MCQs extends Component {
     constructor() {
         super();
         this.state = {
             loading: true,
-            MCQList: []
+            MCQList: [],
+            ReviewRatingModal: false
         };
     }
 
@@ -73,6 +74,12 @@ class MCQs extends Component {
                 this.setState({ loading: false })
             }
         })
+    }
+    ReviewRatingModalView(){
+        this.setState({ReviewRatingModal: true})
+    }
+    toggleBottomNavigationView(){
+        this.setState({ReviewRatingModal: false})
     }
     RenderCheckBox(item) {
         return (
@@ -150,6 +157,9 @@ class MCQs extends Component {
                         <View>
                             <Text style={{ fontSize: 18, color: '#000', fontWeight: '900' }}>MCQ Question will display here</Text>
                         </View>
+                        <TouchableOpacity onPress={()=>this.ReviewRatingModalView()}>
+                            <Text>Review Rating</Text>
+                        </TouchableOpacity>
                         <View>
                             <FlatList
                                 data={this.state.MCQList}
@@ -170,6 +180,7 @@ class MCQs extends Component {
                         </TouchableOpacity>
                     </View>
                 </View>
+                <ReviewRatingModalComponent toggleBottomNavigationView={()=>this.toggleBottomNavigationView()}  ReviewRatingModal={this.state.ReviewRatingModal} />
             </Container>
         );
     }

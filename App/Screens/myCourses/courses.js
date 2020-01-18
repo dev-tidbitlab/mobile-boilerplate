@@ -9,12 +9,17 @@ import {
     ScrollView,
     StatusBar,
     Dimensions,
-    ActivityIndicator
+    ActivityIndicator,
+    TextInput,
+    Picker,
 } from "react-native";
+import { BottomSheet } from 'react-native-btr';
 import { Avatar, ProgressBar, Colors } from 'react-native-paper';
-import { Container, Card, CardItem, Header, Thumbnail, Left, Body, Right, Button, Title } from 'native-base';
+import { Container, Card, CardItem, Header, Icon, Form, Left, Body, Right, Button, Title } from 'native-base';
 import { withNavigation, withNavigationFocus } from 'react-navigation';
 import Ionicons from "react-native-vector-icons/Ionicons";
+import AntDesign from "react-native-vector-icons/AntDesign";
+
 const ScreenWidth = Dimensions.get('window').width
 import { connect } from 'react-redux';
 import { StudentCoursesList } from '../../Reducers/actions'
@@ -22,7 +27,9 @@ import moment from 'moment'
 class MyCourses extends Component {
     state = {
         ScreenWidth: Dimensions.get('window').width,
-        CourseArray: [{}, {}, {}, {}, {}, {}, {}, {}, {}]
+        CourseArray: [{}, {}, {}, {}, {}, {}, {}, {}, {}],
+        selected: "",
+        visible: false
     };
     GoBack() {
         this.props.navigation.navigate('UserListScreen');
@@ -43,21 +50,36 @@ class MyCourses extends Component {
     DatedFormatting(date) {
         return moment(date).format("DD") + '-' + moment(date).format("MMM") + '-' + moment(date).format("YYYY")
     }
+    onValueChange() {
+
+    }
+    _toggleBottomNavigationView = () => {
+        this.setState({ visible: !this.state.visible });
+    }
+    DisplayFilter() {
+        this.setState({ visible: true });
+    }
+    onFilterValueChange(){
+        this.setState({ visible: false });
+    }
     render() {
         console.log('mooo===>>>', moment().format("dddd, MMMM Do YYYY, h:mm:ss a"), moment().format("MMM, ddd do YYYY, h:mm:ss a"), moment().format("MMM"), moment().format("DD"), moment().format("YYYY"))
         let ScreenWidth = this.state.ScreenWidth
         return (
             <Container style={{ backgroundColor: '#F4F4F6' }}>
                 <Header style={{ backgroundColor: '#22c1c3' }}>
-                    <Left style={{ flex: 1 }}>
+                    <Left style={{ flex: 0.5 }}>
                         <Button transparent onPress={() => this.GoBack()} >
                             <Ionicons name='md-arrow-back' size={24} color='#FFF' />
                         </Button>
                     </Left>
-                    <Body style={{ flex: 2, alignItems: 'center' }}>
-                        <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#FFF' }}>My Courses</Text>
+                    <Body style={{ flex: 2, alignItems: 'center', justifyContent: 'center' }}>
+                        <TextInput placeholder="Search by name" style={{ color: '#FFF', padding: Platform.OS == "ios" ? 5 : 2, borderRadius: 5, borderWidth: 1, borderColor: '#EEE', width: '100%' }} />
                     </Body>
-                    <Right>
+                    <Right style={{ flex: 0.5 }}>
+                        <TouchableOpacity onPress={() => this.DisplayFilter()}>
+                            <AntDesign name="filter" style={{ color: "#FFF", fontSize: 25 }} />
+                        </TouchableOpacity>
                     </Right>
                 </Header>
                 <StatusBar backgroundColor="#22c1c3" barStyle="light-content" />
@@ -69,7 +91,7 @@ class MyCourses extends Component {
                 >
                     <View style={{ margin: 10 }}>
                         <View style={{ marginLeft: 10 }}>
-                            <Text style={{ fontSize: 18, color: '#000', fontWeight: '600' }}>My Courses List</Text>
+                            <Text style={{ fontSize: 18, color: '#000', fontWeight: '600' }}>My Courses</Text>
                         </View>
                         {this.props.loading ? <View style={{ marginTop: 20 }}>
                             <ActivityIndicator size="small" color="#22c1c3" />
@@ -99,6 +121,46 @@ class MyCourses extends Component {
                         </View> : null}
                     </View>
                 </ScrollView>
+                <BottomSheet
+                    visible={this.state.visible}
+                    onBackButtonPress={this._toggleBottomNavigationView}
+                    onBackdropPress={this._toggleBottomNavigationView}
+                >
+                    <View style={styles.bottomNavigationView}>
+                        <View
+                            style={{
+                                width: '100%',
+                                flexDirection: 'row',
+                                justifyContent: 'center',
+                                borderBottomWidth: 1,
+                                borderBottomColor: '#AAA'
+                            }}>
+
+                            <Text style={{ textAlign: 'center', fontSize: 20, padding: 15 }}>
+                                Select Course Filter
+                            </Text>
+                        </View>
+                        <View style={{ flex: 1, width: '100%' }}>
+                            <TouchableOpacity onPress={()=>this.onFilterValueChange()} style={{
+                                padding: 15, borderBottomWidth: 1,
+                                borderBottomColor: '#EEE'
+                            }}>
+                                <Text style={{ textAlign: 'center' }}>Not Started</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={()=>this.onFilterValueChange()} style={{
+                                padding: 15, borderBottomWidth: 1,
+                                borderBottomColor: '#EEE'
+                            }}>
+                                <Text style={{ textAlign: 'center' }}>In Progress</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={()=>this.onFilterValueChange()} style={{
+                                padding: 15
+                            }}>
+                                <Text style={{ textAlign: 'center' }}>Completed</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </BottomSheet>
             </Container>
         );
     }
@@ -132,6 +194,21 @@ const styles = StyleSheet.create({
     },
     scene: {
         flex: 1,
+    },
+    MainContainer: {
+        flex: 1,
+        margin: 2,
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingTop: Platform.OS === 'ios' ? 20 : 0,
+        backgroundColor: '#E0F7FA',
+    },
+    bottomNavigationView: {
+        backgroundColor: '#fff',
+        width: '100%',
+        height: 200,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 
 });

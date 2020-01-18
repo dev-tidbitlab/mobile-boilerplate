@@ -82,7 +82,7 @@ class MyOrders extends Component {
                                         </View>
                                         <View style={{ flex: 1, marginRight: 10, marginLeft: 5 }}>
                                             <View style={{ flexDirection: 'row', width: '100%' }}>
-                                                <Text style={{ fontSize: 14, color: '#000', paddingBottom: 5, paddingTop: 5, fontWeight: '800' }}>This is my Course name</Text>
+                                                <Text style={{ fontSize: 14, color: '#000', paddingBottom: 5, paddingTop: 5, fontWeight: '600' }}>This is my Course name</Text>
                                                 <View style={{ position: 'absolute', flexDirection: 'row', right: 5, top: 5, alignItems: 'center', justifyContent: 'center' }}>
                                                     <FontAwesome name="rupee" size={16} color="#AAA" />
                                                     <Text style={{ fontSize: 14, color: '#AAA' }}>1,500</Text>
