@@ -59,7 +59,7 @@ class MyCourses extends Component {
     DisplayFilter() {
         this.setState({ visible: true });
     }
-    onFilterValueChange(){
+    onFilterValueChange() {
         this.setState({ visible: false });
     }
     render() {
@@ -74,7 +74,20 @@ class MyCourses extends Component {
                         </Button>
                     </Left>
                     <Body style={{ flex: 2, alignItems: 'center', justifyContent: 'center' }}>
-                        <TextInput placeholder="Search by name" style={{ color: '#FFF', padding: Platform.OS == "ios" ? 5 : 2, borderRadius: 5, borderWidth: 1, borderColor: '#EEE', width: '100%' }} />
+                        <TextInput placeholder="Search by name"
+                            style={{
+                                color: '#22c1c3', 
+                                placeholderTextColor: "#F00",
+                                padding: Platform.OS == "ios" ? 5 : 2,
+                                paddingLeft: 10, 
+                                paddingRight: 10,
+                                underlineColorAndroid: 'transparent',
+                                borderRadius: 10, 
+                                borderWidth: 1,
+                                borderColor: '#EEE', 
+                                width: '100%',
+                                backgroundColor:'#FFF'
+                            }} />
                     </Body>
                     <Right style={{ flex: 0.5 }}>
                         <TouchableOpacity onPress={() => this.DisplayFilter()}>
@@ -136,24 +149,24 @@ class MyCourses extends Component {
                                 borderBottomColor: '#AAA'
                             }}>
 
-                            <Text style={{ textAlign: 'center', fontSize: 20, padding: 15 }}>
+                            <Text style={{ textAlign: 'center', fontSize: 20, padding: 10 }}>
                                 Select Course Filter
                             </Text>
                         </View>
                         <View style={{ flex: 1, width: '100%' }}>
-                            <TouchableOpacity onPress={()=>this.onFilterValueChange()} style={{
+                            <TouchableOpacity onPress={() => this.onFilterValueChange()} style={{
                                 padding: 15, borderBottomWidth: 1,
                                 borderBottomColor: '#EEE'
                             }}>
                                 <Text style={{ textAlign: 'center' }}>Not Started</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={()=>this.onFilterValueChange()} style={{
+                            <TouchableOpacity onPress={() => this.onFilterValueChange()} style={{
                                 padding: 15, borderBottomWidth: 1,
                                 borderBottomColor: '#EEE'
                             }}>
                                 <Text style={{ textAlign: 'center' }}>In Progress</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={()=>this.onFilterValueChange()} style={{
+                            <TouchableOpacity onPress={() => this.onFilterValueChange()} style={{
                                 padding: 15
                             }}>
                                 <Text style={{ textAlign: 'center' }}>Completed</Text>

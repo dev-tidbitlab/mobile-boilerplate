@@ -62,7 +62,7 @@ class ReviewRating extends Component {
                             borderBottomColor: '#AAA'
                         }}>
 
-                        <Text style={{ textAlign: 'center', fontSize: 20, padding: 15 }}>
+                        <Text style={{ textAlign: 'center', fontSize: 20, padding: 10 }}>
                             Review & Rating
                     </Text>
                     </View>

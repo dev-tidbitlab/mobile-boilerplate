@@ -9,6 +9,7 @@ import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 import { StudentCoursesDetails } from '../../Reducers/actions'
 import VideoPlayer from './videoPlayer'
+import { GET } from '../../service/index'
 var RotateStatus = 0
 class ViewCourseDetails extends Component {
     constructor(props) {
@@ -24,7 +25,8 @@ class ViewCourseDetails extends Component {
             CourseArray: [{}, {}, {}, {}, {}, {}, {}, {}, {}],
             ScreenHeight: 200,
             course_id: '',
-            CurrentVideo: {}
+            CurrentVideo: {},
+            StudentCourseDetails:[]
         };
     }
     _orientationDidChange = (orientation) => {
@@ -38,7 +40,17 @@ class ViewCourseDetails extends Component {
         }
     }
     getCourseDetailsVideo(course_id) {
-        this.props.StudentCoursesDetails({ props: this.props, data: course_id })
+        GET('studentdashboard/student/listVideo/' + course_id).then(response => {
+            console.log('response==>>', response)
+            if (response.success == true) {
+                this.setState({StudentCourseDetails: response.data})
+            } else{
+
+            }
+        }).catch(function (error) {
+
+        })
+        // this.props.StudentCoursesDetails({ props: this.props, data: course_id })
     }
     componentDidMount() {
         console.log(this.props)
@@ -160,12 +172,12 @@ class ViewCourseDetails extends Component {
         }
     }
     render() {
-        console.log('StudentCourseDetails==>>', this.props.StudentCourseDetails)
+        console.log('StudentCourseDetails==>>', this.state.StudentCourseDetails)
         let ScreenHeight = this.state.ScreenHeight
         return (
             <View style={styles.container}>
                 <StatusBar backgroundColor="#22c1c3" barStyle="light-content" />
-                <VideoPlayer currentVideo={this.FilterCourseVideo(this.props.StudentCourseDetails, 0)} />
+                <VideoPlayer currentVideo={this.FilterCourseVideo(this.state.StudentCourseDetails, 0)} />
                 <View style={{ margin: 10 }}>
                     <View style={{ marginLeft: 10 }}>
                         <Text style={{ fontSize: 14, color: '#000', paddingBottom: 5, paddingTop: 5, fontWeight: '800' }}>{this.state.CurrentVideo.videoName}</Text>
@@ -176,7 +188,7 @@ class ViewCourseDetails extends Component {
                     <View style={{ marginLeft: 10, flexDirection: 'row' }}>
                         <Text style={{ fontSize: 18, color: '#000', fontWeight: '600' }}>Courses Videos</Text>
                         <TouchableOpacity onPress={() => this.StartMCQ()} style={{ position: 'absolute', right: 10, padding: 6, backgroundColor: '#22c1c3', alignItems: 'center', justifyContent: 'center', borderRadius: 5 }}>
-                            <Text style={{ fontSize: 12, color: '#FFF' }}>Start MCQ</Text>
+                            <Text style={{ fontSize: 12, color: '#FFF' }}>Take MCQ Test</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -187,8 +199,8 @@ class ViewCourseDetails extends Component {
                     horizontal={false}
                 >
                     <View style={{ margin: 10 }}>
-                        {this.props.StudentCourseDetails.length > 0 ? <View>
-                            {this.props.StudentCourseDetails.map((v, i) => {
+                        {this.state.StudentCourseDetails.length > 0 ? <View>
+                            {this.state.StudentCourseDetails.map((v, i) => {
                                 return (
                                     <TouchableOpacity onPress={() => this.FilterCourseVideo(v, 1)} key={i} style={{ flexDirection: 'row', borderRadius: 5, marginRight: 10, marginLeft: 10, marginTop: 15, flex: 1, backgroundColor: '#FFF' }}>
                                         <View style={{ marginLeft: 5, marginTop: 5, marginBottom: 5 }}>
@@ -212,7 +224,7 @@ const mapStateToProps = (state) => {
     console.log(state, 'state dash', state.authReducer.StudentCourseList)
     return {
         loading: state.authReducer.loading,
-        StudentCourseDetails: state.authReducer.StudentCourseDetails
+        // StudentCourseDetails: state.authReducer.StudentCourseDetails
     };
 };
 const mapDispatchToProps = (dispatch) => {

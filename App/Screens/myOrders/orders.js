@@ -7,6 +7,7 @@ import {
     Image,
     Text,
     ScrollView,
+    TextInput,
     StatusBar,
     Dimensions,
     ActivityIndicator
@@ -19,11 +20,14 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import FontAwesome from "react-native-vector-icons/FontAwesome"
 import { StudentOrdersList } from '../../Reducers/actions'
 import { connect } from 'react-redux';
+import AntDesign from "react-native-vector-icons/AntDesign";
+import OrdersFilter from './filter'
 const ScreenWidth = Dimensions.get('window').width
 class MyOrders extends Component {
     state = {
         ScreenWidth: Dimensions.get('window').width,
-        CourseArray: [{}, {}, {}, {}, {}, {}, {}, {}, {}]
+        CourseArray: [{}, {}, {}, {}, {}, {}, {}, {}, {}],
+        FilterModal: false
     };
     GoBack() {
         this.props.navigation.navigate('UserListScreen');
@@ -40,20 +44,42 @@ class MyOrders extends Component {
     getOrientation() {
         this.setState({ ScreenWidth: Dimensions.get('window').width })
     }
+    DisplayFilter() {
+        this.setState({ FilterModal: true });
+    }
+    toggleBottomNavigationView(){
+        this.setState({ FilterModal: false });
+    }
     render() {
         let ScreenWidth = this.state.ScreenWidth
         return (
             <Container style={{ backgroundColor: '#F4F4F6' }}>
                 <Header style={{ backgroundColor: '#22c1c3' }}>
-                    <Left style={{ flex: 1 }}>
+                    <Left style={{ flex: 0.5 }}>
                         <Button transparent onPress={() => this.GoBack()} >
                             <Ionicons name='md-arrow-back' size={24} color='#FFF' />
                         </Button>
                     </Left>
-                    <Body style={{ flex: 2, alignItems: 'center' }}>
-                        <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#FFF' }}>My Orders</Text>
+                    <Body style={{ flex: 2, alignItems: 'center', justifyContent: 'center' }}>
+                        <TextInput placeholder="Search..."
+                            style={{
+                                color: '#22c1c3', 
+                                placeholderTextColor: "#F00",
+                                padding: Platform.OS == "ios" ? 5 : 2,
+                                paddingLeft: 10, 
+                                paddingRight: 10,
+                                underlineColorAndroid: 'transparent',
+                                borderRadius: 10, 
+                                borderWidth: 1,
+                                borderColor: '#EEE', 
+                                width: '100%',
+                                backgroundColor:'#FFF'
+                            }} />
                     </Body>
-                    <Right>
+                    <Right style={{ flex: 0.5 }}>
+                        <TouchableOpacity onPress={() => this.DisplayFilter()}>
+                            <AntDesign name="filter" style={{ color: "#FFF", fontSize: 25 }} />
+                        </TouchableOpacity>
                     </Right>
                 </Header>
                 <StatusBar backgroundColor="#22c1c3" barStyle="light-content" />
@@ -97,6 +123,7 @@ class MyOrders extends Component {
                         </View> : null}
                     </View>
                 </ScrollView>
+                <OrdersFilter toggleBottomNavigationView={()=>this.toggleBottomNavigationView()}  FilterModal={this.state.FilterModal}/>
             </Container>
         );
     }
