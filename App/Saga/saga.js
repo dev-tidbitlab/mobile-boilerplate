@@ -12,7 +12,7 @@ function* CheckUserLoggedIn(props) {
         } else {
             if (json.status == 1002) {
                 logout(props.payload)
-            } else{
+            } else {
                 logout(props.payload)
             }
         }
@@ -232,6 +232,21 @@ function* StudentOrdersListAPICall(props) {
         yield put({ type: "LOADER_STOP", payload: false });
     }
 }
+function* StudentCertificatesListAPICall(props) {
+    console.log('StudentCertificatesListAPICall', props)
+    // yield put({ type: "LOADER_START", payload: true });
+    try {
+        const json = yield GETAPI('studentdashboard/student/listCertificates')
+        console.log('listCertificates', json)
+        if (json.success) {
+            yield put({ type: "STUDENT_CERTIFICATES_LIST", payload: { totalCertificates: json.totalCertificates, totalCourses: json.totalCourses } });
+        }
+    }
+    catch (error) {
+        console.log('rrr', error.response, error)
+    }
+}
+
 
 function* SaveUserDetails(props) {
     yield put({ type: "SAVE_USER_INFO", payload: props.payload });
@@ -273,6 +288,10 @@ function* StudentCoursesDetails() {
 function* StudentOrdersList() {
     yield takeLatest('STUDENT_ORDERS_LIST', StudentOrdersListAPICall)
 }
+function* StudentCertificates() {
+    yield takeLatest('STUDENT_CERTIFICATES', StudentCertificatesListAPICall)
+}
+
 
 export default function* rootSaga() {
     yield all([
@@ -287,6 +306,7 @@ export default function* rootSaga() {
         UserSaveInfoAction(),
         StudentCoursesList(),
         StudentCoursesDetails(),
-        StudentOrdersList()
+        StudentOrdersList(),
+        StudentCertificates()
     ]);
 }

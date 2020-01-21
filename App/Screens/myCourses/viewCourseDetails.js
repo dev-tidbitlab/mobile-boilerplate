@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { TouchableOpacity, Image, StyleSheet, Text, StatusBar, View, ScrollView, Dimensions } from 'react-native';
+import { TouchableOpacity, Image, StyleSheet, ActivityIndicator, Text, StatusBar, View, ScrollView, Dimensions, PermissionsAndroid, Platform } from 'react-native';
 import Video from 'react-native-video';
 import MediaControls, { PLAYER_STATES } from 'react-native-media-controls';
-import Icon from 'react-native-vector-icons/Ionicons'
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import { Container, Thumbnail, Header, Picker, Left, Body, Right, Button, Title } from 'native-base';
 import Orientation from 'react-native-orientation';
 import { withNavigation } from 'react-navigation';
@@ -10,7 +10,11 @@ import { connect } from 'react-redux';
 import { StudentCoursesDetails } from '../../Reducers/actions'
 import VideoPlayer from './videoPlayer'
 import { GET } from '../../service/index'
-var RotateStatus = 0
+import RNFetchBlob from 'rn-fetch-blob'
+import { Snackbar } from 'react-native-paper';
+import Collapsible from 'react-native-collapsible';
+import { SnackBar } from 'react-native-btr';
+
 class ViewCourseDetails extends Component {
     constructor(props) {
         super(props);
@@ -23,165 +27,122 @@ class ViewCourseDetails extends Component {
             playerState: PLAYER_STATES.PLAYING,
             screenType: 'contain',
             CourseArray: [{}, {}, {}, {}, {}, {}, {}, {}, {}],
-            ScreenHeight: 200,
             course_id: '',
             CurrentVideo: {},
-            StudentCourseDetails:[]
+            StudentCourseDetails: [],
+            isDownloaded: 0,
+            CurrentVideoDetail: { videoName: '', description: '', attachedFiles: [] },
+            collapsed: true
         };
-    }
-    _orientationDidChange = (orientation) => {
-        console.log('orientation==>>', orientation)
-        if (orientation === 'LANDSCAPE') {
-            this.setState({ ScreenHeight: Dimensions.get('window').height })
-            // do something with landscape layout
-        } else {
-            this.setState({ ScreenHeight: 200 })
-            // do something with portrait layout
-        }
     }
     getCourseDetailsVideo(course_id) {
         GET('studentdashboard/student/listVideo/' + course_id).then(response => {
             console.log('response==>>', response)
             if (response.success == true) {
-                this.setState({StudentCourseDetails: response.data})
-            } else{
+                this.setState({ StudentCourseDetails: response.data })
+                console.log('---', response.data, response.data[0])
+                this.setState({ CurrentVideoDetail: response.data[0] })
+            } else {
 
             }
+            this.setState({ isLoading: false })
         }).catch(function (error) {
-
+            this.setState({ isLoading: false })
         })
-        // this.props.StudentCoursesDetails({ props: this.props, data: course_id })
+    }
+    toggleExpanded = () => {
+        //Toggling the state of single Collapsible
+        this.setState({ collapsed: !this.state.collapsed });
+    };
+    DownloadResourses(file) {
+        let app = this
+        const { config, fs } = RNFetchBlob
+        app.setState({ isDownloaded: 1 })
+        console.log('res=====>>>>>, res', config, fs)
+        let DownloadDir = fs.dirs.DownloadDir // this is the pictures directory. You can check the available directories in the wiki.
+        let options = {
+            fileCache: true,
+            addAndroidDownloads: {
+                useDownloadManager: true, // setting it to true will use the device's native download manager and will be shown in the notification bar.
+                notification: false,
+                path: DownloadDir + "/lms/" + Math.floor(new Date().getTime() + new Date().getSeconds() / 2), // this is the path where your downloaded file will live in
+                description: 'Downloading image.'
+            }
+        }
+        config(options).fetch('GET', file).then((res) => {
+            console.log('res=====>>>>>222, res', res)
+            app.setState({ isDownloaded: 2 })
+            setTimeout(function () {
+                app.setState({ isDownloaded: 0 })
+            }, 5000);
+            // do some magic here
+        })
     }
     componentDidMount() {
-        console.log(this.props)
+        if (Platform.OS == 'android') {
+            let saveFile = async () => {
+                try {
+                    const granted = await PermissionsAndroid.request(
+                        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
+                    );
+                    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                        console.log("Permission granted");
+                        // this.DownloadResourses()
+                    } else {
+                        console.log('Permission denied');
+                    }
+                } catch (err) {
+                    console.warn(err);
+                }
+            }
+            saveFile()
+        } else {
+            this.DownloadResourses()
+        }
         const { navigation } = this.props;
         const course_id = navigation.getParam('course_id', '');
         this.setState({ course_id: course_id })
         console.log('course_id', course_id)
         this.getCourseDetailsVideo(course_id)
-
-        Dimensions.addEventListener('change', () => {
-            // this.getOrientation();
-        });
-        // Orientation.lockToPortrait();
-        Orientation.addOrientationListener(this._orientationDidChange);
     }
 
-    getOrientation() {
-        // if (RotateStatus == 0) {
-        if (Dimensions.get('window').width < Dimensions.get('window').height) {
-            this.setState({ ScreenHeight: 200 })
-        }
-        else {
-            this.setState({ ScreenHeight: Dimensions.get('window').height })
-        }
-        // } else {
-        //     RotateStatus = 0
-        // }
-    }
-    onSeek = seek => {
-        //Handler for change in seekbar
-        this.videoPlayer.seek(seek);
-    };
-
-    onPaused = playerState => {
-        //Handler for Video Pause
-        this.setState({
-            paused: !this.state.paused,
-            playerState,
-        });
-    };
-
-    onReplay = () => {
-        //Handler for Replay
-        this.setState({ playerState: PLAYER_STATES.PLAYING });
-        this.videoPlayer.seek(0);
-    };
-
-    onProgress = data => {
-        const { isLoading, playerState } = this.state;
-        // Video Player will continue progress even if the video already ended
-        if (!isLoading && playerState !== PLAYER_STATES.ENDED) {
-            this.setState({ currentTime: data.currentTime });
-        }
-    };
-
-    onLoad = data => this.setState({ duration: data.duration, isLoading: false });
-
-    onLoadStart = data => this.setState({ isLoading: true });
-
-    onEnd = () => this.setState({ playerState: PLAYER_STATES.ENDED });
-
-    onError = () => alert('Oh! ', error);
-
-    exitFullScreen = () => {
-        alert('Exit full screen');
-    };
-
-    enterFullScreen = () => { };
-    setVideoHeight() {
-        if (Dimensions.get('window').width < Dimensions.get('window').height) {
-            this.setState({ ScreenHeight: 200 })
-        }
-        else {
-            this.setState({ ScreenHeight: Dimensions.get('window').height })
-        }
-    }
-    onFullScreen = () => {
-        if (this.state.screenType == 'contain')
-            this.setState({ screenType: 'contain' });
-        else this.setState({ screenType: 'contain' });
-        RotateStatus = 1
-        if (Dimensions.get('window').width < Dimensions.get('window').height) {
-            this.setState({ ScreenHeight: Dimensions.get('window').height })
-            Orientation.lockToLandscape()
-        }
-        else {
-            this.setState({ ScreenHeight: 200 })
-            Orientation.lockToPortrait()
-        }
-    };
-    renderToolbar = () => (
-        <View>
-            <Button transparent onPress={() => this.GoBack()} >
-                <Icon name='md-arrow-back' size={24} color='#FFF' />
-            </Button>
-        </View>
-    );
     GoBack() {
         this.props.navigation.goBack();
     }
-    onSeeking = currentTime => this.setState({ currentTime });
     StartMCQ() {
         this.props.navigation.navigate('StudentMCQTest')
     }
-    FilterCourseVideo(Videos, id) {
-        console.log(Videos, id)
-        if (id == 0) {
-            if (Videos) {
-                if (Videos.length > 0) {
-                    return Videos[0].videoUrl;
-                } else {
-                    return null;
-                }
-            } else {
-                return null;
-            }
-        } else {
-            return Videos.videoUrl
-        }
+    FilterCourseVideo(Videos) {
+        this.setState({ CurrentVideoDetail: Videos })
     }
     render() {
-        console.log('StudentCourseDetails==>>', this.state.StudentCourseDetails)
-        let ScreenHeight = this.state.ScreenHeight
+        let CurrentVideoDetail = this.state.CurrentVideoDetail
+        console.log('StudentCourseDetails==>>', CurrentVideoDetail, this.state.StudentCourseDetails)
+        let VideoList = this.state.StudentCourseDetails
+        const { isLoading } = this.state
         return (
             <View style={styles.container}>
                 <StatusBar backgroundColor="#22c1c3" barStyle="light-content" />
-                <VideoPlayer currentVideo={this.FilterCourseVideo(this.state.StudentCourseDetails, 0)} />
-                <View style={{ margin: 10 }}>
+                <VideoPlayer currentVideo={VideoList.length > 0 ? VideoList[0].videoUrl : null} currentVideoDetail={CurrentVideoDetail} />
+                <View style={{ marginLeft: 10, marginRight: 10, marginTop: 10, marginBottom: 5 }}>
                     <View style={{ marginLeft: 10 }}>
-                        <Text style={{ fontSize: 14, color: '#000', paddingBottom: 5, paddingTop: 5, fontWeight: '800' }}>{this.state.CurrentVideo.videoName}</Text>
-                        <Text style={{ fontSize: 12, color: '#AAA', paddingBottom: 5, fontWeight: '500' }}>{this.state.CurrentVideo.description}</Text>
+                        <Text style={{ fontSize: 14, color: '#000', paddingBottom: 5, paddingTop: 5, fontWeight: '800' }}>{CurrentVideoDetail ? CurrentVideoDetail.videoName : null}</Text>
+                        <TouchableOpacity style={{ position: 'absolute', right: 2 }} onPress={() => this.toggleExpanded()}>
+                            <MaterialIcons color="#AAA" name={!this.state.collapsed ? "arrow-drop-up" : 'arrow-drop-down'} size={36} />
+                        </TouchableOpacity>
+                        <Collapsible collapsed={this.state.collapsed} align="center">
+                            <Text style={{ fontSize: 12, color: '#AAA', paddingBottom: 5, fontWeight: '500' }}>{CurrentVideoDetail ? CurrentVideoDetail.description : null}</Text>
+                            <View>
+                                {CurrentVideoDetail.attachedFiles.length > 0 ?
+                                    CurrentVideoDetail.attachedFiles.map((val, j) => {
+                                        return (
+                                            <TouchableOpacity style={{ paddingTop: 10 }} onPress={() => this.DownloadResourses(val)}>
+                                                <Text style={{ textDecorationLine: 'underline' }}>Download {j + 1}</Text>
+                                            </TouchableOpacity>
+                                        )
+                                    }) : null}
+                            </View>
+                        </Collapsible>
                     </View>
                 </View>
                 <View style={{ margin: 10 }}>
@@ -192,17 +153,21 @@ class ViewCourseDetails extends Component {
                         </TouchableOpacity>
                     </View>
                 </View>
+
                 <ScrollView
                     contentContainerStyle={{ backgroundColor: '#F4F4F6' }}
                     showsHorizontalScrollIndicator={false}
                     showsVerticalScrollIndicator={false}
                     horizontal={false}
                 >
-                    <View style={{ margin: 10 }}>
+                    <View style={{ marginLeft: 10, marginRight: 10, marginTop: 5, marginBottom: 20 }}>
+                        {isLoading ? <View style={{ marginTop: 10 }}>
+                            <ActivityIndicator size="small" color="#22c1c3" />
+                        </View> : null}
                         {this.state.StudentCourseDetails.length > 0 ? <View>
                             {this.state.StudentCourseDetails.map((v, i) => {
                                 return (
-                                    <TouchableOpacity onPress={() => this.FilterCourseVideo(v, 1)} key={i} style={{ flexDirection: 'row', borderRadius: 5, marginRight: 10, marginLeft: 10, marginTop: 15, flex: 1, backgroundColor: '#FFF' }}>
+                                    <TouchableOpacity onPress={() => this.FilterCourseVideo(v)} key={i} style={{ flexDirection: 'row', borderRadius: 5, marginRight: 10, marginLeft: 10, marginTop: 10, flex: 1, backgroundColor: '#FFF' }}>
                                         <View style={{ marginLeft: 5, marginTop: 5, marginBottom: 5 }}>
                                             <Image style={{ width: 60, height: 60, borderRadius: 5 }} source={{ uri: 'https://image.tmdb.org/t/p/w342/zfE0R94v1E8cuKAerbskfD3VfUt.jpg' }} />
                                         </View>
@@ -216,23 +181,21 @@ class ViewCourseDetails extends Component {
                         </View> : null}
                     </View>
                 </ScrollView>
+                {this.state.isDownloaded != 0 ? <SnackBar
+                    duration={0}
+                    actionText={''}
+                    text={this.state.isDownloaded == 1 ? 'Download Started!' : 'Download Completed!'}
+                /> : null}
             </View>
         );
     }
 }
-const mapStateToProps = (state) => {
-    console.log(state, 'state dash', state.authReducer.StudentCourseList)
-    return {
-        loading: state.authReducer.loading,
-        // StudentCourseDetails: state.authReducer.StudentCourseDetails
-    };
-};
 const mapDispatchToProps = (dispatch) => {
     return {
         StudentCoursesDetails: (payload) => dispatch(StudentCoursesDetails(payload)),
     };
 };
-export default withNavigation(connect(mapStateToProps, mapDispatchToProps)(ViewCourseDetails));
+export default withNavigation(connect(mapDispatchToProps)(ViewCourseDetails));
 const styles = StyleSheet.create({
     container: {
         flex: 1,

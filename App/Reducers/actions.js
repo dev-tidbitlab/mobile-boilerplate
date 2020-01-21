@@ -52,3 +52,7 @@ export const StudentOrdersList = (payload) => ({
     type: 'STUDENT_ORDERS_LIST',
     payload: payload
 });
+export const MyCertificates = (payload) => ({
+    type: 'STUDENT_CERTIFICATES',
+    payload: payload
+});

@@ -20,7 +20,7 @@ class VideoPlayer extends Component {
             playerState: PLAYER_STATES.PLAYING,
             screenType: 'contain',
             ScreenHeight: 200,
-            CurrentVideo: {}
+            CurrentVideo: null
         };
     }
     _orientationDidChange = (orientation) => {
@@ -86,6 +86,7 @@ class VideoPlayer extends Component {
         }
     };
     GoBack() {
+        Orientation.lockToPortrait()
         this.props.navigation.goBack();
     }
     renderToolbar = () => (
@@ -95,19 +96,15 @@ class VideoPlayer extends Component {
             </Button>
         </View>
     );
-   
+
     onSeeking = currentTime => this.setState({ currentTime });
-    shouldComponentUpdate(nextState, nextProps) {
-        console.log(nextProps.currentVideo, this.props.currentVideo, 'fffwfw')
-        if (nextProps.currentVideo != undefined) {
-            if (nextProps.currentVideo != this.props.currentVideo) {
-                return true
-            }
-        }
-        return false
+
+    componentWillReceiveProps(props) {
+        console.log('tttttt', this.props, props)
+        this.setState({ CurrentVideo: props.currentVideo, currentTime: 0, duration: 0, paused: false, isLoading: true })
     }
     render() {
-        console.log('StudentCourseDetails==>>', this.props.StudentCourseDetails, this.props.currentVideo)
+        console.log('StudentCourseDetails==>>99999', this.props.currentVideo)
         let ScreenHeight = this.state.ScreenHeight
         return (
             <View style={{ width: '100%', height: ScreenHeight, justifyContent: 'center', alignItems: 'center', top: 0 }}>
@@ -120,7 +117,7 @@ class VideoPlayer extends Component {
                     ref={videoPlayer => (this.videoPlayer = videoPlayer)}
                     resizeMode={this.state.screenType}
                     onFullScreen={this.state.isFullScreen}
-                    source={{ uri: this.props.currentVideo }}
+                    source={{ uri: "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4" }}
                     style={styles.mediaPlayer}
                     volume={10}
                 />

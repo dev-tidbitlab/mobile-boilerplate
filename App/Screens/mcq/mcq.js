@@ -157,7 +157,7 @@ class MCQs extends Component {
                         <View>
                             <Text style={{ fontSize: 18, color: '#000', fontWeight: '900' }}>MCQ Question will display here</Text>
                         </View>
-                        <TouchableOpacity onPress={()=>this.ReviewRatingModalView()}>
+                        <TouchableOpacity style={{marginTop: 30, backgroundColor:'#AAA', padding: 5}} onPress={()=>this.ReviewRatingModalView()}>
                             <Text>Review Rating</Text>
                         </TouchableOpacity>
                         <View>
