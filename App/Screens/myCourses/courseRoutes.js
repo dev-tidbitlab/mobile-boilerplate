@@ -39,7 +39,7 @@ const TransitionConfiguration = () => {
 const CourseStack = createStackNavigator(
     {
         StudentCourses: { screen: MyCourses },
-        ViewCourseDetails: { screen: TestVideo },
+        ViewCourseDetails: { screen: ViewCourseDetails },
         StudentMCQTest: { screen: MCQTest }
     },
     {

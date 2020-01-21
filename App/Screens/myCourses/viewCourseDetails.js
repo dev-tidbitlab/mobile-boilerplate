@@ -14,6 +14,7 @@ import RNFetchBlob from 'rn-fetch-blob'
 import { Snackbar } from 'react-native-paper';
 import Collapsible from 'react-native-collapsible';
 import { SnackBar } from 'react-native-btr';
+const { width, height } = Dimensions.get('window');
 
 class ViewCourseDetails extends Component {
     constructor(props) {
@@ -124,14 +125,14 @@ class ViewCourseDetails extends Component {
             <View style={styles.container}>
                 <StatusBar backgroundColor="#22c1c3" barStyle="light-content" />
                 <VideoPlayer currentVideo={VideoList.length > 0 ? VideoList[0].videoUrl : null} currentVideoDetail={CurrentVideoDetail} />
-                <View style={{ marginLeft: 10, marginRight: 10, marginTop: 10, marginBottom: 5 }}>
+                <View style={{ marginLeft: 10, marginRight: 10, marginBottom: 5, marginTop:(width*0.6)+10 }}>
                     <View style={{ marginLeft: 10 }}>
-                        <Text style={{ fontSize: 14, color: '#000', paddingBottom: 5, paddingTop: 5, fontWeight: '800' }}>{CurrentVideoDetail ? CurrentVideoDetail.videoName : null}</Text>
+                        <Text style={{ fontSize: 14, color: '#000', paddingBottom: 5, paddingTop: 5, fontWeight: '600' }}>{CurrentVideoDetail ? CurrentVideoDetail.videoName : null}</Text>
                         <TouchableOpacity style={{ position: 'absolute', right: 2 }} onPress={() => this.toggleExpanded()}>
                             <MaterialIcons color="#AAA" name={!this.state.collapsed ? "arrow-drop-up" : 'arrow-drop-down'} size={36} />
                         </TouchableOpacity>
                         <Collapsible collapsed={this.state.collapsed} align="center">
-                            <Text style={{ fontSize: 12, color: '#AAA', paddingBottom: 5, fontWeight: '500' }}>{CurrentVideoDetail ? CurrentVideoDetail.description : null}</Text>
+                            <Text style={{ fontSize: 12, color: '#222', paddingBottom: 5, fontWeight: '500' }}>{CurrentVideoDetail ? CurrentVideoDetail.description : null}</Text>
                             <View>
                                 {CurrentVideoDetail.attachedFiles.length > 0 ?
                                     CurrentVideoDetail.attachedFiles.map((val, j) => {
@@ -172,7 +173,7 @@ class ViewCourseDetails extends Component {
                                             <Image style={{ width: 60, height: 60, borderRadius: 5 }} source={{ uri: 'https://image.tmdb.org/t/p/w342/zfE0R94v1E8cuKAerbskfD3VfUt.jpg' }} />
                                         </View>
                                         <View style={{ flex: 1, marginRight: 10, marginLeft: 10 }}>
-                                            <Text style={{ fontSize: 14, color: '#000', paddingBottom: 5, paddingTop: 5, fontWeight: '800' }}>{v.videoName}</Text>
+                                            <Text style={{ fontSize: 14, color: '#000', paddingBottom: 5, paddingTop: 5, fontWeight: '600' }}>{v.videoName}</Text>
                                             <Text style={{ fontSize: 12, color: '#AAA', fontWeight: '500', paddingBottom: 5 }}>{v.description}</Text>
                                         </View>
                                     </TouchableOpacity>
@@ -199,25 +200,5 @@ export default withNavigation(connect(mapDispatchToProps)(ViewCourseDetails));
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-    },
-    toolbar: {
-        marginTop: 30,
-        backgroundColor: 'white',
-        padding: 10,
-        borderRadius: 5,
-    },
-    mediaPlayer: {
-        // position: 'absolute',
-        // top: 0,
-        // left: 0,
-        // bottom: 0,
-        // right: 0,
-        margin: 0,
-        padding: 0,
-        width: '100%',
-        height: '100%',
-        backgroundColor: 'black',
-        // width: Dimensions.get('window').height,
-        // height: Dimensions.get('window').width
     },
 });
