@@ -112,7 +112,6 @@ export default class TestVideo extends React.Component {
             fullscreen={fullscreen}
             paused={paused} // this will manage the pause and play
             ref={ref => this.video = ref}
-            // source={samplevideo}
             source={{ uri: 'https://lms-tidbit.s3.amazonaws.com/1579343291346.mp4' }}
             style={{ ...StyleSheet.absoluteFill }}
             resizeMode='cover'
@@ -146,7 +145,6 @@ export default class TestVideo extends React.Component {
               </View>}
           </View>
         </View>
-        <Text style={{ fontSize: 20, textAlign: 'center', marginVertical: 100, color: 'red', fontWeight: 'bold' }}>Hello Wellcome to TekNik GG</Text>
       </View>
     );
   }
