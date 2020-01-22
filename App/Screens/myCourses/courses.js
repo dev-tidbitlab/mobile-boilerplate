@@ -43,7 +43,11 @@ class MyCourses extends Component {
         Dimensions.addEventListener('change', () => {
             this.getOrientation();
         });
-        this.props.StudentCoursesList(this.props)
+        this.props.StudentCoursesList({ props: this.props })
+    }
+    onTextChange(v) {
+        console.log('vvv',v)
+        // this.props.StudentCoursesList({ props: this.props, courseName: v })
     }
     componentDidUpdate(prevProps) {
         if (prevProps.isFocused !== this.props.isFocused) {
@@ -94,7 +98,9 @@ class MyCourses extends Component {
                                 borderColor: '#EEE',
                                 width: '100%',
                                 backgroundColor: '#FFF'
-                            }} />
+                            }}
+                            onChangeText={v => this.onTextChange(v)}
+                        />
                     </Body>
                     <Right style={{ flex: 0.5 }}>
                         <TouchableOpacity onPress={() => this.DisplayFilter()}>

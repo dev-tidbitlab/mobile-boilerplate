@@ -186,11 +186,15 @@ function* StudentCoursesListAPICall(props) {
 
     yield put({ type: "LOADER_START", payload: true });
     console.log('1')
+    let query = ''
+    if(props.payload.courseName){
+        query=query+'?courseName='+props.payload.courseName
+    }
     try {
-        const json = yield GETAPI('studentdashboard/student/listCourse')
+        const json = yield GETAPI('studentdashboard/student/listCourse'+query)
         console.log('12', json)
         yield put({ type: "LOADER_STOP", payload: false });
-        console.log('user/reguser/listCourse', json)
+        console.log('user/reguser/listCourse   queryqueryquery', json)
         yield put({ type: "STUDENT_COURSES_LIST_DATA", payload: json.data });
     }
     catch (error) {
