@@ -35,7 +35,7 @@ class HomeScreen extends Component {
   render() {
     return (
       <Container style={{ backgroundColor: '#F4F4F6' }}>
-        <Header style={{ backgroundColor: '#22c1c3' }}>
+        <Header style={{ backgroundColor: '#1A5566' }}>
           <Left style={{ paddingLeft: 5, flex: 1 }}>
             <TouchableOpacity onPress={() => this.OpenDrawer()} style={{ width: 32, height: 32 }}>
               {/* this.props.UserInfo.success ? this.props.UserInfo.userPic : */}
@@ -49,7 +49,7 @@ class HomeScreen extends Component {
           <Right>
           </Right>
         </Header>
-        <StatusBar backgroundColor="#22c1c3" barStyle="light-content" />
+        <StatusBar backgroundColor="#1A5566" barStyle="light-content" />
         <UserDashboard props={this} GoToUserInfo={(v) => this.GoToUserInfo(v)}></UserDashboard>
       </Container>
     );

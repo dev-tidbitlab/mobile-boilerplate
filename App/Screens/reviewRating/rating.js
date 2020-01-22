@@ -73,7 +73,7 @@ class ReviewRating extends Component {
                         <View style={{ padding: 5, borderTopWidth: 1, borderColor: '#EEE', height: 100}}>
                             <TextInput style={{textAlignVertical:'top'}} numberOfLines={10} multiline={true} placeholder="Write a review" />
                         </View>
-                        <TouchableOpacity onPress={()=>this._toggleBottomNavigationView()} style={{ height:50, bottom:0,left:0, right:0,position:'absolute', alignItems:'center', justifyContent:'center', backgroundColor:'#22c1c3'}}>
+                        <TouchableOpacity onPress={()=>this._toggleBottomNavigationView()} style={{ height:50, bottom:0,left:0, right:0,position:'absolute', alignItems:'center', justifyContent:'center', backgroundColor:'#1A5566'}}>
                             <Text style={{color:'#FFF', fontSize:16}}>SAVE</Text>
                         </TouchableOpacity>
                     </View>

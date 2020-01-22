@@ -33,7 +33,7 @@ class ResetPasswordScreen extends Component {
                     <Ionicons
                         onPress={() => this.GoBackToHome()}
                         name={Platform.OS === 'android' ? "md-arrow-back" : "ios-arrow-round-back"}
-                        color='#22c1c3'
+                        color='#1A5566'
                         size={32}
                         style={{ backgroundColor: 'transparent', position: 'absolute', padding: 10, left: 10, top: 10 }}
                     />
@@ -44,7 +44,7 @@ class ResetPasswordScreen extends Component {
                             onChangeText={(v) => this.setState({ Email: v })}
                             label="Email"
                             value={this.state.Email}
-                            theme={{ colors: { background: 'white', placeholder: '#888', text: '#000', primary: '#22c1c3', underlineColor: 'transparent' } }}
+                            theme={{ colors: { background: 'white', placeholder: '#888', text: '#000', primary: '#1A5566', underlineColor: 'transparent' } }}
                         />
                         <View style={styles.LoginBtnView}>
                             <TouchableOpacity onPress={() => this.MakeLogin()} style={styles.TouchableOpacityBtn}>
@@ -76,7 +76,7 @@ export default withNavigation(connect(mapStateToProps, mapDispatchToProps)(Reset
 const styles = StyleSheet.create({
     loginText: {
         fontSize: 20, fontWeight: '700', textAlign: 'left', marginLeft: 20,
-        color: '#22c1c3'
+        color: '#1A5566'
     },
     ScrollView1: {
         flex: 1,
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
     },
     TouchableOpacityBtn: {
         borderRadius: 5,
-        backgroundColor: '#22c1c3',
+        backgroundColor: '#1A5566',
         justifyContent: 'center',
         alignItems: 'center',
     },

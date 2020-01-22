@@ -9,7 +9,7 @@ class App extends Component {
     return (
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-          {/* <StatusBar backgroundColor='#22c1c3' barStyle="light-content" /> */}
+          {/* <StatusBar backgroundColor='#1A5566' barStyle="light-content" /> */}
           <Main />
         </PersistGate>
       </Provider>

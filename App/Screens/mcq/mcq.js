@@ -88,7 +88,7 @@ class MCQs extends Component {
                     backgroundColor: '#FFF',
                     borderWidth: 0
                 }}
-                checkedColor={'#22c1c3'}
+                checkedColor={'#1A5566'}
                 title={'options'}
                 size={24}
                 checked={true}
@@ -130,7 +130,7 @@ class MCQs extends Component {
     render() {
         return (
             <Container style={{ backgroundColor: '#F4F4F6' }}>
-                <Header style={{ backgroundColor: '#22c1c3' }}>
+                <Header style={{ backgroundColor: '#1A5566' }}>
                     <Left style={{ flex: 1 }}>
                         <Button transparent onPress={() => this.GoBack()} >
                             <Ionicons name='md-arrow-back' size={24} color='#FFF' />
@@ -142,7 +142,7 @@ class MCQs extends Component {
                     <Right>
                     </Right>
                 </Header>
-                <StatusBar backgroundColor="#22c1c3" barStyle="light-content" />
+                <StatusBar backgroundColor="#1A5566" barStyle="light-content" />
                 <ScrollView
                     contentContainerStyle={{ backgroundColor: '#F4F4F6' }}
                     showsHorizontalScrollIndicator={false}
@@ -151,7 +151,7 @@ class MCQs extends Component {
                 >
                     <View style={{ margin: 10 }}>
                         {this.state.loading ? <View style={{ marginTop: 10 }}>
-                            <ActivityIndicator size="small" color="#22c1c3" />
+                            <ActivityIndicator size="small" color="#1A5566" />
                         </View> : null}
 
                         <View>
@@ -173,10 +173,10 @@ class MCQs extends Component {
                 <View style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 50, backgroundColor:'#FFF' }}>
                     <View style={{flexDirection:'row', flex: 1, justifyContent:'space-around'}}>
                         <TouchableOpacity>
-                            <Ionicons color="#22c1c3" name="ios-arrow-dropleft-circle" size={48} />
+                            <Ionicons color="#1A5566" name="ios-arrow-dropleft-circle" size={48} />
                         </TouchableOpacity>
                         <TouchableOpacity>
-                            <Ionicons color="#22c1c3" name="ios-arrow-dropright-circle" size={48} />
+                            <Ionicons color="#1A5566" name="ios-arrow-dropright-circle" size={48} />
                         </TouchableOpacity>
                     </View>
                 </View>

@@ -6,7 +6,7 @@ import { Avatar } from 'react-native-paper';
 import { logoutUser } from '../../Reducers/actions'
 import { connect } from 'react-redux';
 import FIcon from 'react-native-vector-icons/Feather'
-let colors = { PRIMARY: '#22c1c3' }
+let colors = { PRIMARY: '#1A5566' }
 var OnClickCheck = 0
 let SideBarRoutes = [
     {

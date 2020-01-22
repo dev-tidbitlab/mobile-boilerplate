@@ -54,7 +54,7 @@ class MyOrders extends Component {
         let ScreenWidth = this.state.ScreenWidth
         return (
             <Container style={{ backgroundColor: '#F4F4F6' }}>
-                <Header style={{ backgroundColor: '#22c1c3' }}>
+                <Header style={{ backgroundColor: '#1A5566' }}>
                     <Left style={{ flex: 0.5 }}>
                         <Button transparent onPress={() => this.GoBack()} >
                             <Ionicons name='md-arrow-back' size={24} color='#FFF' />
@@ -63,7 +63,7 @@ class MyOrders extends Component {
                     <Body style={{ flex: 2, alignItems: 'center', justifyContent: 'center' }}>
                         <TextInput placeholder="Search..."
                             style={{
-                                color: '#22c1c3', 
+                                color: '#1A5566', 
                                 placeholderTextColor: "#F00",
                                 padding: Platform.OS == "ios" ? 5 : 2,
                                 paddingLeft: 10, 
@@ -82,7 +82,7 @@ class MyOrders extends Component {
                         </TouchableOpacity>
                     </Right>
                 </Header>
-                <StatusBar backgroundColor="#22c1c3" barStyle="light-content" />
+                <StatusBar backgroundColor="#1A5566" barStyle="light-content" />
                 <ScrollView
                     contentContainerStyle={{ backgroundColor: '#F4F4F6' }}
                     showsHorizontalScrollIndicator={false}
@@ -94,7 +94,7 @@ class MyOrders extends Component {
                             <Text style={{ fontSize: 18, color: '#000', fontWeight: '600' }}>My Orders List</Text>
                         </View>
                         {this.props.loading ? <View style={{ marginTop: 20 }}>
-                            <ActivityIndicator size="small" color="#22c1c3" />
+                            <ActivityIndicator size="small" color="#1A5566" />
                         </View> : null}
                         {this.props.StudentOrdersList.length > 0 ? <View>
                             {this.props.StudentOrdersList.map((v, i) => {

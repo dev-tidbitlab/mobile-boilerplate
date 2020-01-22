@@ -198,6 +198,24 @@ function* StudentCoursesListAPICall(props) {
         yield put({ type: "LOADER_STOP", payload: false });
     }
 }
+function* StudentRecentlyCoursesListAPICall(props) {
+    console.log('StudentRecentlyCoursesListAPICall', props)
+
+    yield put({ type: "LOADER_START", payload: true });
+    console.log('1')
+    try {
+        const json = yield GETAPI('studentdashboard/student/listRecentCourse')
+        console.log('12', json)
+        yield put({ type: "LOADER_STOP", payload: false });
+        console.log('user/reguser/listRecentCourse', json)
+        yield put({ type: "STUDENT_RECENTLY_COURSES_LIST_DATA", payload: json.data });
+    }
+    catch (error) {
+        console.log('rrr', error.response, error)
+        yield put({ type: "LOADER_STOP", payload: false });
+    }
+}
+
 function* StudentCoursesDetailsAPICall(props) {
     console.log('StudentCoursesDetailsAPICall====>>>>>', props)
 
@@ -279,6 +297,9 @@ function* UserPicAction() {
 function* UserSaveInfoAction() {
     yield takeLatest('USER_SAVE_INFO_ACTION', UpdateUserInfo)
 }
+function* StudentRecentlyCoursesList() {
+    yield takeLatest('STUDENT_RECENTLY_COURSES_LIST', StudentRecentlyCoursesListAPICall)
+}
 function* StudentCoursesList() {
     yield takeLatest('STUDENT_COURSES_LIST', StudentCoursesListAPICall)
 }
@@ -305,6 +326,7 @@ export default function* rootSaga() {
         UserPicAction(),
         UserSaveInfoAction(),
         StudentCoursesList(),
+        StudentRecentlyCoursesList(),
         StudentCoursesDetails(),
         StudentOrdersList(),
         StudentCertificates()

@@ -36,13 +36,20 @@ class MyCourses extends Component {
     }
     ViewCourseDetails(v) {
         this.props.navigation.navigate('ViewCourseDetails',
-            { course_id: v.course._id });
+            { course_id: v.course._id, CourseData: v }
+        );
     }
     componentDidMount() {
         Dimensions.addEventListener('change', () => {
             this.getOrientation();
         });
         this.props.StudentCoursesList(this.props)
+    }
+    componentDidUpdate(prevProps) {
+        if (prevProps.isFocused !== this.props.isFocused) {
+            console.log(prevProps.isFocused, this.props.isFocused)
+            this.props.StudentCoursesList(this.props)
+        }
     }
     getOrientation() {
         this.setState({ ScreenWidth: Dimensions.get('window').width })
@@ -67,7 +74,7 @@ class MyCourses extends Component {
         let ScreenWidth = this.state.ScreenWidth
         return (
             <Container style={{ backgroundColor: '#F4F4F6' }}>
-                <Header style={{ backgroundColor: '#22c1c3' }}>
+                <Header style={{ backgroundColor: '#1A5566' }}>
                     <Left style={{ flex: 0.5 }}>
                         <Button transparent onPress={() => this.GoBack()} >
                             <Ionicons name='md-arrow-back' size={24} color='#FFF' />
@@ -76,17 +83,17 @@ class MyCourses extends Component {
                     <Body style={{ flex: 2, alignItems: 'center', justifyContent: 'center' }}>
                         <TextInput placeholder="Search by name"
                             style={{
-                                color: '#22c1c3', 
+                                color: '#1A5566',
                                 placeholderTextColor: "#F00",
                                 padding: Platform.OS == "ios" ? 5 : 2,
-                                paddingLeft: 10, 
+                                paddingLeft: 10,
                                 paddingRight: 10,
                                 underlineColorAndroid: 'transparent',
-                                borderRadius: 10, 
+                                borderRadius: 10,
                                 borderWidth: 1,
-                                borderColor: '#EEE', 
+                                borderColor: '#EEE',
                                 width: '100%',
-                                backgroundColor:'#FFF'
+                                backgroundColor: '#FFF'
                             }} />
                     </Body>
                     <Right style={{ flex: 0.5 }}>
@@ -95,7 +102,7 @@ class MyCourses extends Component {
                         </TouchableOpacity>
                     </Right>
                 </Header>
-                <StatusBar backgroundColor="#22c1c3" barStyle="light-content" />
+                <StatusBar backgroundColor="#1A5566" barStyle="light-content" />
                 <ScrollView
                     contentContainerStyle={{ backgroundColor: '#F4F4F6' }}
                     showsHorizontalScrollIndicator={false}
@@ -107,21 +114,21 @@ class MyCourses extends Component {
                             <Text style={{ fontSize: 18, color: '#000', fontWeight: '600' }}>My Courses</Text>
                         </View>
                         {this.props.loading ? <View style={{ marginTop: 20 }}>
-                            <ActivityIndicator size="small" color="#22c1c3" />
+                            <ActivityIndicator size="small" color="#1A5566" />
                         </View> : null}
                         {this.props.StudentCourseList.length > 0 ? <View>
                             {this.props.StudentCourseList.map((v, i) => {
                                 return (
                                     <TouchableOpacity key={i} onPress={() => this.ViewCourseDetails(v)} style={{ flexDirection: 'row', borderRadius: 5, marginRight: 10, marginLeft: 10, marginTop: 15, flex: 1, backgroundColor: '#FFF' }}>
                                         <View style={{ marginLeft: 5, marginTop: 5 }}>
-                                            <Image style={{ width: 100, height: 100, borderRadius: 5 }} source={{ uri: v.course.courseImage }} />
-                                            <TouchableOpacity onPress={() => this.ViewCourseDetails(v)} style={{ marginTop: 15, bottom: 5, padding: 6, backgroundColor: '#22c1c3', alignItems: 'center', justifyContent: 'center', borderRadius: 5 }}>
+                                            <Image style={{ width: 100, height: 100, borderRadius: 5 }} source={{ uri: v.course.courseImage != undefined && v.course.courseImage != null ? v.course.courseImage : null }} />
+                                            <TouchableOpacity onPress={() => this.ViewCourseDetails(v)} style={{ marginTop: 15, bottom: 5, padding: 6, backgroundColor: '#1A5566', alignItems: 'center', justifyContent: 'center', borderRadius: 5 }}>
                                                 <Text style={{ fontSize: 12, color: '#FFF' }}>Start Course</Text>
                                             </TouchableOpacity>
                                         </View>
                                         <View style={{ flex: 1, marginRight: 10, marginLeft: 10 }}>
                                             <Text style={{ fontSize: 14, color: '#000', paddingBottom: 5, paddingTop: 5, fontWeight: '400' }}>{v.course.courseName}</Text>
-                                            <Text style={{ fontSize: 12, color: '#000', paddingBottom: 5 }}>{v.course.description.slice(0, 60)} {v.course.description.length>60?'...':null}</Text>
+                                            <Text numberOfLines={2} style={{ fontSize: 12, color: '#000', paddingBottom: 5 }}>{v.course.description}</Text>
                                             <Text style={{ fontSize: 12, color: '#AAA', paddingBottom: 5 }}>Assigned Date: {this.DatedFormatting(v.coursePurchasedTimeStamp)}</Text>
                                             {/* <Text style={{ fontSize: 12, color: '#AAA', paddingBottom: 5 }}>Completion Date: </Text> */}
                                             <Text style={{ fontSize: 12, color: '#AAA', paddingBottom: 5 }}>Expiration Date: {this.DatedFormatting(v.courseExpiryTimeStamp)}</Text>

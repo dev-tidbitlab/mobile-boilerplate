@@ -208,7 +208,7 @@ class LoginScreen extends Component {
                             label="Email"
                             value={this.state.Email}
                             onSubmitEditing={()=>this.MakeLogin()}  
-                            theme={{ colors: { background: 'white', placeholder: '#888', text: '#000', primary: '#22c1c3', underlineColor: 'transparent' } }}
+                            theme={{ colors: { background: 'white', placeholder: '#888', text: '#000', primary: '#1A5566', underlineColor: 'transparent' } }}
                         />
                         <TextInput
                             error={ValidationArray.password}
@@ -218,7 +218,7 @@ class LoginScreen extends Component {
                             secureTextEntry={true}
                             value={this.state.Password}
                             onSubmitEditing={()=>this.MakeLogin()}
-                            theme={{ colors: { background: 'white', placeholder: '#888', text: '#000', primary: '#22c1c3', underlineColor: 'transparent' } }}
+                            theme={{ colors: { background: 'white', placeholder: '#888', text: '#000', primary: '#1A5566', underlineColor: 'transparent' } }}
                         />
                         <View style={styles.LoginBtnView}>
                             <TouchableOpacity onPress={() => this.MakeLogin()} style={styles.TouchableOpacityBtn}>
@@ -259,7 +259,7 @@ export default withNavigation(connect(mapStateToProps, mapDispatchToProps)(Login
 const styles = StyleSheet.create({
     loginText: {
         fontSize: 20, fontWeight: '700',
-        color: '#22c1c3'
+        color: '#1A5566'
     },
     ScrollView1: {
         flex: 1,
@@ -292,7 +292,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#fff',
         borderRadius: 5,
-        backgroundColor: '#22c1c3',
+        backgroundColor: '#1A5566',
         paddingTop: 10,
         paddingBottom: 10,
         textAlign: 'center',
