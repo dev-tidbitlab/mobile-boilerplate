@@ -74,7 +74,7 @@ class MyCourses extends Component {
         this.setState({ visible: false });
     }
     render() {
-        console.log('mooo===>>>', moment().format("dddd, MMMM Do YYYY, h:mm:ss a"), moment().format("MMM, ddd do YYYY, h:mm:ss a"), moment().format("MMM"), moment().format("DD"), moment().format("YYYY"))
+        console.log('mooo===>>>', this.props.StudentCourseList)
         let ScreenWidth = this.state.ScreenWidth
         return (
             <Container style={{ backgroundColor: '#F4F4F6' }}>

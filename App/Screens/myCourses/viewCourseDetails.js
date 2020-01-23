@@ -14,10 +14,8 @@ import Orientation from 'react-native-orientation';
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 import { StudentCoursesDetails } from '../../Reducers/actions'
-import VideoPlayer from './videoPlayer'
 import { GET } from '../../service/index'
 import RNFetchBlob from 'rn-fetch-blob'
-import { Snackbar } from 'react-native-paper';
 import Collapsible from 'react-native-collapsible';
 // import { SnackBar } from 'react-native-btr';
 const { width, height } = Dimensions.get('window');
@@ -157,7 +155,26 @@ class ViewCourseDetails extends Component {
                 app.setState({ isDownloaded: 2 })
             })
     }
+    _orientationDidChange = (orientation) => {
+        console.log(orientation, 'orientation')
+        this.Fullscreen()
+        if (orientation === 'LANDSCAPE') {
+        } else {
+        }
+    }
+    handleBackButtonClick() {
+        let app = this
+        // this.props.navigation.goBack(null);
+        if(app.state.fullscreen){
+            app.Fullscreen()
+        } else{
+            app.GoBack()
+        }
+        return true;
+    }
     componentDidMount() {
+        Orientation.addOrientationListener(this._orientationDidChange);
+        BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
         console.log('ffff===')
         if (Platform.OS == 'android') {
             let saveFile = async () => {
@@ -305,7 +322,7 @@ class ViewCourseDetails extends Component {
             // this.setState({ Height: width-20 })
         }
         this.setState({ overlay: true });
-        this.overlayTimer = setTimeout(() => this.setState({ overlay: false }), 3000);
+        // this.overlayTimer = setTimeout(() => this.setState({ overlay: false }), 3000);
         this.setState({ fullscreen: !fullscreen });
     }
 
@@ -320,6 +337,9 @@ class ViewCourseDetails extends Component {
     onReadyForDisplay() {
         this.setState({ VideoLoading: false })
         console.log('onReadyForDisplay')
+    }
+    onError(error) {
+        console.log(error, this.state.currentTime, this.state.duration, 'fnfwfjwefwfnj========')
     }
     render() {
         const { currentTime, isLoading, duration, paused, overlay, fullscreen, CurrentVideoIndex, VideoLoading, CurrentVideoDetail } = this.state;
@@ -340,6 +360,7 @@ class ViewCourseDetails extends Component {
                         onProgress={this.progress}
                         onReadyForDisplay={() => this.onReadyForDisplay()}
                         onVideoEnd={this.onEndVideo}
+                        onError={(error) => this.onError(error)}
                     />
                     {VideoLoading ? <View style={{ alignItems: 'center', justifyContent: 'center', width: '100%', height: width * 0.6 }}>
                         <ActivityIndicator size={64} color="yellow" />
