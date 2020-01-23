@@ -5,3 +5,6 @@ export const logout = (props) => {
 export const goHomeScreen = (props) => {
     props.navigation.navigate('Home')
 };
+export const ViewUserProfile = (props) => {
+    props.navigation.navigate('StudentProfile')
+};

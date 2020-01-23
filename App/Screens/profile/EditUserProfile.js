@@ -49,10 +49,14 @@ class EditUserProfile extends Component {
         console.log(this.state)
         const { UserInfo } = this.state
         let ob = {
-            name: UserInfo.name,
-            email: UserInfo.email
+            firstName: UserInfo.name,
+            email: UserInfo.email,
+            city:UserInfo.city,
+            state:UserInfo.state,
+            country:UserInfo.country,
+            phoneNumber:UserInfo.phoneNumber
         }
-        this.props.SaveUserInfoAction({ data: JSON.stringify(ob), props: this.props })
+        this.props.SaveUserInfoAction({ data: ob, props: this.props })
     }
     LoadImage() {
         // return 0;
@@ -143,13 +147,13 @@ class EditUserProfile extends Component {
                                     theme={{ colors: { background: 'white', placeholder: '#888', text: '#000', primary: '#1A5566', underlineColor: 'transparent' } }}
                                 />
 
-                                <TextInput
+                                {/* <TextInput
                                     style={styles.TextInputAll}
                                     label="Street Address"
                                     onChangeText={(v) => this.setState({ UserInfo: { ...this.state.UserInfo, streetAddress: v } })}
                                     value={UserInfo.streetAddress}
                                     theme={{ colors: { background: 'white', placeholder: '#888', text: '#000', primary: '#1A5566', underlineColor: 'transparent' } }}
-                                />
+                                /> */}
 
                                 <TextInput
                                     style={styles.TextInputAll}
@@ -167,13 +171,13 @@ class EditUserProfile extends Component {
                                     theme={{ colors: { background: 'white', placeholder: '#888', text: '#000', primary: '#1A5566', underlineColor: 'transparent' } }}
                                 />
 
-                                <TextInput
+                                {/* <TextInput
                                     style={styles.TextInputAll}
                                     label="Pascode"
                                     onChangeText={(v) => this.setState({ UserInfo: { ...this.state.UserInfo, passcode: v } })}
                                     value={UserInfo.passcode}
                                     theme={{ colors: { background: 'white', placeholder: '#888', text: '#000', primary: '#1A5566', underlineColor: 'transparent' } }}
-                                />
+                                /> */}
 
                                 <TextInput
                                     style={styles.TextInputAll}
@@ -182,7 +186,7 @@ class EditUserProfile extends Component {
                                     value={UserInfo.country}
                                     theme={{ colors: { background: 'white', placeholder: '#888', text: '#000', primary: '#1A5566', underlineColor: 'transparent' } }}
                                 />
-                                <TouchableOpacity style={{ marginTop: 25, bottom: 5, padding: 6, backgroundColor: '#1A5566', alignItems: 'center', justifyContent: 'center', borderRadius: 5 }}>
+                                <TouchableOpacity onPress={()=>this.SaveUserDetails()} style={{ marginTop: 25, bottom: 5, padding: 6, backgroundColor: '#1A5566', alignItems: 'center', justifyContent: 'center', borderRadius: 5 }}>
                                     <Text style={{ fontSize: 16, fontWeight:'600',  padding: 10, color: '#FFF' }}>Save</Text>
                                 </TouchableOpacity>
                             </View>

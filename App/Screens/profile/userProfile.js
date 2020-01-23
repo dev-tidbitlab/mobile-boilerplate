@@ -9,7 +9,7 @@ import {
     StatusBar,
     Dimensions
 } from "react-native";
-import { withNavigation, } from 'react-navigation'
+import { withNavigation,withNavigationFocus } from 'react-navigation'
 import Icon from 'react-native-vector-icons/Ionicons'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import { Container, Thumbnail, Header, Picker, Left, Body, Right, Button, Title } from 'native-base';
@@ -144,7 +144,7 @@ class UserProfile extends Component {
     }
 }
 const mapStateToProps = (state) => {
-    console.log(state, 'state')
+    console.log(state, 'state profile==>>')
     return {
         loading: state.authReducer.loading,
         ErrorToaster: state.authReducer.ErrorToaster,
@@ -156,7 +156,7 @@ const mapDispatchToProps = (dispatch) => {
         UploadUserPicAction: (payload) => dispatch(UploadUserPicAction(payload)),
     };
 };
-export default withNavigation(connect(mapStateToProps, mapDispatchToProps)(UserProfile))
+export default withNavigationFocus(connect(mapStateToProps, mapDispatchToProps)(UserProfile))
 
 const styles = StyleSheet.create({
     container: {

@@ -1,6 +1,6 @@
 import { put, takeLatest, call, all } from 'redux-saga/effects';
 import { GET, POST, FormPostAPI, GETAPI } from './service'
-import { logout, goHomeScreen } from './auth'
+import { logout, goHomeScreen, ViewUserProfile } from './auth'
 function* CheckUserLoggedIn(props) {
     console.log('params==>>>0000', props)
     try {
@@ -22,7 +22,6 @@ function* CheckUserLoggedIn(props) {
     }
 }
 function* fetchNews(props) {
-    console.log('params==>>>', props)
     try {
         const json = yield GET('isLoggedIn')
         if (json.status == 1001) {
@@ -160,25 +159,21 @@ function* UploadUserPic(props) {
 function* UpdateUserInfo(props) {
     console.log('params==>>>update', props)
     try {
-        yield put({ type: "LOADER_START", payload: true });
-        const json = yield POST('user/reguser/update', props.payload.data)
-        yield put({ type: "LOADER_STOP", payload: false });
+        // yield put({ type: "LOADER_START", payload: true });
+        const json = yield POST('auth/reguser/update', props.payload.data)
+        // yield put({ type: "LOADER_STOP", payload: false });
         console.log('login -user updated', json)
-        try {
-            const json = yield GET('isLoggedIn')
-            console.log('josin===>>>>>', json)
-            if (json.status == 1001) {
-                logout(props.payload.props)
-            } else {
-                yield put({ type: "SAVE_USER_INFO", payload: json });
-            }
-        }
-        catch (error) {
-            logout(props.payload.props)
-        }
+        console.log('josin===>>>>>', json)
+        // if (json.status == 1001) {
+        //     logout(props.payload.props)
+        // } else {
+        //     yield put({ type: "SAVE_USER_INFO", payload: json });
+        //     ViewUserProfile(props.payload.props)
+        // }
     }
     catch (error) {
-        console.log('rrr', error)
+        console.log(error, '==>>errorerror')
+        // logout(props.payload.props)
     }
 }
 function* StudentCoursesListAPICall(props) {
@@ -187,11 +182,11 @@ function* StudentCoursesListAPICall(props) {
     yield put({ type: "LOADER_START", payload: true });
     console.log('1')
     let query = ''
-    if(props.payload.courseName){
-        query=query+'?courseName='+props.payload.courseName
+    if (props.payload.courseName) {
+        query = query + '?courseName=' + props.payload.courseName
     }
     try {
-        const json = yield GETAPI('studentdashboard/student/listCourse'+query)
+        const json = yield GETAPI('studentdashboard/student/listCourse' + query)
         console.log('12', json)
         yield put({ type: "LOADER_STOP", payload: false });
         console.log('user/reguser/listCourse   queryqueryquery', json)
