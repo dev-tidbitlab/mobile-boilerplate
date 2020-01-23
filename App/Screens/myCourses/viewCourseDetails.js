@@ -96,23 +96,6 @@ class ViewCourseDetails extends Component {
         app.setState({ isDownloaded: 1 })
         console.log('res=====>>>>>, res', config, fs, file)
         let DownloadDir = fs.dirs.DownloadDir // this is the pictures directory. You can check the available directories in the wiki.
-        // let options = {
-        //     fileCache: true,
-        //     addAndroidDownloads: {
-        //         useDownloadManager: true, // setting it to true will use the device's native download manager and will be shown in the notification bar.
-        //         notification: false,
-        //         path: DownloadDir + "/lms/" + Math.floor(new Date().getTime() + new Date().getSeconds() / 2), // this is the path where your downloaded file will live in
-        //         description: 'Downloading image.'
-        //     }
-        // }
-        // config(options).fetch('GET', file).then((res) => {
-        //     console.log('res=====>>>>>222, res', res)
-        //     app.setState({ isDownloaded: 2 })
-        //     setTimeout(function () {
-        //         app.setState({ isDownloaded: 0 })
-        //     }, 5000);
-        //     // do some magic here
-        // })
         let fileName = Math.floor(new Date().getTime() + new Date().getSeconds())
         if (file.includes('.pdf') || file.includes('.PDF')) {
             fileName = JSON.stringify(fileName) + '.pdf'
@@ -133,17 +116,12 @@ class ViewCourseDetails extends Component {
                 }
             }
         }
-
-        console.log(fileName, '')
         RNFetchBlob
             .config({
                 addAndroidDownloads: {
                     useDownloadManager: true, // <-- this is the only thing required
-                    // Optional, override notification setting (default to true)
                     notification: false,
                     path: DownloadDir + "/lms/" + Math.floor(new Date().getTime() + new Date().getSeconds() / 2),
-                    // Optional, but recommended since android DownloadManager will fail when
-                    // the url does not contains a file extension, by default the mime type will be text/plain
                     description: 'Resourse File',
                     mediaScannable: true,
                     notification: true,
@@ -152,13 +130,11 @@ class ViewCourseDetails extends Component {
             })
             .fetch('GET', file)
             .then((resp) => {
-                // the path of downloaded file
                 resp.path()
                 app.setState({ isDownloaded: 2 })
             })
     }
     componentDidMount() {
-        console.log('ffff===')
         if (Platform.OS == 'android') {
             let saveFile = async () => {
                 try {
