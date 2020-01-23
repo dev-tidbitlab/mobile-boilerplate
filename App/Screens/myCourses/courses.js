@@ -139,8 +139,8 @@ class MyCourses extends Component {
                                             <Text style={{ fontSize: 12, color: '#AAA', paddingBottom: 5 }}>Assigned Date: {this.DatedFormatting(v.coursePurchasedTimeStamp)}</Text>
                                             {/* <Text style={{ fontSize: 12, color: '#AAA', paddingBottom: 5 }}>Completion Date: </Text> */}
                                             <Text style={{ fontSize: 12, color: '#AAA', paddingBottom: 5 }}>Expiration Date: {this.DatedFormatting(v.courseExpiryTimeStamp)}</Text>
-                                            <ProgressBar style={{ backgroundColor: '#CCC', marginBottom: 5 }} progress={0.5} color={'#0AC4BA'} />
-                                            <Text style={{ fontSize: 12, color: '#AAA', paddingBottom: 10 }}>50% complete</Text>
+                                            <ProgressBar style={{ backgroundColor: '#CCC', marginBottom: 5 }} progress={v.progress?v.progress/100:0} color={'#1A5566'} />
+                                <Text style={{ fontSize: 12, color: '#AAA', paddingBottom: 10 }}>{v.progress?v.progress:0}% complete</Text>
                                         </View>
                                     </TouchableOpacity>
                                 )

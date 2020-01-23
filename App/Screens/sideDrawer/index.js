@@ -112,7 +112,7 @@ class SideMenu extends Component {
         // }
         if (SideBarRoutes.length > 0) {
             sideRoutes = SideBarRoutes.map((item, i) => {
-                return (<TouchableOpacity key={i} onPress={() => this.NavigateDrawer(item.RouteName, i)} style={{ flexDirection: 'row', alignItems: 'center', paddingTop: 10, paddingBottom: 10, paddingLeft: 20}}>
+                return (<TouchableOpacity key={i} onPress={() => this.NavigateDrawer(item.RouteName, i)} style={{ flexDirection: 'row', alignItems: 'center', paddingTop: 10, paddingBottom: 10, paddingLeft: 20 }}>
                     <FIcon name={item.icon} size={24} color={'#757575'} />
                     <Text style={{ paddingLeft: 20, fontSize: 18, fontWeight: '400', color: '#757575' }}>{item.name}</Text>
                 </TouchableOpacity>)
@@ -123,14 +123,15 @@ class SideMenu extends Component {
     render() {
         let ColorArray = this.state.ColorArray
         let BorderColorsArray = this.state.BorderColorsArray
+        const { email, firstName, lastName, state, city, country, phoneNumber } = this.props.UserInfo
         return (
             <ScrollView>
                 <View style={{ flex: 1 }}>
                     <TouchableOpacity onPress={() => this.GoToProfile()} style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', margin: 20 }}>
-                        {/* <Avatar.Image size={80} source={{ uri: this.props.UserInfo.success ? this.props.UserInfo.userPic : null }} /> */}
-                        <Avatar.Image size={80} source={require('../../Images/33.png')} />
-                        <Text style={{ marginTop: 10, fontSize: 18, fontWeight: '700' }}>Test Student</Text>
-                        <Text style={{ fontSize: 14, fontWeight: '400' }}>teststudent@gmail.com</Text>
+                        <Avatar.Image size={80} style={{backgroundColor:'#EEE'}} source={{ uri: this.props.UserInfo.success ? (this.props.UserInfo.profileImage ? this.props.UserInfo.profileImage : null) : null }} />
+                        {/* <Avatar.Image size={80} source={require('../../Images/33.png')} /> */}
+                        <Text style={{ marginTop: 10, fontSize: 18, fontWeight: '700' }}>{firstName ? firstName + ' ' + lastName : null}</Text>
+                        <Text style={{ fontSize: 14, fontWeight: '400' }}>{email ? email : null}</Text>
                     </TouchableOpacity>
                     {this.FlatListItemSeparator()}
                     <View style={{ marginTop: 15, width: 300 }}>

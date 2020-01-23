@@ -186,7 +186,7 @@ class EditUserProfile extends Component {
                                     value={UserInfo.country}
                                     theme={{ colors: { background: 'white', placeholder: '#888', text: '#000', primary: '#1A5566', underlineColor: 'transparent' } }}
                                 />
-                                <TouchableOpacity onPress={()=>this.SaveUserDetails()} style={{ marginTop: 25, bottom: 5, padding: 6, backgroundColor: '#1A5566', alignItems: 'center', justifyContent: 'center', borderRadius: 5 }}>
+                                <TouchableOpacity onPress={()=>this.GoBack()} style={{ marginTop: 25, bottom: 5, padding: 6, backgroundColor: '#1A5566', alignItems: 'center', justifyContent: 'center', borderRadius: 5 }}>
                                     <Text style={{ fontSize: 16, fontWeight:'600',  padding: 10, color: '#FFF' }}>Save</Text>
                                 </TouchableOpacity>
                             </View>

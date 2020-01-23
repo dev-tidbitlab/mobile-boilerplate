@@ -10,18 +10,17 @@ import {
 import { Container, Header, Left, Body, Right, Button, Title } from 'native-base';
 import { withNavigationFocus } from 'react-navigation'
 import { Avatar } from 'react-native-paper';
+import { connect } from 'react-redux';
 import UserDashboard from './dashboard/dashboard'
 class HomeScreen extends Component {
   GoToUserProfile() {
     this.props.navigation.openDrawer();
-    console.log('user')
   }
   OpenDrawer() {
     this.props.navigation.openDrawer();
   }
   componentDidUpdate(prevProps) {
     if (prevProps.isFocused !== this.props.isFocused) {
-      console.log(prevProps, this.props, prevProps.isFocused, this.props.isFocused)
     }
   }
   Logout() {
@@ -40,7 +39,7 @@ class HomeScreen extends Component {
             <TouchableOpacity onPress={() => this.OpenDrawer()} style={{ width: 32, height: 32 }}>
               {/* this.props.UserInfo.success ? this.props.UserInfo.userPic : */}
               {/* <Avatar.Image onPress={() => this.OpenDrawer()} size={32} source={{ uri:  null }} /> */}
-              <Avatar.Image onPress={() => this.OpenDrawer()} size={32} source={require('../../Images/33.png')} />
+              <Avatar.Image style={{backgroundColor:'#EEE'}} onPress={() => this.OpenDrawer()} size={32} source={{ uri: this.props.UserInfo.success ? (this.props.UserInfo.profileImage ? this.props.UserInfo.profileImage : null) : null }} />
             </TouchableOpacity>
           </Left>
           <Body style={{ flex: 2, alignItems: 'center' }}>
@@ -55,5 +54,10 @@ class HomeScreen extends Component {
     );
   }
 }
-
-export default withNavigationFocus(HomeScreen)
+const mapStateToProps = (state) => {
+  console.log(state, 'state profile==>>')
+  return {
+    UserInfo: state.authReducer.UserInfo
+  };
+};
+export default withNavigationFocus(connect(mapStateToProps)(HomeScreen))

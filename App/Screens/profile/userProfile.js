@@ -9,7 +9,7 @@ import {
     StatusBar,
     Dimensions
 } from "react-native";
-import { withNavigation,withNavigationFocus } from 'react-navigation'
+import { withNavigation, withNavigationFocus } from 'react-navigation'
 import Icon from 'react-native-vector-icons/Ionicons'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import { Container, Thumbnail, Header, Picker, Left, Body, Right, Button, Title } from 'native-base';
@@ -63,6 +63,7 @@ class UserProfile extends Component {
     }
     render() {
         let EditProfile = this.state.EditProfile
+        const { email, firstName, lastName, state, city, country, phoneNumber } = this.props.UserInfo
         return (
             <Container>
                 <Header style={{ backgroundColor: '#1A5566' }}>
@@ -92,49 +93,49 @@ class UserProfile extends Component {
                         </Button>
                         <View style={{ marginTop: 50 }}>
                             <TouchableOpacity onPress={() => this.LoadImage()} style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                                {/* <Avatar.Image size={110} source={{ uri: this.props.UserInfo.success ? this.props.UserInfo.userPic : null }} /> */}
-                                <Avatar.Image size={110} source={require('../../Images/33.png')} />
+                                <Avatar.Image style={{backgroundColor:'#EEE'}} size={110} source={{ uri: this.props.UserInfo.success ? (this.props.UserInfo.profileImage ? this.props.UserInfo.profileImage : null) : null }} />
+                                {/* <Avatar.Image size={110} source={require('../../Images/33.png')} /> */}
                             </TouchableOpacity>
                         </View>
-                        <View style={{ paddingLeft: 20, paddingRight: 20, justifyContent: 'flex-start', alignItems: 'flex-start', marginTop: 50 }}>
+                        <View style={{ paddingLeft: 20, paddingRight: 20, justifyContent: 'flex-start', alignItems: 'flex-start', marginTop: 30, marginLeft: 20, marginRight: 20 }}>
                             <View style={{ marginBottom: 20 }}>
                                 <Text style={{ fontSize: 10, color: '#888', }} >Name</Text>
-                                <Text style={{ fontSize: 16, lineHeight: 16, fontWeight: 'bold', lineHeight: 16, marginTop: 0, }}>Test Student</Text>
+                                <Text style={{ fontSize: 16, lineHeight: 16, fontWeight: 'bold', lineHeight: 16, marginTop: 0, }}>{firstName ? firstName + ' ' + lastName : null}</Text>
                             </View>
 
                             <View style={{ marginBottom: 20 }}>
                                 <Text style={{ fontSize: 10, color: '#888', }}>Email</Text>
-                                <Text style={{ fontSize: 16, lineHeight: 16, fontWeight: '500', color: '#000', }}>teststudent@gmail.com</Text>
+                                <Text style={{ fontSize: 16, lineHeight: 16, fontWeight: '500', color: '#000', }}>{email ? email : null}</Text>
                             </View>
 
                             <View style={{ marginBottom: 20 }}>
                                 <Text style={{ fontSize: 10, color: '#888', }}>Phone Number</Text>
-                                <Text style={{ fontSize: 16, lineHeight: 20, color: '#000', fontWeight: '500' }}>+91 8542698745</Text>
+                                <Text style={{ fontSize: 16, lineHeight: 20, color: '#000', fontWeight: '500' }}>{phoneNumber ? phoneNumber : null}</Text>
                             </View>
 
-                            <View style={{ marginBottom: 20 }}>
+                            {/* <View style={{ marginBottom: 20 }}>
                                 <Text style={{ fontSize: 10, color: '#888', }}>Street Address</Text>
                                 <Text style={{ fontSize: 16, lineHeight: 20, color: '#000', fontWeight: '500' }}>407 iscon plaza Opp. start bazaar iscon road scon plaza Opp. start bazaar iscon road</Text>
-                            </View>
+                            </View> */}
 
                             <View style={{ marginBottom: 20 }}>
                                 <Text style={{ fontSize: 10, color: '#888', }}>City</Text>
-                                <Text style={{ fontSize: 16, lineHeight: 20, color: '#000', fontWeight: '500' }}>Ahmedabad</Text>
+                                <Text style={{ fontSize: 16, lineHeight: 20, color: '#000', fontWeight: '500' }}>{city ? city : null}</Text>
                             </View>
 
                             <View style={{ marginBottom: 20 }}>
                                 <Text style={{ fontSize: 10, color: '#888', }}>State</Text>
-                                <Text style={{ fontSize: 16, lineHeight: 20, color: '#000', fontWeight: '500' }}>Gujarat</Text>
+                                <Text style={{ fontSize: 16, lineHeight: 20, color: '#000', fontWeight: '500' }}>{state ? state : null}</Text>
                             </View>
 
-                            <View style={{ marginBottom: 20 }}>
+                            {/* <View style={{ marginBottom: 20 }}>
                                 <Text style={{ fontSize: 10, color: '#888', }}>Pascode</Text>
                                 <Text style={{ fontSize: 16, lineHeight: 20, color: '#000', fontWeight: '500' }}>380015</Text>
-                            </View>
+                            </View> */}
 
                             <View style={{ marginBottom: 20 }}>
                                 <Text style={{ fontSize: 10, color: '#888', }}>Country</Text>
-                                <Text style={{ fontSize: 16, lineHeight: 20, color: '#000', fontWeight: '500' }}>India</Text>
+                                <Text style={{ fontSize: 16, lineHeight: 20, color: '#000', fontWeight: '500' }}>{country ? country : null}</Text>
                             </View>
                         </View>
                     </View>

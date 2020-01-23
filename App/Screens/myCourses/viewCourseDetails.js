@@ -42,9 +42,11 @@ class ViewCourseDetails extends Component {
             collapsed: true,
             CourseData: {},
             CurrentVideoIndex: 0,
+
         };
     }
     UpdateLastPlayedVideo(course_id, video_id) {
+        console.log(this.state.course_id, video_id)
         GET('coursejourney/student/' + course_id + '/' + video_id).then(response => {
             console.log('coursejourney==>>', response)
         }).catch(function (error) {
@@ -119,7 +121,7 @@ class ViewCourseDetails extends Component {
                 addAndroidDownloads: {
                     useDownloadManager: true, // <-- this is the only thing required
                     notification: false,
-                    path: DownloadDir + "/lms/" + Math.floor(new Date().getTime() + new Date().getSeconds() / 2),
+                    path: DownloadDir + "/lms/" + 'lms_' + fileName,
                     description: 'Resourse File',
                     mediaScannable: true,
                     notification: true,
@@ -344,8 +346,8 @@ class ViewCourseDetails extends Component {
                         {overlay ? <View style={{ ...style.overlaySet, backgroundColor: '#0006' }}>
 
                             <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1, justifyContent: 'space-around' }}>
-                                <TouchableOpacity onPress={() => this.GoBack()} style={{ position: 'absolute', left: 5, top: 10 }}>
-                                    <MaterialIcons onPress={() => this.GoBack()} style={{ padding: 10 }} name="arrow-back" size={32} color="#FFF" />
+                                <TouchableOpacity onPress={() => this.GoBack()} style={{ position: 'absolute', left: 5, top: 5 }}>
+                                    <MaterialIcons onPress={() => this.GoBack()} style={{ padding: 10 }} name="arrow-back" size={24} color="#FFF" />
                                 </TouchableOpacity>
                                 <Icon name='backward' style={style.icon} onPress={() => this.backward()} />
                                 <Icon name={paused ? 'play' : 'pause'} style={style.icon} onPress={() => this.setState({ paused: !paused })} />

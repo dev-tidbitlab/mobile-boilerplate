@@ -51,6 +51,7 @@ class Dashboard extends Component {
     render() {
         let ScreenWidth = this.state.ScreenWidth
         console.log('fefwfwf', this.props.StudentRecentlyCourseList)
+        const {progress} = this.props.StudentRecentlyCourseList
         return (
             <ScrollView
                 contentContainerStyle={{ backgroundColor: '#F4F4F6' }}
@@ -89,8 +90,8 @@ class Dashboard extends Component {
                                     <TouchableOpacity onPress={() => this.ViewCourseDetails(v)} style={{ flex: 1, marginRight: 10, marginLeft: 10, paddingBottom: 5 }}>
                                         <Text style={{ fontSize: 14, color: '#000', paddingBottom: 5, paddingTop: 5, fontWeight: '500' }}>{v.courseId.courseName}</Text>
                                         <Text numberOfLines={2} style={{ fontSize: 12, color: '#000', paddingBottom: 5 }}>{v.courseId.description}</Text>
-                                        <ProgressBar style={{ backgroundColor: '#CCC', marginBottom: 5 }} progress={0.5} color={'#0AC4BA'} />
-                                        <Text style={{ fontSize: 12, color: '#AAA' }}>50% complete</Text>
+                                        <ProgressBar style={{ backgroundColor: '#CCC', marginBottom: 5 }} progress={v.progress?v.progress/100:0} color={'#1A5566'} />
+                            <Text style={{ fontSize: 12, color: '#AAA' }}>{v.progress?v.progress:0}% complete</Text>
                                     </TouchableOpacity>
                                 </View>
                             )
