@@ -36,7 +36,7 @@ class MyCourses extends Component {
     }
     ViewCourseDetails(v) {
         this.props.navigation.navigate('ViewCourseDetails',
-            { course_id: v.course._id, CourseData: v }
+            { course_id: v.courseId._id, CourseData: v }
         );
     }
     componentDidMount() {
@@ -128,14 +128,14 @@ class MyCourses extends Component {
                                 return (
                                     <TouchableOpacity key={i} onPress={() => this.ViewCourseDetails(v)} style={{ flexDirection: 'row', borderRadius: 5, marginRight: 10, marginLeft: 10, marginTop: 15, flex: 1, backgroundColor: '#FFF' }}>
                                         <View style={{ marginLeft: 5, marginTop: 5 }}>
-                                            <Image style={{ width: 100, height: 100, borderRadius: 5 }} source={{ uri: v.course != undefined && v.course != null ? v.course.courseImage : null }} />
+                                            <Image style={{ width: 100, height: 100, borderRadius: 5 }} source={{ uri: v.courseId != undefined && v.courseId != null ? v.courseId.courseImage : null }} />
                                             <TouchableOpacity onPress={() => this.ViewCourseDetails(v)} style={{ marginTop: 15, bottom: 5, padding: 6, backgroundColor: '#1A5566', alignItems: 'center', justifyContent: 'center', borderRadius: 5 }}>
                                                 <Text style={{ fontSize: 12, color: '#FFF' }}>Start Course</Text>
                                             </TouchableOpacity>
                                         </View>
                                         <View style={{ flex: 1, marginRight: 10, marginLeft: 10 }}>
-                                            <Text style={{ fontSize: 14, color: '#000', paddingBottom: 5, paddingTop: 5, fontWeight: '400' }}>{v.course?v.course.courseName:''}</Text>
-                                            <Text numberOfLines={2} style={{ fontSize: 12, color: '#000', paddingBottom: 5 }}>{v.course?v.course.description:''}</Text>
+                                            <Text style={{ fontSize: 14, color: '#000', paddingBottom: 5, paddingTop: 5, fontWeight: '400' }}>{v.courseId?v.courseId.courseName:''}</Text>
+                                            <Text numberOfLines={2} style={{ fontSize: 12, color: '#000', paddingBottom: 5 }}>{v.courseId?v.courseId.description:''}</Text>
                                             <Text style={{ fontSize: 12, color: '#AAA', paddingBottom: 5 }}>Assigned Date: {this.DatedFormatting(v.coursePurchasedTimeStamp)}</Text>
                                             {/* <Text style={{ fontSize: 12, color: '#AAA', paddingBottom: 5 }}>Completion Date: </Text> */}
                                             <Text style={{ fontSize: 12, color: '#AAA', paddingBottom: 5 }}>Expiration Date: {this.DatedFormatting(v.courseExpiryTimeStamp)}</Text>

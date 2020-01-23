@@ -14,10 +14,8 @@ import Orientation from 'react-native-orientation';
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 import { StudentCoursesDetails } from '../../Reducers/actions'
-import VideoPlayer from './videoPlayer'
 import { GET } from '../../service/index'
 import RNFetchBlob from 'rn-fetch-blob'
-import { Snackbar } from 'react-native-paper';
 import Collapsible from 'react-native-collapsible';
 // import { SnackBar } from 'react-native-btr';
 const { width, height } = Dimensions.get('window');
@@ -134,7 +132,28 @@ class ViewCourseDetails extends Component {
                 app.setState({ isDownloaded: 2 })
             })
     }
+    _orientationDidChange = (orientation) => {
+        // console.log(orientation, 'orientation')
+        // this.FullScreenMethod()
+        // if (orientation === 'LANDSCAPE') {
+        // } else {
+        // }
+    }
+    handleBackButtonClick() {
+        // let app = this
+        // console.log('app.state.fullscreen', app.state.fullscreen)
+        // if(app.state.fullscreen){
+        //     app.FullScreenMethod()
+        // } else{
+        //     app.GoBack()
+        // }
+        // return true;
+    }
     componentDidMount() {
+        Orientation.lockToPortrait()
+        // Orientation.addOrientationListener(this._orientationDidChange);
+        // BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
+        console.log('ffff===')
         if (Platform.OS == 'android') {
             let saveFile = async () => {
                 try {
@@ -143,7 +162,6 @@ class ViewCourseDetails extends Component {
                     );
                     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
                         console.log("Permission granted");
-                        // this.DownloadResourses()
                     } else {
                         console.log('Permission denied');
                     }
@@ -152,9 +170,7 @@ class ViewCourseDetails extends Component {
                 }
             }
             saveFile()
-        } else {
-            this.DownloadResourses()
-        }
+        } 
         const { navigation } = this.props;
         const course_id = navigation.getParam('course_id', '');
         const CourseData = navigation.getParam('CourseData', '');
@@ -271,7 +287,7 @@ class ViewCourseDetails extends Component {
     onEndVideo() {
         this.setState({ paused: true, overlay: true })
     }
-    Fullscreen = () => {
+    FullScreenMethod = () => {
         const { fullscreen } = this.state;
         if (fullscreen) {
             Orientation.lockToPortrait();
@@ -281,7 +297,7 @@ class ViewCourseDetails extends Component {
             // this.setState({ Height: width-20 })
         }
         this.setState({ overlay: true });
-        this.overlayTimer = setTimeout(() => this.setState({ overlay: false }), 3000);
+        // this.overlayTimer = setTimeout(() => this.setState({ overlay: false }), 3000);
         this.setState({ fullscreen: !fullscreen });
     }
 
@@ -296,6 +312,9 @@ class ViewCourseDetails extends Component {
     onReadyForDisplay() {
         this.setState({ VideoLoading: false })
         console.log('onReadyForDisplay')
+    }
+    onError(error) {
+        console.log(error, this.state.currentTime, this.state.duration, 'fnfwfjwefwfnj========')
     }
     render() {
         const { currentTime, isLoading, duration, paused, overlay, fullscreen, CurrentVideoIndex, VideoLoading, CurrentVideoDetail } = this.state;
@@ -316,6 +335,7 @@ class ViewCourseDetails extends Component {
                         onProgress={this.progress}
                         onReadyForDisplay={() => this.onReadyForDisplay()}
                         onVideoEnd={this.onEndVideo}
+                        // onError={(error) => this.onError(error)}
                     />
                     {VideoLoading ? <View style={{ alignItems: 'center', justifyContent: 'center', width: '100%', height: width * 0.6 }}>
                         <ActivityIndicator size={64} color="yellow" />
@@ -334,7 +354,7 @@ class ViewCourseDetails extends Component {
                             <View style={style.sliderCont}>
                                 <View style={style.timer}>
                                     <Text style={{ color: 'white' }}>{this.getTime(currentTime)}</Text>
-                                    <Text style={{ color: 'white' }}>{this.getTime(duration)}   <Icon onPress={() => this.Fullscreen()} name={fullscreen ? 'compress' : 'expand'} style={{ fontSize: 15 }} /></Text>
+                                    <Text style={{ color: 'white' }}>{this.getTime(duration)}   <Icon onPress={() => this.FullScreenMethod()} name={fullscreen ? 'compress' : 'expand'} style={{ fontSize: 15 }} /></Text>
                                 </View>
                                 <Slider
                                     maximumTrackTintColor='white'
