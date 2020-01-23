@@ -21,8 +21,7 @@ import { Progress } from '../ProgressDialog/index'
 import ErrorToaster from '../../Components/alerts/error'
 import { Formik } from 'formik';
 import * as yup from 'yup';
-
-
+import CustomSnackBar from '../../Components/alerts/snackbar'
 class LoginScreen extends Component {
     state = {
         Password: '',
@@ -207,7 +206,7 @@ class LoginScreen extends Component {
                             onChangeText={(v) => this.onChangeEmail(v)}
                             label="Email"
                             value={this.state.Email}
-                            onSubmitEditing={()=>this.MakeLogin()}  
+                            onSubmitEditing={() => this.MakeLogin()}
                             theme={{ colors: { background: 'white', placeholder: '#888', text: '#000', primary: '#22c1c3', underlineColor: 'transparent' } }}
                         />
                         <TextInput
@@ -217,7 +216,7 @@ class LoginScreen extends Component {
                             onChangeText={(v) => this.onChangePassword(v)}
                             secureTextEntry={true}
                             value={this.state.Password}
-                            onSubmitEditing={()=>this.MakeLogin()}
+                            onSubmitEditing={() => this.MakeLogin()}
                             theme={{ colors: { background: 'white', placeholder: '#888', text: '#000', primary: '#22c1c3', underlineColor: 'transparent' } }}
                         />
                         <View style={styles.LoginBtnView}>
@@ -237,6 +236,7 @@ class LoginScreen extends Component {
                     <Progress DialogLoader={this.props.loading} title={'Authenticating'} />
                     {this.props.ErrorToaster.toast ? <ErrorToaster message={this.props.ErrorToaster.message} /> : null}
                 </View>
+                {/* <CustomSnackBar duration={0} visible={true} text={'fvd v d  fwfwe  ge g e  g e g e g eg  '}/> */}
             </ScrollView>
 
         );
