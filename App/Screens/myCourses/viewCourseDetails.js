@@ -172,7 +172,7 @@ class ViewCourseDetails extends Component {
                 }
             }
             saveFile()
-        } 
+        }
         const { navigation } = this.props;
         const course_id = navigation.getParam('course_id', '');
         const CourseData = navigation.getParam('CourseData', '');
@@ -331,13 +331,22 @@ class ViewCourseDetails extends Component {
                         source={{ uri: CurrentVideoDetail.videoUrl }}
                         style={{ ...StyleSheet.absoluteFill }}
                         resizeMode='cover'
+                        rate={1}
+                        maxBitRate={200000}
+                        minLoadRetryCount={3}
+                        bufferConfig={{
+                            minBufferMs: 5000,
+                            maxBufferMs: 10000,
+                            bufferForPlaybackMs: 2000,
+                            bufferForPlaybackAfterRebufferMs: 5000
+                        }}
                         onLoad={this.load}
                         onLoadStart={() => this.onLoadStart()}
                         onEnd={() => this.onEnd()}
                         onProgress={this.progress}
                         onReadyForDisplay={() => this.onReadyForDisplay()}
                         onVideoEnd={this.onEndVideo}
-                        // onError={(error) => this.onError(error)}
+                    // onError={(error) => this.onError(error)}
                     />
                     {VideoLoading ? <View style={{ alignItems: 'center', justifyContent: 'center', width: '100%', height: width * 0.6 }}>
                         <ActivityIndicator size={64} color="yellow" />
