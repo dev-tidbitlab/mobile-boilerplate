@@ -65,7 +65,7 @@ class UserProfile extends Component {
         let EditProfile = this.state.EditProfile
         return (
             <Container>
-                <Header style={{ backgroundColor: '#22c1c3' }}>
+                <Header style={{ backgroundColor: '#1A5566' }}>
                     <Left style={{ flex: 1 }}>
                         <Button transparent onPress={() => this.GoBack()} >
                             <Icon name='md-arrow-back' size={24} color='#FFF' />
@@ -80,7 +80,7 @@ class UserProfile extends Component {
                         </Button>
                     </Right>
                 </Header>
-                <StatusBar backgroundColor="#22c1c3" barStyle="light-content" />
+                <StatusBar backgroundColor="#1A5566" barStyle="light-content" />
                 <ScrollView
                     showsHorizontalScrollIndicator={false}
                     showsVerticalScrollIndicator={false}

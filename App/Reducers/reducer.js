@@ -8,8 +8,10 @@ const INITIAL_STATE = {
         toast: false
     },
     StudentCourseList: [],
+    StudentRecentlyCourseList:[],
     StudentCourseDetails: {},
-    StudentOrdersList: []
+    StudentOrdersList: [],
+    StudentCertificatesList: { totalCertificates: 0, totalCourses: 0 }
 };
 
 const AuthReducer = (state = INITIAL_STATE, action) => {
@@ -65,6 +67,17 @@ const AuthReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 StudentOrdersList: action.payload
             };
+        case 'STUDENT_CERTIFICATES_LIST':
+            return {
+                ...state,
+                StudentCertificatesList: action.payload
+            };
+            case 'STUDENT_RECENTLY_COURSES_LIST_DATA':
+            return {
+                ...state,
+                StudentRecentlyCourseList: action.payload
+            };
+            
         default:
             return state;
     };

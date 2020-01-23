@@ -5,6 +5,7 @@ import {
 import { Animated, Easing, Platform } from 'react-native';
 import MyCourses from './courses'
 import ViewCourseDetails from './viewCourseDetails'
+import TestVideo from './testVideo'
 import MCQTest from '../mcq/mcq'
 let SlideFromRight = (index, position, width) => {
     const translateX = position.interpolate({

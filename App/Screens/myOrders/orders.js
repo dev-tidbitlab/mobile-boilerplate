@@ -47,14 +47,14 @@ class MyOrders extends Component {
     DisplayFilter() {
         this.setState({ FilterModal: true });
     }
-    toggleBottomNavigationView(){
+    toggleBottomNavigationView() {
         this.setState({ FilterModal: false });
     }
     render() {
         let ScreenWidth = this.state.ScreenWidth
         return (
             <Container style={{ backgroundColor: '#F4F4F6' }}>
-                <Header style={{ backgroundColor: '#22c1c3' }}>
+                <Header style={{ backgroundColor: '#1A5566' }}>
                     <Left style={{ flex: 0.5 }}>
                         <Button transparent onPress={() => this.GoBack()} >
                             <Ionicons name='md-arrow-back' size={24} color='#FFF' />
@@ -63,17 +63,17 @@ class MyOrders extends Component {
                     <Body style={{ flex: 2, alignItems: 'center', justifyContent: 'center' }}>
                         <TextInput placeholder="Search..."
                             style={{
-                                color: '#22c1c3', 
+                                color: '#1A5566',
                                 placeholderTextColor: "#F00",
                                 padding: Platform.OS == "ios" ? 5 : 2,
-                                paddingLeft: 10, 
+                                paddingLeft: 10,
                                 paddingRight: 10,
                                 underlineColorAndroid: 'transparent',
-                                borderRadius: 10, 
+                                borderRadius: 10,
                                 borderWidth: 1,
-                                borderColor: '#EEE', 
+                                borderColor: '#EEE',
                                 width: '100%',
-                                backgroundColor:'#FFF'
+                                backgroundColor: '#FFF'
                             }} />
                     </Body>
                     <Right style={{ flex: 0.5 }}>
@@ -82,7 +82,7 @@ class MyOrders extends Component {
                         </TouchableOpacity>
                     </Right>
                 </Header>
-                <StatusBar backgroundColor="#22c1c3" barStyle="light-content" />
+                <StatusBar backgroundColor="#1A5566" barStyle="light-content" />
                 <ScrollView
                     contentContainerStyle={{ backgroundColor: '#F4F4F6' }}
                     showsHorizontalScrollIndicator={false}
@@ -93,8 +93,8 @@ class MyOrders extends Component {
                         <View style={{ marginLeft: 10 }}>
                             <Text style={{ fontSize: 18, color: '#000', fontWeight: '600' }}>My Orders List</Text>
                         </View>
-                        {this.props.loading ? <View style={{ marginTop: 20 }}>
-                            <ActivityIndicator size="small" color="#22c1c3" />
+                        {this.props.loading ? <View style={{ marginTop: 10, position: 'absolute', zIndex: 1000, left: 0, right: 0 }}>
+                            <ActivityIndicator size="large" color="yellow" />
                         </View> : null}
                         {this.props.StudentOrdersList.length > 0 ? <View>
                             {this.props.StudentOrdersList.map((v, i) => {
@@ -123,7 +123,7 @@ class MyOrders extends Component {
                         </View> : null}
                     </View>
                 </ScrollView>
-                <OrdersFilter toggleBottomNavigationView={()=>this.toggleBottomNavigationView()}  FilterModal={this.state.FilterModal}/>
+                <OrdersFilter toggleBottomNavigationView={() => this.toggleBottomNavigationView()} FilterModal={this.state.FilterModal} />
             </Container>
         );
     }

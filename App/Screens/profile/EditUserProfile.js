@@ -86,7 +86,7 @@ class EditUserProfile extends Component {
         let UserInfo = this.state.UserInfo
         return (
             <Container>
-                <Header style={{ elevation: 0, backgroundColor: '#22c1c3' }}>
+                <Header style={{ elevation: 0, backgroundColor: '#1A5566' }}>
                     <Left style={{ flex: 1 }}>
                         <Button transparent onPress={() => this.GoBack()} >
                             <Icon name='md-arrow-back' size={24} color='#FFF' />
@@ -106,7 +106,7 @@ class EditUserProfile extends Component {
                     showsVerticalScrollIndicator={false}
                     horizontal={false}
                 >
-                    <StatusBar backgroundColor="#22c1c3" barStyle="light-content" />
+                    <StatusBar backgroundColor="#1A5566" barStyle="light-content" />
                     <View style={styles.container}>
                         <View>
                             <View style={{ marginTop: 50 }}>
@@ -122,7 +122,7 @@ class EditUserProfile extends Component {
                                         label="Name"
                                         onChangeText={(v) => this.setState({ UserInfo: { ...this.state.UserInfo, name: v } })}
                                         value={UserInfo.name}
-                                        theme={{ colors: { lineHeight: 14, background: 'white', placeholder: '#888', text: '#000', primary: '#22c1c3', underlineColor: 'transparent' } }}
+                                        theme={{ colors: { lineHeight: 14, background: 'white', placeholder: '#888', text: '#000', primary: '#1A5566', underlineColor: 'transparent' } }}
                                     />
                                 </View>
 
@@ -132,7 +132,7 @@ class EditUserProfile extends Component {
                                     label="Email"
                                     onChangeText={(v) => this.setState({ UserInfo: { ...this.state.UserInfo, email: v } })}
                                     value={UserInfo.email}
-                                    theme={{ colors: { background: 'white', placeholder: '#888', text: '#000', primary: '#22c1c3', underlineColor: 'transparent' } }}
+                                    theme={{ colors: { background: 'white', placeholder: '#888', text: '#000', primary: '#1A5566', underlineColor: 'transparent' } }}
                                 />
 
                                 <TextInput
@@ -140,7 +140,7 @@ class EditUserProfile extends Component {
                                     label="Phone Number"
                                     onChangeText={(v) => this.setState({ UserInfo: { ...this.state.UserInfo, phoneNumber: v } })}
                                     value={UserInfo.phoneNumber}
-                                    theme={{ colors: { background: 'white', placeholder: '#888', text: '#000', primary: '#22c1c3', underlineColor: 'transparent' } }}
+                                    theme={{ colors: { background: 'white', placeholder: '#888', text: '#000', primary: '#1A5566', underlineColor: 'transparent' } }}
                                 />
 
                                 <TextInput
@@ -148,7 +148,7 @@ class EditUserProfile extends Component {
                                     label="Street Address"
                                     onChangeText={(v) => this.setState({ UserInfo: { ...this.state.UserInfo, streetAddress: v } })}
                                     value={UserInfo.streetAddress}
-                                    theme={{ colors: { background: 'white', placeholder: '#888', text: '#000', primary: '#22c1c3', underlineColor: 'transparent' } }}
+                                    theme={{ colors: { background: 'white', placeholder: '#888', text: '#000', primary: '#1A5566', underlineColor: 'transparent' } }}
                                 />
 
                                 <TextInput
@@ -156,7 +156,7 @@ class EditUserProfile extends Component {
                                     label="City"
                                     onChangeText={(v) => this.setState({ UserInfo: { ...this.state.UserInfo, city: v } })}
                                     value={UserInfo.city}
-                                    theme={{ colors: { background: 'white', placeholder: '#888', text: '#000', primary: '#22c1c3', underlineColor: 'transparent' } }}
+                                    theme={{ colors: { background: 'white', placeholder: '#888', text: '#000', primary: '#1A5566', underlineColor: 'transparent' } }}
                                 />
 
                                 <TextInput
@@ -164,7 +164,7 @@ class EditUserProfile extends Component {
                                     label="State"
                                     onChangeText={(v) => this.setState({ UserInfo: { ...this.state.UserInfo, state: v } })}
                                     value={UserInfo.state}
-                                    theme={{ colors: { background: 'white', placeholder: '#888', text: '#000', primary: '#22c1c3', underlineColor: 'transparent' } }}
+                                    theme={{ colors: { background: 'white', placeholder: '#888', text: '#000', primary: '#1A5566', underlineColor: 'transparent' } }}
                                 />
 
                                 <TextInput
@@ -172,7 +172,7 @@ class EditUserProfile extends Component {
                                     label="Pascode"
                                     onChangeText={(v) => this.setState({ UserInfo: { ...this.state.UserInfo, passcode: v } })}
                                     value={UserInfo.passcode}
-                                    theme={{ colors: { background: 'white', placeholder: '#888', text: '#000', primary: '#22c1c3', underlineColor: 'transparent' } }}
+                                    theme={{ colors: { background: 'white', placeholder: '#888', text: '#000', primary: '#1A5566', underlineColor: 'transparent' } }}
                                 />
 
                                 <TextInput
@@ -180,9 +180,9 @@ class EditUserProfile extends Component {
                                     label="Country"
                                     onChangeText={(v) => this.setState({ UserInfo: { ...this.state.UserInfo, country: v } })}
                                     value={UserInfo.country}
-                                    theme={{ colors: { background: 'white', placeholder: '#888', text: '#000', primary: '#22c1c3', underlineColor: 'transparent' } }}
+                                    theme={{ colors: { background: 'white', placeholder: '#888', text: '#000', primary: '#1A5566', underlineColor: 'transparent' } }}
                                 />
-                                <TouchableOpacity style={{ marginTop: 25, bottom: 5, padding: 6, backgroundColor: '#22c1c3', alignItems: 'center', justifyContent: 'center', borderRadius: 5 }}>
+                                <TouchableOpacity style={{ marginTop: 25, bottom: 5, padding: 6, backgroundColor: '#1A5566', alignItems: 'center', justifyContent: 'center', borderRadius: 5 }}>
                                     <Text style={{ fontSize: 16, fontWeight:'600',  padding: 10, color: '#FFF' }}>Save</Text>
                                 </TouchableOpacity>
                             </View>
@@ -257,7 +257,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     TouchableOpacityBtn: {
-        backgroundColor: '#22c1c3',
+        backgroundColor: '#1A5566',
         marginTop: 30,
         marginBottom: 30
     }

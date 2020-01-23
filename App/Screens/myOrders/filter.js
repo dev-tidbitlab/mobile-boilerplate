@@ -126,19 +126,19 @@ class MyOrderFilters extends Component {
                     <View style={{ width: '100%', paddingRight: 10, paddingLeft:10 }}>
                         <TouchableOpacity onPress={() => this.onChangeSort(0)} style={{ padding: 10, flexDirection: 'row', justifyContent: 'space-between' }}>
                             <Text>Course Price</Text>
-                            <Ionicons size={28} name={Platform.OS == 'ios' ? 'ios-checkmark-circle' : 'md-checkmark-circle'} color={ActiveArray[0] ? '#22c1c3' : '#DDD'} />
+                            <Ionicons size={28} name={Platform.OS == 'ios' ? 'ios-checkmark-circle' : 'md-checkmark-circle'} color={ActiveArray[0] ? '#1A5566' : '#DDD'} />
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => this.onChangeSort(1)} style={{ padding: 10, flexDirection: 'row', justifyContent: 'space-between' }}>
                             <Text>A-Z</Text>
-                            <Ionicons size={28} name={Platform.OS == 'ios' ? 'ios-checkmark-circle' : 'md-checkmark-circle'} color={ActiveArray[1] ? '#22c1c3' : '#DDD'} />
+                            <Ionicons size={28} name={Platform.OS == 'ios' ? 'ios-checkmark-circle' : 'md-checkmark-circle'} color={ActiveArray[1] ? '#1A5566' : '#DDD'} />
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => this.onChangeSort(2)} style={{ padding: 10, flexDirection: 'row', justifyContent: 'space-between' }}>
                             <Text>Z-A</Text>
-                            <Ionicons size={28} name={Platform.OS == 'ios' ? 'ios-checkmark-circle' : 'md-checkmark-circle'} color={ActiveArray[2] ? '#22c1c3' : '#DDD'} />
+                            <Ionicons size={28} name={Platform.OS == 'ios' ? 'ios-checkmark-circle' : 'md-checkmark-circle'} color={ActiveArray[2] ? '#1A5566' : '#DDD'} />
                         </TouchableOpacity>
                     </View>
 
-                    <TouchableOpacity onPress={() => this._toggleBottomNavigationView()} style={{ height: 50, bottom: 0, left: 0, right: 0, position: 'absolute', alignItems: 'center', justifyContent: 'center', backgroundColor: '#22c1c3' }}>
+                    <TouchableOpacity onPress={() => this._toggleBottomNavigationView()} style={{ height: 50, bottom: 0, left: 0, right: 0, position: 'absolute', alignItems: 'center', justifyContent: 'center', backgroundColor: '#1A5566' }}>
                         <Text style={{ color: '#FFF', fontSize: 16 }}>APPLY</Text>
                     </TouchableOpacity>
                 </View>

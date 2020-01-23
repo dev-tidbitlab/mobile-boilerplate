@@ -40,6 +40,10 @@ export const SaveUserInfoAction = (payload) => ({
 
 /// ***** Student dashboard Actions
 
+export const StudentRecentlyCoursesList = (payload) => ({
+    type: 'STUDENT_RECENTLY_COURSES_LIST',
+    payload: payload
+});
 export const StudentCoursesList = (payload) => ({
     type: 'STUDENT_COURSES_LIST',
     payload: payload
@@ -50,5 +54,9 @@ export const StudentCoursesDetails = (payload) => ({
 });
 export const StudentOrdersList = (payload) => ({
     type: 'STUDENT_ORDERS_LIST',
+    payload: payload
+});
+export const MyCertificates = (payload) => ({
+    type: 'STUDENT_CERTIFICATES',
     payload: payload
 });

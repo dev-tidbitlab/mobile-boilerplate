@@ -35,7 +35,7 @@ class NewUserSignUpScreen extends Component {
                         <Ionicons
                             onPress={() => this.GoBackToHome()}
                             name={Platform.OS === 'android' ? "md-arrow-back" : "ios-arrow-round-back"}
-                            color='#22c1c3'
+                            color='#1A5566'
                             size={32}
                             style={{ backgroundColor: 'transparent', padding: 10, left: 10, top: 10 }}
                         />
@@ -47,21 +47,21 @@ class NewUserSignUpScreen extends Component {
                                 onChangeText={(v) => this.setState({ name: v })}
                                 label="Name"
                                 value={this.state.name}
-                                theme={{ colors: { background: 'white', placeholder: '#888', text: '#000', primary: '#22c1c3', underlineColor: 'transparent' } }}
+                                theme={{ colors: { background: 'white', placeholder: '#888', text: '#000', primary: '#1A5566', underlineColor: 'transparent' } }}
                             />
                             <TextInput
                                 style={styles.TextInputAll}
                                 onChangeText={(v) => this.setState({ email: v })}
                                 label="Email"
                                 value={this.state.email}
-                                theme={{ colors: { background: 'white', placeholder: '#888', text: '#000', primary: '#22c1c3', underlineColor: 'transparent' } }}
+                                theme={{ colors: { background: 'white', placeholder: '#888', text: '#000', primary: '#1A5566', underlineColor: 'transparent' } }}
                             />
                             <TextInput
                                 style={styles.TextInputAll}
                                 onChangeText={(v) => this.setState({ mobile: v })}
                                 label="Mobile No."
                                 value={this.state.mobile}
-                                theme={{ colors: { background: 'white', placeholder: '#888', text: '#000', primary: '#22c1c3', underlineColor: 'transparent' } }}
+                                theme={{ colors: { background: 'white', placeholder: '#888', text: '#000', primary: '#1A5566', underlineColor: 'transparent' } }}
                             />
                             <View style={styles.LoginBtnView}>
                                 <TouchableOpacity onPress={() => this.SubmitMethod()} style={styles.TouchableOpacityBtn}>
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     },
     TouchableOpacityBtn: {
         borderRadius: 5,
-        backgroundColor: '#22c1c3',
+        backgroundColor: '#1A5566',
         justifyContent: 'center',
         alignItems: 'center',
     },
