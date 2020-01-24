@@ -4,6 +4,7 @@ import {
     TouchableWithoutFeedback,
     BackHandler,
     Image,
+    AppState,
     ActivityIndicator, Text, StatusBar, View, ScrollView, Dimensions, PermissionsAndroid, Platform
 } from 'react-native';
 import Video from 'react-native-video';
@@ -18,6 +19,7 @@ import Collapsible from 'react-native-collapsible';
 const { width, height } = Dimensions.get('window');
 import SnackBar from '../../Components/snackBar/index'
 import Icon from 'react-native-vector-icons/FontAwesome5'; // and this
+import NetInfo from "@react-native-community/netinfo";
 const AppWidth = width > height ? height : width
 const AppHieght = width > height ? width : height
 class ViewCourseDetails extends Component {
@@ -43,11 +45,17 @@ class ViewCourseDetails extends Component {
             CurrentVideoIndex: 0,
             CurrentHieght: AppWidth * 0.6,
             CurrentWidth: AppWidth,
-            isFullScreen: false
+            isFullScreen: false,
+            appState: AppState.currentState
         };
         this.ScreenState = 0
     }
     componentWillUnmount() {
+        NetInfo.removeEventListener(
+            'connectionChange',
+            this._handleConnectivityChange
+        );
+        AppState.removeEventListener('change', this._handleAppStateChange);
         BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
     }
     UpdateLastPlayedVideo(course_id, video_id) {
@@ -57,6 +65,27 @@ class ViewCourseDetails extends Component {
         }).catch(function (error) {
         })
     }
+    _handleConnectivityChange = (isConnected) => {
+        console.log('isConnected==>>', isConnected)
+        if (isConnected == true) {
+            // this.setState({ connection_Status: "Online" })
+        }
+        else {
+            // this.setState({ connection_Status: "Offline" })
+        }
+    }
+    _handleAppStateChange = (nextAppState) => {
+        if (
+            this.state.appState.match(/inactive|background/) &&
+            nextAppState === 'active'
+        ) {
+            console.log('App has come to the foreground!');
+        } else {
+            this.setState({ paused: true, isDownloaded: false })
+            console.log('App has come to the bcklllll!');
+        }
+        this.setState({ appState: nextAppState });
+    };
     getCourseDetailsVideo(course_id, CourseData) {
         GET('studentdashboard/student/listVideo/' + course_id).then(response => {
             console.log('response==>>', response, CourseData)
@@ -177,8 +206,17 @@ class ViewCourseDetails extends Component {
         console.log(this.props)
         return false;
     }
+    checkInternetConneectivity(){
+        
+    }
     componentDidMount() {
         this.GetAndSetOrientation()
+        NetInfo.addEventListener(
+            'connectionChange',
+            this._handleConnectivityChange
+        );
+        this.checkInternetConneectivity()
+        AppState.addEventListener('change', this._handleAppStateChange);
         Orientation.addOrientationListener(this._orientationDidChange);
         BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
         console.log('ffff===')
@@ -403,7 +441,7 @@ class ViewCourseDetails extends Component {
                                 {CurrentVideoDetail.attachedFiles.length > 0 ?
                                     CurrentVideoDetail.attachedFiles.map((val, j) => {
                                         return (
-                                            <TouchableOpacity style={{ paddingTop: 10 }} onPress={() => this.DownloadResourses(val)}>
+                                            <TouchableOpacity key={j} style={{ paddingTop: 10 }} onPress={() => this.DownloadResourses(val)}>
                                                 <Text style={{ textDecorationLine: 'underline' }}>Download {j + 1}</Text>
                                             </TouchableOpacity>
                                         )
@@ -433,7 +471,7 @@ class ViewCourseDetails extends Component {
                         {this.state.StudentCourseDetails.length > 0 ? <View>
                             {this.state.StudentCourseDetails.map((v, i) => {
                                 return (
-                                    <TouchableOpacity onPress={() => this.FilterCourseVideo(v, i)} key={i} style={{ flexDirection: 'row', borderRadius: 5, marginRight: 10, marginLeft: 10, marginTop: 10, flex: 1, backgroundColor: CurrentVideoIndex == i ? '#EEE' : '#FFF' }}>
+                                    <TouchableOpacity key={i} onPress={() => this.FilterCourseVideo(v, i)} key={i} style={{ flexDirection: 'row', borderRadius: 5, marginRight: 10, marginLeft: 10, marginTop: 10, flex: 1, backgroundColor: CurrentVideoIndex == i ? '#EEE' : '#FFF' }}>
                                         <View style={{ marginLeft: 5, marginTop: 5, marginBottom: 5 }}>
                                             <Image style={{ width: 60, height: 60, borderRadius: 5 }} source={{ uri: 'https://image.tmdb.org/t/p/w342/zfE0R94v1E8cuKAerbskfD3VfUt.jpg' }} />
                                         </View>
@@ -449,8 +487,8 @@ class ViewCourseDetails extends Component {
                 </ScrollView>
                 {this.state.isDownloaded != 0 ? <SnackBar
                     style={{ backgroundColor: this.state.isDownloaded == 2 ? 'green' : '#222' }}
-                    duration={0}
                     numberOfLines={2}
+                    actionTextStyle={{ color: '#FFF' }}
                     actionText={'OK'}
                     text={this.state.isDownloaded == 1 ? 'Download Started!' : 'Download Completed!'}
                 /> : null}
