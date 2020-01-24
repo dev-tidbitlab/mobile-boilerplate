@@ -7,9 +7,7 @@ import {
     ActivityIndicator, Text, StatusBar, View, ScrollView, Dimensions, PermissionsAndroid, Platform
 } from 'react-native';
 import Video from 'react-native-video';
-import MediaControls, { PLAYER_STATES } from 'react-native-media-controls';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
-import { Container, Thumbnail, Header, Picker, Left, Body, Right, Button, Title } from 'native-base';
 import Orientation from 'react-native-orientation';
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
@@ -17,7 +15,6 @@ import { StudentCoursesDetails } from '../../Reducers/actions'
 import { GET } from '../../service/index'
 import RNFetchBlob from 'rn-fetch-blob'
 import Collapsible from 'react-native-collapsible';
-// import { SnackBar } from 'react-native-btr';
 const { width, height } = Dimensions.get('window');
 import SnackBar from '../../Components/snackBar/index'
 import Icon from 'react-native-vector-icons/FontAwesome5'; // and this
@@ -64,28 +61,32 @@ class ViewCourseDetails extends Component {
         GET('studentdashboard/student/listVideo/' + course_id).then(response => {
             console.log('response==>>', response, CourseData)
             if (response.success == true) {
-                this.setState({ StudentCourseDetails: response.data })
-                let data = response.data
-                console.log('1')
-                if (CourseData) {
-                    console.log('2')
-                    if (CourseData.lastVideoPlayed) {
-                        console.log('3')
-                        if (data.length > 0) {
-                            console.log('4')
-                            data.map((v, i) => {
-                                console.log('7==', v._id, CourseData.lastVideoPlayed, v._id == CourseData.lastVideoPlayed)
-                                if (v._id == CourseData.lastVideoPlayed) {
-                                    console.log('5')
-                                    this.setState({ CurrentVideoDetail: v, CurrentVideoIndex: i })
-                                }
-                            })
+                if (response.data.length > 0) {
+                    this.setState({ StudentCourseDetails: response.data })
+                    let data = response.data
+                    console.log('1')
+                    if (CourseData) {
+                        console.log('2')
+                        if (CourseData.lastVideoPlayed) {
+                            console.log('3')
+                            if (data.length > 0) {
+                                console.log('4')
+                                data.map((v, i) => {
+                                    console.log('7==', v._id, CourseData.lastVideoPlayed, v._id == CourseData.lastVideoPlayed)
+                                    if (v._id == CourseData.lastVideoPlayed) {
+                                        console.log('5')
+                                        this.setState({ CurrentVideoDetail: v, CurrentVideoIndex: i })
+                                    }
+                                })
+                            }
+                        } else {
+                            console.log('6')
+                            this.setState({ CurrentVideoDetail: response.data[0], CurrentVideoIndex: 0 })
+                            this.UpdateLastPlayedVideo(course_id, response.data[0]._id)
                         }
-                    } else {
-                        console.log('6')
-                        this.setState({ CurrentVideoDetail: response.data[0], CurrentVideoIndex: 0 })
-                        this.UpdateLastPlayedVideo(course_id, response.data[0]._id)
                     }
+                } else {
+                    this.setState({ paused: true })
                 }
             } else {
             }
