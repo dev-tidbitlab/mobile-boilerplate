@@ -19,6 +19,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 const ScreenWidth = Dimensions.get('window').width
 import { CheckBox } from 'react-native-elements';
 import { Rating, AirbnbRating } from 'react-native-ratings';
+let query = ''
 class MyOrderFilters extends Component {
     constructor() {
         super();
@@ -27,7 +28,12 @@ class MyOrderFilters extends Component {
             MCQList: [],
             Rating: 0,
             CourseRating: 0,
-            ActiveArray: [false, false, false]
+            ActiveArray: [false, false, false],
+            startingCreatedAt: '',
+            endingCreatedAt: '',
+            price: null,
+            AZ: null,
+            ZA: null
         };
     }
 
@@ -35,19 +41,36 @@ class MyOrderFilters extends Component {
 
     }
     _toggleBottomNavigationView() {
-        console.log('22')
         let app = this
         if (app.props.toggleBottomNavigationView(false)) {
             app.props.toggleBottomNavigationView(false)
         }
     }
+    ApplyFilter() {
+        let app = this
+        console.log('22', this.state)
+        const { startingCreatedAt, endingCreatedAt } = this.state
+        if (startingCreatedAt) {
+            query = query + '&startingCreatedAt=' + startingCreatedAt
+        }
+        if (endingCreatedAt) {
+            query = query + '&endingCreatedAt=' + endingCreatedAt
+        }
+        console.log(query)
+        this.props.ApplyFilter(query)
+    }
     ratingCompleted(rating) {
         let app = this
         console.log("Rating is: " + rating)
-        // app.setState({ Rating: rating })
     }
-    setDate(newDate) {
-        // this.setState({ chosenDate: newDate });
+    onSetStartDate(newDate) {
+        console.log(new Date(newDate).getTime())
+        this.setState({ startingCreatedAt: newDate });
+    }
+    onSetEndDate(newDate) {
+        console.log('newDate', newDate)
+        console.log(new Date(newDate).getTime())
+        this.setState({ endingCreatedAt: newDate });
     }
     onChangeSort(index) {
         let ActiveArray = this.state.ActiveArray
@@ -57,6 +80,20 @@ class MyOrderFilters extends Component {
         ActiveArray[index] = true
         console.log(ActiveArray, 'fffff')
         this.setState({ ActiveArray: ActiveArray })
+        if (index == 0) {
+            query = query + '&sort=amount&sortType=asc'
+        } else {
+            if (index == 1) {
+                query = query + '&sort=courseName&sortType=asc'
+            } else {
+                if (index == 2) {
+                    query = query + '&sort=courseName&sortType=desc'
+                }
+            }
+        }
+    }
+    componentDidMount() {
+        console.log('2222')
     }
     render() {
         let ActiveArray = this.state.ActiveArray
@@ -90,7 +127,7 @@ class MyOrderFilters extends Component {
                                 placeHolderText="Start Date"
                                 textStyle={{ color: "#55A2F3" }}
                                 placeHolderTextStyle={{ color: "#55A2F3" }}
-                                onDateChange={this.setDate}
+                                onDateChange={(v) => this.onSetStartDate(v)}
                                 disabled={false}
                             />
 
@@ -107,7 +144,7 @@ class MyOrderFilters extends Component {
                                 placeHolderText="End Date"
                                 textStyle={{ color: "#55A2F3" }}
                                 placeHolderTextStyle={{ color: "#55A2F3" }}
-                                onDateChange={this.setDate}
+                                onDateChange={(v) => this.onSetEndDate(v)}
                                 disabled={false}
                             />
                         </View>
@@ -123,7 +160,7 @@ class MyOrderFilters extends Component {
                             Sort By
                     </Text>
                     </View>
-                    <View style={{ width: '100%', paddingRight: 10, paddingLeft:10 }}>
+                    <View style={{ width: '100%', paddingRight: 10, paddingLeft: 10 }}>
                         <TouchableOpacity onPress={() => this.onChangeSort(0)} style={{ padding: 10, flexDirection: 'row', justifyContent: 'space-between' }}>
                             <Text>Course Price</Text>
                             <Ionicons size={28} name={Platform.OS == 'ios' ? 'ios-checkmark-circle' : 'md-checkmark-circle'} color={ActiveArray[0] ? '#1A5566' : '#DDD'} />
@@ -138,7 +175,7 @@ class MyOrderFilters extends Component {
                         </TouchableOpacity>
                     </View>
 
-                    <TouchableOpacity onPress={() => this._toggleBottomNavigationView()} style={{ height: 50, bottom: 0, left: 0, right: 0, position: 'absolute', alignItems: 'center', justifyContent: 'center', backgroundColor: '#1A5566' }}>
+                    <TouchableOpacity onPress={() => this.ApplyFilter()} style={{ height: 50, bottom: 0, left: 0, right: 0, position: 'absolute', alignItems: 'center', justifyContent: 'center', backgroundColor: '#1A5566' }}>
                         <Text style={{ color: '#FFF', fontSize: 16 }}>APPLY</Text>
                     </TouchableOpacity>
                 </View>

@@ -178,13 +178,16 @@ function* UpdateUserInfo(props) {
 }
 function* StudentCoursesListAPICall(props) {
     console.log('StudentCoursesListAPICall', props)
-
     yield put({ type: "LOADER_START", payload: true });
-    console.log('1')
+    console.log('1', props.payload.search)
     let query = ''
-    if (props.payload.courseName) {
-        query = query + '?courseName=' + props.payload.courseName
+    if (props.payload.search) {
+        query = query + '?search=' + props.payload.search
     }
+    if (props.payload.query) {
+        query = query + props.payload.query
+    }
+    console.log('query', query)
     try {
         const json = yield GETAPI('studentdashboard/student/listCourse' + query)
         console.log('12', json)
@@ -236,9 +239,17 @@ function* StudentOrdersListAPICall(props) {
     console.log('StudentOrdersListAPICall', props)
 
     yield put({ type: "LOADER_START", payload: true });
-    console.log('1')
+    console.log('1', props.payload.search)
+    let query = '?'
+    if (props.payload.search) {
+        query = query + '&search=' + props.payload.search
+    }
+    if (props.payload.query) {
+        query = query + props.payload.query
+    }
+    console.log('query==>>', query)
     try {
-        const json = yield GETAPI('studentdashboard/student/listOrder')
+        const json = yield GETAPI('studentdashboard/student/listOrder' + query)
         console.log('12', json)
         yield put({ type: "LOADER_STOP", payload: false });
         console.log('user/reguser/STUDENT_ORDERS_LIST_DATA', json)

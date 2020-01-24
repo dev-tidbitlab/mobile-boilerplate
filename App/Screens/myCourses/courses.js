@@ -47,7 +47,7 @@ class MyCourses extends Component {
     }
     onTextChange(v) {
         console.log('vvv', v)
-        // this.props.StudentCoursesList({ props: this.props, courseName: v })
+        this.props.StudentCoursesList({ props: this.props, search: v })
     }
     componentDidUpdate(prevProps) {
         if (prevProps.isFocused !== this.props.isFocused) {
@@ -70,7 +70,18 @@ class MyCourses extends Component {
     DisplayFilter() {
         this.setState({ visible: true });
     }
-    onFilterValueChange() {
+    onFilterValueChange(v) {
+        let query = ''
+        if (v == 1) {
+            query = query + '?courseCompleted=' + false
+        } else {
+            if (v == 2) {
+                query = query + '?courseStarted=' + true
+            } else {
+                query = query + '?courseCompleted=' + true
+            }
+        }
+        this.props.StudentCoursesList({ props: this.props, query: query})
         this.setState({ visible: false });
     }
     render() {
@@ -134,13 +145,13 @@ class MyCourses extends Component {
                                             </TouchableOpacity>
                                         </View>
                                         <View style={{ flex: 1, marginRight: 10, marginLeft: 10 }}>
-                                            <Text style={{ fontSize: 14, color: '#000', paddingBottom: 5, paddingTop: 5, fontWeight: '400' }}>{v.courseId?v.courseId.courseName:''}</Text>
-                                            <Text numberOfLines={2} style={{ fontSize: 12, color: '#000', paddingBottom: 5 }}>{v.courseId?v.courseId.description:''}</Text>
+                                            <Text style={{ fontSize: 14, color: '#000', paddingBottom: 5, paddingTop: 5, fontWeight: '400' }}>{v.courseId ? v.courseId.courseName : ''}</Text>
+                                            <Text numberOfLines={2} style={{ fontSize: 12, color: '#000', paddingBottom: 5 }}>{v.courseId ? v.courseId.description : ''}</Text>
                                             <Text style={{ fontSize: 12, color: '#AAA', paddingBottom: 5 }}>Assigned Date: {this.DatedFormatting(v.coursePurchasedTimeStamp)}</Text>
                                             {/* <Text style={{ fontSize: 12, color: '#AAA', paddingBottom: 5 }}>Completion Date: </Text> */}
                                             <Text style={{ fontSize: 12, color: '#AAA', paddingBottom: 5 }}>Expiration Date: {this.DatedFormatting(v.courseExpiryTimeStamp)}</Text>
-                                            <ProgressBar style={{ backgroundColor: '#CCC', marginBottom: 5 }} progress={v.progress?v.progress/100:0} color={'#1A5566'} />
-                                <Text style={{ fontSize: 12, color: '#AAA', paddingBottom: 10 }}>{v.progress?v.progress:0}% complete</Text>
+                                            <ProgressBar style={{ backgroundColor: '#CCC', marginBottom: 5 }} progress={v.progress ? v.progress / 100 : 0} color={'#1A5566'} />
+                                            <Text style={{ fontSize: 12, color: '#AAA', paddingBottom: 10 }}>{v.progress ? v.progress : 0}% complete</Text>
                                         </View>
                                     </TouchableOpacity>
                                 )
@@ -169,19 +180,19 @@ class MyCourses extends Component {
                             </Text>
                         </View>
                         <View style={{ flex: 1, width: '100%' }}>
-                            <TouchableOpacity onPress={() => this.onFilterValueChange()} style={{
+                            <TouchableOpacity onPress={() => this.onFilterValueChange(1)} style={{
                                 padding: 15, borderBottomWidth: 1,
                                 borderBottomColor: '#EEE'
                             }}>
                                 <Text style={{ textAlign: 'center' }}>Not Started</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={() => this.onFilterValueChange()} style={{
+                            <TouchableOpacity onPress={() => this.onFilterValueChange(2)} style={{
                                 padding: 15, borderBottomWidth: 1,
                                 borderBottomColor: '#EEE'
                             }}>
                                 <Text style={{ textAlign: 'center' }}>In Progress</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={() => this.onFilterValueChange()} style={{
+                            <TouchableOpacity onPress={() => this.onFilterValueChange(3)} style={{
                                 padding: 15
                             }}>
                                 <Text style={{ textAlign: 'center' }}>Completed</Text>

@@ -27,7 +27,9 @@ class MyOrders extends Component {
     state = {
         ScreenWidth: Dimensions.get('window').width,
         CourseArray: [{}, {}, {}, {}, {}, {}, {}, {}, {}],
-        FilterModal: false
+        FilterModal: false,
+        search: '',
+        query: ''
     };
     GoBack() {
         this.props.navigation.navigate('UserListScreen');
@@ -49,6 +51,17 @@ class MyOrders extends Component {
     }
     toggleBottomNavigationView() {
         this.setState({ FilterModal: false });
+    }
+    onTextChange(v) {
+        console.log('vvv', v)
+        const { query } = this.state
+        this.setState({ search: v })
+        this.props.StudentOrderList({ props: this.props, search: v, query: query })
+    }
+    ApplyFilter(v) {
+        console.log(v, 'vvv')
+        this.setState({ query: v })
+        this.props.StudentOrderList({ props: this.props, query: v })
     }
     render() {
         let ScreenWidth = this.state.ScreenWidth
@@ -74,7 +87,9 @@ class MyOrders extends Component {
                                 borderColor: '#EEE',
                                 width: '100%',
                                 backgroundColor: '#FFF'
-                            }} />
+                            }}
+                            onChangeText={v => this.onTextChange(v)}
+                        />
                     </Body>
                     <Right style={{ flex: 0.5 }}>
                         <TouchableOpacity onPress={() => this.DisplayFilter()}>
@@ -123,7 +138,7 @@ class MyOrders extends Component {
                         </View> : null}
                     </View>
                 </ScrollView>
-                <OrdersFilter toggleBottomNavigationView={() => this.toggleBottomNavigationView()} FilterModal={this.state.FilterModal} />
+                <OrdersFilter ApplyFilter={(v) => this.ApplyFilter(v)} toggleBottomNavigationView={() => this.toggleBottomNavigationView()} FilterModal={this.state.FilterModal} />
             </Container>
         );
     }
