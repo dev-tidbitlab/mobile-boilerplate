@@ -21,6 +21,8 @@ import Collapsible from 'react-native-collapsible';
 const { width, height } = Dimensions.get('window');
 import SnackBar from '../../Components/snackBar/index'
 import Icon from 'react-native-vector-icons/FontAwesome5'; // and this
+const AppWidth = width > height ? height : width
+const AppHieght = width > height ? width : height
 class ViewCourseDetails extends Component {
     constructor(props) {
         super(props);
@@ -42,8 +44,14 @@ class ViewCourseDetails extends Component {
             collapsed: true,
             CourseData: {},
             CurrentVideoIndex: 0,
-
+            CurrentHieght: AppWidth * 0.6,
+            CurrentWidth: AppWidth,
+            isFullScreen: false
         };
+        this.ScreenState = 0
+    }
+    componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
     }
     UpdateLastPlayedVideo(course_id, video_id) {
         console.log(this.state.course_id, video_id)
@@ -87,7 +95,6 @@ class ViewCourseDetails extends Component {
         })
     }
     toggleExpanded = () => {
-        //Toggling the state of single Collapsible
         this.setState({ collapsed: !this.state.collapsed });
     };
     DownloadResourses(file) {
@@ -135,26 +142,44 @@ class ViewCourseDetails extends Component {
             })
     }
     _orientationDidChange = (orientation) => {
-        // console.log(orientation, 'orientation')
-        // this.FullScreenMethod()
-        // if (orientation === 'LANDSCAPE') {
-        // } else {
-        // }
+        console.log(orientation, 'orientation')
+
+        if (orientation === 'LANDSCAPE') {
+            this.setState({ CurrentHieght: AppWidth, CurrentWidth: AppHieght, isFullScreen: true })
+        } else {
+            this.setState({ CurrentHieght: AppWidth * 0.6, CurrentWidth: AppWidth, isFullScreen: false })
+        }
+        this.setState({ overlay: true });
+        this.overlayTimer = setTimeout(() => {
+            this.ScreenState = 0
+            this.setState({ overlay: false })
+        }, 3000);
+    }
+    GetAndSetOrientation() {
+        Orientation.getOrientation((err, orientation) => {
+            console.log(err, orientation)
+            if (orientation === 'PORTRAIT') {
+                // this.setState({ CurrentHieght: width, CurrentWidth: height, isFullScreen: true })
+            } else {
+                this.ScreenState = 1
+                // console.log('w - h', width, height)
+                Orientation.unlockAllOrientations()
+                this.setState({ CurrentHieght: AppWidth, CurrentWidth: AppHieght, isFullScreen: true })
+                // this.setState({ CurrentHieght: width * 0.6, CurrentWidth: width, isFullScreen: false })
+            }
+            this.setState({ overlay: true });
+            this.overlayTimer = setTimeout(() => this.setState({ overlay: false }), 3000);
+        })
     }
     handleBackButtonClick() {
-        // let app = this
-        // console.log('app.state.fullscreen', app.state.fullscreen)
-        // if(app.state.fullscreen){
-        //     app.FullScreenMethod()
-        // } else{
-        //     app.GoBack()
-        // }
-        // return true;
+        Orientation.unlockAllOrientations()
+        console.log(this.props)
+        return false;
     }
     componentDidMount() {
-        Orientation.lockToPortrait()
-        // Orientation.addOrientationListener(this._orientationDidChange);
-        // BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
+        this.GetAndSetOrientation()
+        Orientation.addOrientationListener(this._orientationDidChange);
+        BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
         console.log('ffff===')
         if (Platform.OS == 'android') {
             let saveFile = async () => {
@@ -182,7 +207,7 @@ class ViewCourseDetails extends Component {
     }
 
     GoBack() {
-        console.log('back')
+        Orientation.unlockAllOrientations()
         this.props.navigation.navigate('StudentCourses');
     }
     StartMCQ() {
@@ -214,28 +239,19 @@ class ViewCourseDetails extends Component {
             }, DOUBLE_PRESS_DELAY);
         }
     }
-    HandleBackButton() {
-        console.log('back press==>>')
-        Orientation.lockToPortrait();
-        return true;
-    }
+
     getTime = t => {
         const digit = n => n < 10 ? `0${n}` : `${n}`;
-        // const t = Math.round(time);
         const sec = digit(Math.floor(t % 60));
         const min = digit(Math.floor((t / 60) % 60));
         const hr = digit(Math.floor((t / 3600) % 60));
         return hr + ':' + min + ':' + sec; // this will convert sec to timer string
-        // 33 -> 00:00:33
-        // this is done here
-        // ok now the theme is good to look
     }
 
     load = ({ duration }) => {
         console.log('load', duration)
         this.setState({ duration })
     }
-    // now here the duration is update on load video
     progress = ({ currentTime }) => this.setState({ currentTime }) // here the current time is upated
 
     backward = () => {
@@ -245,9 +261,6 @@ class ViewCourseDetails extends Component {
         } else {
             this.FilterCourseVideo(StudentCourseDetails[StudentCourseDetails.length - 1], StudentCourseDetails.length - 1)
         }
-        // this.video.seek(this.state.currentTime - 5);
-        // clearTimeout(this.overlayTimer);
-        // this.overlayTimer = setTimeout(() => this.setState({ overlay: false }), 3000);
     }
     forward = () => {
         const { CurrentVideoIndex, StudentCourseDetails } = this.state
@@ -256,9 +269,6 @@ class ViewCourseDetails extends Component {
         } else {
             this.FilterCourseVideo(StudentCourseDetails[0], 0)
         }
-        // this.video.seek(this.state.currentTime + 5); // here the video is seek to 5 sec forward
-        // clearTimeout(this.overlayTimer);
-        // this.overlayTimer = setTimeout(() => this.setState({ overlay: false }), 3000);
     }
 
     onslide = slide => {
@@ -268,14 +278,8 @@ class ViewCourseDetails extends Component {
     }
 
     youtubeSeekLeft = () => {
-        const { currentTime } = this.state;
-        console.log('ggggggg======??????')
-        // this.handleDoubleTap(() => {
-        //     this.video.seek(currentTime - 5);
-        // }, () => {
         this.setState({ overlay: true });
         this.overlayTimer = setTimeout(() => this.setState({ overlay: false }), 3000);
-        // })
     }
     youtubeSeekRight = () => {
         const { currentTime } = this.state;
@@ -291,16 +295,19 @@ class ViewCourseDetails extends Component {
     }
     FullScreenMethod = () => {
         const { fullscreen } = this.state;
-        if (fullscreen) {
-            Orientation.lockToPortrait();
-            // this.setState({ Height: width * .6 })
-        } else {
-            Orientation.lockToLandscape();
-            // this.setState({ Height: width-20 })
-        }
-        this.setState({ overlay: true });
-        // this.overlayTimer = setTimeout(() => this.setState({ overlay: false }), 3000);
-        this.setState({ fullscreen: !fullscreen });
+        Orientation.getOrientation((err, orientation) => {
+            console.log(err, orientation)
+            if (orientation === 'PORTRAIT') {
+                Orientation.lockToLandscape();
+                this.setState({ CurrentHieght: AppWidth, CurrentWidth: AppHieght, isFullScreen: true })
+            } else {
+                Orientation.lockToPortrait();
+                // Orientation.unlockAllOrientations()
+                this.setState({ CurrentHieght: AppWidth * 0.6, CurrentWidth: AppWidth, isFullScreen: false })
+            }
+            this.setState({ overlay: true });
+            this.overlayTimer = setTimeout(() => this.setState({ overlay: false }), 3000);
+        })
     }
 
     onLoadStart() {
@@ -319,11 +326,12 @@ class ViewCourseDetails extends Component {
         console.log(error, this.state.currentTime, this.state.duration, 'fnfwfjwefwfnj========')
     }
     render() {
-        const { currentTime, isLoading, duration, paused, overlay, fullscreen, CurrentVideoIndex, VideoLoading, CurrentVideoDetail } = this.state;
+        const { isFullScreen, CurrentWidth, CurrentHieght, currentTime, isLoading, duration, paused, overlay, fullscreen, CurrentVideoIndex, VideoLoading, CurrentVideoDetail } = this.state;
+        console.log('CurrentWidth, CurrentHieght', CurrentWidth, CurrentHieght, AppWidth, AppHieght)
         return (
             <View style={{ flex: 1 }}>
                 {/* <StatusBar hidden={true} /> */}
-                <View style={fullscreen ? style.fullscreenVideo : style.video}>
+                <View style={[fullscreen ? style.fullscreenVideo : style.video, { width: CurrentWidth, height: CurrentHieght, }]}>
                     <Video
                         fullscreen={fullscreen}
                         paused={paused} // this will manage the pause and play
@@ -348,7 +356,7 @@ class ViewCourseDetails extends Component {
                         onVideoEnd={this.onEndVideo}
                     // onError={(error) => this.onError(error)}
                     />
-                    {VideoLoading ? <View style={{ alignItems: 'center', justifyContent: 'center', width: '100%', height: width * 0.6 }}>
+                    {VideoLoading ? <View style={{ alignItems: 'center', justifyContent: 'center', width: CurrentWidth, height: CurrentHieght }}>
                         <ActivityIndicator size={64} color="yellow" />
                     </View> : null}
                     <View style={style.overlay}>
@@ -362,7 +370,7 @@ class ViewCourseDetails extends Component {
                                 <Icon name={paused ? 'play' : 'pause'} style={style.icon} onPress={() => this.setState({ paused: !paused })} />
                                 <Icon name='forward' style={style.icon} onPress={() => this.forward()} />
                             </View>
-                            <View style={style.sliderCont}>
+                            <View style={[style.sliderCont, { bottom: isFullScreen ? 30 : 0 }]}>
                                 <View style={style.timer}>
                                     <Text style={{ color: 'white' }}>{this.getTime(currentTime)}</Text>
                                     <Text style={{ color: 'white' }}>{this.getTime(duration)}   <Icon onPress={() => this.FullScreenMethod()} name={fullscreen ? 'compress' : 'expand'} style={{ fontSize: 15 }} /></Text>
@@ -460,11 +468,15 @@ const style = StyleSheet.create({
         flex: 1,
     },
     overlay: {
-        ...StyleSheet.absoluteFillObject
+        ...StyleSheet.absoluteFillObject,
+        // paddingBottom: 30,
+        width: '100%',
+        height: '100%'
     },
     overlaySet: {
         flex: 1,
-        flexDirection: 'row'
+        flexDirection: 'row',
+
     },
     icon: {
         color: 'white',
@@ -485,7 +497,7 @@ const style = StyleSheet.create({
         justifyContent: 'space-between',
         paddingHorizontal: 5
     },
-    video: { width, height: width * .6, backgroundColor: 'black' },
+    video: { backgroundColor: 'black' },
     fullscreenVideo: {
         backgroundColor: 'black',
         ...StyleSheet.absoluteFill,
